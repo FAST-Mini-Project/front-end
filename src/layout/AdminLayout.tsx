@@ -3,7 +3,7 @@ import SideBar from '@/component/SideBar'
 
 const AdminLayout = () => {
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", width:"100%" }}>
       <SideBar />
       <Outlet />
     </div>
