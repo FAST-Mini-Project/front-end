@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  width: 100%;
+  padding-top: 100px;
+  justify-content: center;
+}
+
+.content-wrapper {
+  width: 1100px;
+}
+
+.table {
+  width: 1100px;
+}
+
+th,td {
+  text-align: center;
+  padding: 8px; 
+  line-height: 2; 
+}
+
+th {
+  background-color: #e3dede;
+  font-weight: bold;
+}
+
+tr:hover  {
+  background-color: #e3dede;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
