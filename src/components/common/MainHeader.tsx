@@ -1,7 +1,7 @@
-import style from 'MainHeader.module.scss'
+import style from './MainHeader.module.scss'
 
 const MainHeader = () => {
-  return <div>MainHeader</div>
+  return <div className={style.container}>MainHeader</div>
 }
 
 export default MainHeader
