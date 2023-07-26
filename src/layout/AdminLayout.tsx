@@ -5,7 +5,9 @@ const AdminLayout = () => {
   return (
     <div style={{ display: "flex", width:"100%" }}>
       <SideBar />
-      <Outlet />
+      <div style={{ marginLeft: "270px", width: "100%" }}>
+        <Outlet />
+      </div>
     </div>
   )
 }

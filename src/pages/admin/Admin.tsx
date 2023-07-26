@@ -1,28 +1,11 @@
 import { useState } from "react";
 import style from "./Admin.module.scss";
+import { dummyData } from "@/dummy/DummyData";
 
 const Admin = () => {
   const [data, setData] = useState({
     statusCode: 200,
-    data: [
-      {
-        id: 1,
-        name: "아무개",
-        email: "neo@zillinks.com",
-        employeeNumber: "#1234",
-        restAnnual: 23,
-        workDay: 10,
-      },
-      {
-        id: 2,
-        name: "아무개",
-        email: "neo@zillinks.com",
-        employeeNumber: "#5678",
-        restAnnual: 20,
-        workDay: 9,
-      },
-    ],
-  });
+    data: dummyData});
 
   const handleDelete = (id) => {
     console.log(`삭제 버튼 클릭: ${id}`);
