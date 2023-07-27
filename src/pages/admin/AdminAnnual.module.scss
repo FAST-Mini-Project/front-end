@@ -15,9 +15,9 @@ h2 {
 }
 
 .tableWrapper {
-  max-height: calc(8.35 * 40px); 
+  max-height: calc(8.35 * 40px);
   overflow-x: hidden;
-  overflow-y: auto; 
+  overflow-y: auto;
   position: relative;
 }
 
@@ -25,24 +25,25 @@ h2 {
   width: 1100px;
 }
 
-thead {
+.thead {
   position: sticky;
   top: 0;
 }
 
-th,td {
+.th,
+.td {
   text-align: center;
-  padding: 8px; 
-  line-height: 2; 
+  padding: 8px;
+  line-height: 2;
   border-bottom: 1px solid #e3dede;
 }
 
-th {
+.th {
   background-color: #e3dede;
   font-weight: bold;
 }
 
-tr:hover  {
+.tr:hover {
   background-color: #e3dede;
 }
 
