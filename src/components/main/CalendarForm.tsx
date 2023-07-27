@@ -30,8 +30,8 @@ const CalendarForm = () => {
   // 년/월에 맞춰서 데이터를 가져온다고 가정
   const fetchDummy = async () => {
     try {
-      const response = await axios.get(`/DummyAllAnnual${year}${month}.json`)
-      const resData: annualData = response.data.data
+      const { data } = await axios.get(`/DummyAllAnnual${year}${month}.json`)
+      const resData: annualData = data.data
       // 이벤트 생성
       const events = []
       for (const [day, data] of Object.entries(resData)) {

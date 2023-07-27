@@ -22,7 +22,7 @@ export interface LoginResData {
 export interface User {
   email: string
   name: string
-  employNumber: string
+  employeeNumber: string
   role: 'ROLE_ADMIN' | 'ROLE_USER'
 }
 
