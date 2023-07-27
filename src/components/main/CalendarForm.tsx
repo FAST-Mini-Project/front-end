@@ -56,9 +56,9 @@ const CalendarForm = () => {
         initialView="dayGridMonth"
         plugins={[dayGridPlugin, interactionPlugin]}
         headerToolbar={{
-          start: '',
+          start: 'today',
           center: 'title',
-          end: 'today prev next'
+          end: 'prev next'
         }}
         editable={true}
         selectable={true}
