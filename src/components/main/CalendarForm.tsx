@@ -3,8 +3,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 // import style from './CalendarForm.module.scss'
 import { useState, useEffect, useRef } from 'react'
-import _ from 'lodash'
 import axios from 'axios'
+import { annualData } from '@/types/MainTypes'
 
 interface EventObject {
   title: string
@@ -30,11 +30,11 @@ const CalendarForm = () => {
   // 년/월에 맞춰서 데이터를 가져온다고 가정
   const fetchDummy = async () => {
     try {
-      const response = await axios.get(`/DummyAllAnnual${year}${month}.json`)
-      const resData = response.data
+      const { data } = await axios.get(`/DummyAllAnnual${year}${month}.json`)
+      const resData: annualData = data.data
       // 이벤트 생성
       const events = []
-      for (const [day, data] of Object.entries(resData.data)) {
+      for (const [day, data] of Object.entries(resData)) {
         for (const item of data) {
           events.push({
             title: item.name + '#' + item.employeeNumber.slice(0, 3),
@@ -56,9 +56,9 @@ const CalendarForm = () => {
         initialView="dayGridMonth"
         plugins={[dayGridPlugin, interactionPlugin]}
         headerToolbar={{
-          start: '',
+          start: 'today',
           center: 'title',
-          end: 'today prev next'
+          end: 'prev next'
         }}
         editable={true}
         selectable={true}
@@ -69,11 +69,11 @@ const CalendarForm = () => {
         customButtons={{
           prev: {
             icon: 'chevron-left',
+            // split의 타입에러를 수정하기
             click: () => {
               if (calendarRef.current?.getApi()) {
                 calendarRef.current.getApi().prev()
-                const calendarMonth: string | undefined = _.get(calendarRef.current.getApi(), 'currentData.viewTitle')
-                console.log(calendarMonth.split('년')[0], calendarMonth.split('년')[1].split('월')[0])
+                const calendarMonth: string = calendarRef.current.getApi().view.title
                 setYear(Number(calendarMonth.split('년')[0]))
                 setMonth(Number(calendarMonth.split('년')[1].split('월')[0]))
               }
@@ -84,8 +84,7 @@ const CalendarForm = () => {
             click: () => {
               if (calendarRef.current?.getApi()) {
                 calendarRef.current.getApi().next()
-                const calendarMonth: string | undefined = _.get(calendarRef.current.getApi(), 'currentData.viewTitle')
-                console.log(calendarMonth.split('년')[0], calendarMonth.split('년')[1].split('월')[0])
+                const calendarMonth: string = calendarRef.current.getApi().view.title
                 setYear(Number(calendarMonth.split('년')[0]))
                 setMonth(Number(calendarMonth.split('년')[1].split('월')[0]))
               }
