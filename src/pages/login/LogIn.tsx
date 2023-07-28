@@ -23,7 +23,7 @@ const LogIn = () => {
   //   }
   // };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // if (data.success) {
       navigate('/');

@@ -3,7 +3,6 @@ import { dummyData2 } from '@/dummy/DummyData'
 import { useState } from 'react'
 
 type Data = {
-  statusCode: number
   data: {
     annualId: number
     name: string
@@ -15,7 +14,6 @@ type Data = {
 
 const AdminAnnual = () => {
   const [data, setData] = useState<Data>({
-    statusCode: 200,
     data: dummyData2.data
   })
 
@@ -30,7 +28,7 @@ const AdminAnnual = () => {
   return (
     <section className={style.container}>
       <div className={style.contentWrapper}>
-        <h2>신청 목록</h2>
+        <h2 className={style.h2}>신청 목록</h2>
         <div className={style.tableWrapper}>
           <table className={style.table}>
             <thead>
@@ -63,7 +61,7 @@ const AdminAnnual = () => {
           </table>
         </div>
 
-        <h2>취소 신청 목록</h2>
+        <h2 className={style.h2}>취소 신청 목록</h2>
         <div className={style.tableWrapper}>
           <table className={style.table}>
             <thead>
