@@ -26,10 +26,11 @@ const Admin = () => {
           <tbody>
             {data.data.map((employee) => (
               <tr key={employee.id} className={style.tr}>
-                <td>
+                <td className={style.td}>
                   {employee.name} {employee.employeeNumber}
                 </td>
-                <td>{employee.email}</td>
+                <td className={style.td}>
+                  {employee.email}</td>
                 <td className={style.td}>
                   {employee.restAnnual}/{employee.workDay}
                 </td>

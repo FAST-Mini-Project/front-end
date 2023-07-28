@@ -3,6 +3,7 @@
   width: 100%;
   padding-top: 50px;
   justify-content: center;
+    box-sizing: border-box;
 }
 
 .content-wrapper {
@@ -30,8 +31,7 @@ h2 {
   top: 0;
 }
 
-.th,
-.td {
+.th, .td {
   text-align: center;
   padding: 8px;
   line-height: 2;
