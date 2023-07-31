@@ -1,4 +1,4 @@
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 import style from "./Admin.module.scss";
 import { dummyData } from "@/dummy/DummyData";
 import PageNation from "@/components/pagenation/PageNation";
@@ -16,12 +16,24 @@ const getPaginatedItems = (
 
 const Admin = () => {
   const [data, setData] = useState(dummyData);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
   const [search, setSearch] = useState("");
   const searchTimeout = useRef<number | null>(null);
   const [delayedSearch, setDelayedSearch] = useState("");
+
+  const [sort, setSort] = useState<"asc" | "desc">("asc");
+  const [selectedColumn, setSelectedColumn] = useState<"name" | "restAnnual" | "workDay">("name");
+
+  const handleColumnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedColumn(e.target.value as "name" | "restAnnual" | "workDay");
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSort(e.target.value as "asc" | "desc");
+  };
 
   const handleDelete = (id) => {
     console.log(`삭제 버튼 클릭: ${id}`);
@@ -36,16 +48,30 @@ const Admin = () => {
 
     searchTimeout.current = setTimeout(() => {
       setDelayedSearch(e.target.value);
-      setCurrentPage(1); 
+      setCurrentPage(1);
     }, 150);
   };
 
   const filteredData = data.filter((employee) =>
-  employee.name.toLowerCase().includes(delayedSearch.toLowerCase())
-);
+    employee.name.toLowerCase().includes(delayedSearch.toLowerCase())
+  );
+
+  const sortedData = filteredData.sort((a, b) => {
+    const columnA = a[selectedColumn] as string | number;
+    const columnB = b[selectedColumn] as string | number;
+
+    if (typeof columnA === "number" && typeof columnB === "number") {
+      return sort === "asc"
+        ? columnA - columnB
+        : columnB - columnA;
+    }
+    return sort === "asc"
+      ? columnA.toString().localeCompare(columnB.toString())
+      : columnB.toString().localeCompare(columnA.toString());
+  });
 
   const pagenatedData = getPaginatedItems(
-    filteredData,
+    sortedData,
     currentPage,
     itemsPerPage
   );
@@ -54,6 +80,33 @@ const Admin = () => {
   return (
     <section className={style.container}>
       <div className={style.contentWrapper}>
+        <select className={style.searchInput} onChange={handleColumnChange}>
+          <option value="name">사원명</option>
+          <option value="restAnnual">잔여 연차</option>
+          <option value="workDay">당직 근무일 수</option>
+        </select>
+
+        <label>
+          <input
+            type="radio"
+            name="sort"
+            value="asc"
+            checked={sort === "asc"}
+            onChange={handleSortChange}
+          />
+          오름차순
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="sort"
+            value="desc"
+            checked={sort === "desc"}
+            onChange={handleSortChange}
+          />
+          내림차순
+        </label>
+
         <table className={style.table}>
           <thead>
             <tr className={style.tr}>
@@ -64,8 +117,7 @@ const Admin = () => {
             </tr>
           </thead>
           <tbody>
-            {pagenatedData.map(
-              (employee:userInfo) => (
+            {pagenatedData.map((employee: userInfo) => (
               <tr key={employee.id} className={style.tr}>
                 <td className={style.td}>
                   {employee.name} {employee.employeeNumber}
@@ -99,10 +151,10 @@ const Admin = () => {
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
           />
-      </div>
+        </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;
