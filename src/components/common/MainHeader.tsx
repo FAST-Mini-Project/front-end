@@ -15,6 +15,7 @@ const MainHeader = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
+  //url 주소에 따라 링크가 변경됩니다.
   useEffect(() => {
     if (location.pathname === '/') {
       setLink('마이페이지')
@@ -23,19 +24,18 @@ const MainHeader = () => {
     }
   }, [location.pathname])
 
+  //랜딩 시 유저 정보를 가져옵니다.
   useEffect(() => {
     fetchUserInfo()
   }, [])
 
+  //가짜 비동기 함수
   const fetchUserInfo = async () => {
     try {
       const { data } = await axios.get('/DummyUser.json')
       console.log(data)
       const resData: User = data.data.user
       setUser(resData)
-      console.log(resData.name)
-      console.log(resData.employeeNumber)
-      console.log(resData.email)
     } catch (error) {
       console.log('유저 정보를 가져오는데 실패했습니다.')
     }
@@ -59,11 +59,11 @@ const MainHeader = () => {
         </div>
       </div>
       <div className={style.welcomeWrapper}>
-        <div>
-          {user.name} #{user.employeeNumber?.slice(0, 4)}님 환영합니다.
-        </div>
         <div className={style.link} onClick={handleLink}>
           {link}
+        </div>
+        <div className={style.link} onClick={handleLink}>
+          로그아웃
         </div>
       </div>
     </div>
