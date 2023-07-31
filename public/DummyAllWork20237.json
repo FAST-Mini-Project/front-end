@@ -1,0 +1,63 @@
+{
+  "statusCode": 200,
+  "data": {
+    "1": [
+      {
+        "workId": 1,
+        "name": "아무무",
+        "employeeNumber": "6542ljhsadlkfjahsdlkjfahs"
+      },
+      {
+        "workId": 2,
+        "name": "손발꽁",
+        "employeeNumber": "46545ljhsadlkfjahsdlkjfahs"
+      },
+      {
+        "workId": 2,
+        "name": "손발꽁",
+        "employeeNumber": "46545ljhsadlkfjahsdlkjfahs"
+      },
+      {
+        "workId": 2,
+        "name": "손발꽁",
+        "employeeNumber": "46545ljhsadlkfjahsdlkjfahs"
+      }
+    ],
+    "2": [
+      {
+        "workId": 3,
+        "name": "아아",
+        "employeeNumber": "12546jhsadlkfjahsdlkjfahs"
+      },
+      {
+        "workId": 5,
+        "name": "근근",
+        "employeeNumber": "s23346kljhsadlkfjahsdlkjfahs"
+      }
+    ],
+    "3": [
+      {
+        "workId": 7,
+        "name": "임꺽정",
+        "employeeNumber": "dsfvkljhsadlkfjahsdlkjfahs"
+      },
+      {
+        "workId": 8,
+        "name": "옹고집",
+        "employeeNumber": "123asdljhsadlkfjahsdlkjfahs"
+      }
+    ],
+    "27": [
+      {
+        "workId": 7,
+        "name": "임꺽정",
+        "employeeNumber": "dsfvkljhsadlkfjahsdlkjfahs"
+      },
+      {
+        "workId": 8,
+        "name": "옹고집",
+        "employeeNumber": "123asdljhsadlkfjahsdlkjfahs"
+      }
+    ]
+  }
+}

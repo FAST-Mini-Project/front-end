@@ -135,3 +135,17 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+.fc .fc-daygrid-day-frame {
+  height: 50px;
+}
+
+.fc-day-sat a {
+  color: blue;
+  text-decoration: none;
+}
+
+.fc-day-sun a {
+  color: red;
+  text-decoration: none;
+}
