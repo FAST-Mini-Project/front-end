@@ -82,33 +82,45 @@ const Admin = () => {
   return (
     <section className={style.container}>
       <div className={style.contentWrapper}>
-      {/* 정렬 옵션, 오름차순/내림차순 라디오 버튼들 */}
-        <select className={style.searchInput} onChange={handleColumnChange}>
-          <option value="name">사원명</option>
-          <option value="restAnnual">잔여 연차</option>
-          <option value="workDay">당직 근무일 수</option>
-        </select>
+      <div className={style.caption}>
+        <h2 className={style.h2}>사원 목록</h2>
+          <div>
+            <input
+              type="text"
+              className={style.searchInput}
+              placeholder="사원 검색"
+              value={search}
+              onChange={handleSearchChange}
+            />
+          {/* 정렬 옵션, 오름차순/내림차순 라디오 버튼들 */}
+            <select className={style.searchInput} onChange={handleColumnChange}>
+              <option value="name">사원명</option>
+              <option value="restAnnual">잔여 연차</option>
+              <option value="workDay">당직 근무일 수</option>
+            </select>
 
-        <label>
-          <input
-            type="radio"
-            name="sort"
-            value="asc"
-            checked={sort === "asc"}
-            onChange={handleSortChange}
-          />
-          오름차순
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="sort"
-            value="desc"
-            checked={sort === "desc"}
-            onChange={handleSortChange}
-          />
-          내림차순
-        </label>
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                value="asc"
+                checked={sort === "asc"}
+                onChange={handleSortChange}
+              />
+              오름차순
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                value="desc"
+                checked={sort === "desc"}
+                onChange={handleSortChange}
+              />
+              내림차순
+            </label>
+          </div>
+        </div>
         {/* 표 작성 및 데이터 매핑 */}
         <table className={style.table}>
           <thead>
@@ -142,20 +154,11 @@ const Admin = () => {
           </tbody>
         </table>
         {/* 검색 입력 및 페이지네이션 컴포넌트 */}
-        <div className={style.searchPaginationWrapper}>
-          <input
-            type="text"
-            className={style.searchInput}
-            placeholder="사원 검색"
-            value={search}
-            onChange={handleSearchChange}
-          />
-          <PageNation
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
-        </div>
+        <PageNation
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
       </div>
     </section>
   );
