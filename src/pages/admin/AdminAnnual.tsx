@@ -13,7 +13,7 @@ type Data = {
 }
 
 const AdminAnnual = () => {
-  const [data, setData] = useState<Data>({
+  const [data] = useState<Data>({
     data: dummyData2.data
   })
 
