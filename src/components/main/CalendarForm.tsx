@@ -5,6 +5,7 @@ import style from './CalendarForm.module.scss'
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { annualData, workData, DateClickInfo } from '@/types/MainTypes'
+import { User } from '@/types/AccessTypes' // 임시
 import AnnualApplyModal from '@/components/main/AnnualApplyModal'
 
 interface EventObject {
@@ -22,13 +23,50 @@ const CalendarForm = () => {
   const [month, setMonth] = useState(initialMonth)
   // 캘린더 정보
   const calendarRef = useRef<FullCalendar>(null)
+  // 캘린더 헤더 툴바 버튼
+  const calendarSelect = ['전체 연차/당직', '내 연차/당직']
+  const [selectText, setSelectText] = useState<string>('전체 연차/당직')
   // 연차 신청 팝업 열기
   const [showModal, setShowModal] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
 
+  // 유저 정보(임시)
+  const [user, setUser] = useState<User>({
+    email: '',
+    name: '',
+    employeeNumber: '',
+    role: 'ROLE_USER'
+  })
+
   useEffect(() => {
-    fetchDummy()
-  }, [year, month])
+    fetchUserInfo()
+  }, [])
+
+  useEffect(() => {
+    if (selectText === '전체 연차/당직') {
+      fetchDummy()
+    } else {
+      fetchDummy().then(() => {
+        const filteredEvents = currentEvents.filter((event) =>
+          event.title.includes(`${user.name}#${user.employeeNumber.slice(0, 3)}`)
+        )
+        setCurrentEvents(filteredEvents)
+      })
+      console.log(currentEvents)
+    }
+  }, [selectText, year, month])
+
+  //가짜 비동기 함수
+  const fetchUserInfo = async () => {
+    try {
+      const { data } = await axios.get('/DummyUser.json')
+      console.log(data)
+      const resData: User = data.data.user
+      setUser(resData)
+    } catch (error) {
+      console.log('유저 정보를 가져오는데 실패했습니다.')
+    }
+  }
 
   // 가짜 비동기 함수
   // 년/월에 맞춰서 데이터를 가져온다고 가정
@@ -81,6 +119,11 @@ const CalendarForm = () => {
     setDateClickInfo(info)
   }
 
+  const selectHandler = () => {
+    setSelectText(selectText === '전체 연차/당직' ? '내 연차/당직' : '전체 연차/당직')
+    console.log(selectText)
+  }
+
   return (
     <>
       <div className={style.calendarWrapper}>
@@ -89,7 +132,7 @@ const CalendarForm = () => {
           initialView="dayGridMonth"
           plugins={[dayGridPlugin, interactionPlugin]}
           headerToolbar={{
-            start: 'today',
+            start: 'today select',
             center: 'title',
             end: 'prev next'
           }}
@@ -122,6 +165,10 @@ const CalendarForm = () => {
                   setMonth(Number(calendarMonth.split('년')[1].split('월')[0]))
                 }
               }
+            },
+            select: {
+              text: selectText,
+              click: selectHandler
             }
           }}
           eventOrder={(a: any, b: any) => {
