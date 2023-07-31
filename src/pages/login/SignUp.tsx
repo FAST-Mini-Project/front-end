@@ -8,7 +8,7 @@ const SignUp = () => {
   const [loginEmail, setLoginEmail] = useState('test@naver.com');
   const [loginPassword, setLoginPassword] = useState('11111111');
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     // if (data.success) {
       navigate('/login');
