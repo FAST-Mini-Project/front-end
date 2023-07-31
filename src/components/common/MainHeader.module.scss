@@ -33,7 +33,7 @@
     }
   }
   .welcomeWrapper {
-    width: 200px;
+    width: 250px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -52,7 +52,7 @@
       }
       &:nth-of-type(2)::before {
         content: '|';
-        margin-right: 22px;
+        margin-right: 50px;
         color: $bg-sub-grey;
       }
     }
