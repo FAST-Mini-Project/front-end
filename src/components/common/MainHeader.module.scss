@@ -33,9 +33,10 @@
     }
   }
   .welcomeWrapper {
-    width: 400px;
+    width: 200px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
     font-size: 18px;
     font-weight: 500;
     position: absolute;
@@ -45,6 +46,14 @@
       cursor: pointer;
       &:hover {
         text-decoration: underline;
+      }
+      &:nth-of-type(2) {
+        margin-right: 10px;
+      }
+      &:nth-of-type(2)::before {
+        content: '|';
+        margin-right: 22px;
+        color: $bg-sub-grey;
       }
     }
   }

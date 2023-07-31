@@ -61,3 +61,13 @@ export interface annualApplyReq {
 export interface annualApplyData {
   message: string // "연차 등록에 성공했습니다"
 }
+
+export interface DateClickInfo {
+  date: Date
+  dateStr: string
+  allDay: boolean
+  dayEl: HTMLElement
+  jsEvent: MouseEvent
+  view: unknown
+  resource?: unknown
+}
