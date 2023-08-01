@@ -5,8 +5,18 @@ html {
 .container {
   display: flex;
   width: 100%;
-  padding-top: 100px;
   justify-content: center;
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+
+.h2 {
+  font-size: 32px;
+  margin: 20px 0 10px 0;
 }
 
 .table {
@@ -46,27 +56,6 @@ html {
   cursor: pointer;
 }
 
-.searchPaginationWrapper {
-  display: flex;
-  align-items: center;
-  margin-top: 1rem;
-}
 
-.searchInput {
-  display: block;
-  width: 20%;
-  padding: 0.5rem;
-  margin: 1rem;
-  margin-right: 10rem;
-  font-size: 1rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  transition: all 0.3s;
-
-  :focus {
-    border-color: #495057;
-    outline: none;
-  }
-}
 
 

@@ -8,10 +8,11 @@ interface PageNationProps {
 }
 
 const PageNation = ({ currentPage, setCurrentPage, totalPages }: PageNationProps) => {
+  // 이전 페이지로 이동
   const goToPreviousPage = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
-
+  // 다음 페이지로 이동
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };

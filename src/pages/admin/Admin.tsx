@@ -1,9 +1,11 @@
-import { useState,useRef } from "react";
+import { useState } from "react";
 import style from "./Admin.module.scss";
 import { dummyData } from "@/dummy/DummyData";
 import PageNation from "@/components/pagenation/PageNation";
 import { userInfo } from "@/types/AdminTypes";
+import AdminFilters from "@/components/adminfilter/AdminFilter";
 
+// 페이지네이션 함수
 const getPaginatedItems = (
   items: userInfo[],
   currentPage: number,
@@ -15,37 +17,39 @@ const getPaginatedItems = (
 };
 
 const Admin = () => {
-  const [data, setData] = useState(dummyData);
-  
+  const [data] = useState(dummyData);
+  //페이지네이션 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  //검색 변수
   const [search, setSearch] = useState("");
-  const searchTimeout = useRef<number | null>(null);
   const [delayedSearch, setDelayedSearch] = useState("");
+  //정렬 변수
+  const [sort, setSort] = useState<"asc" | "desc">("asc");
+  const [selectedColumn, setSelectedColumn] = useState<"name" | "restAnnual" | "workDay">("name");
 
+  // 삭제 버튼 처리
   const handleDelete = (id) => {
     console.log(`삭제 버튼 클릭: ${id}`);
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-
-    if (searchTimeout.current) {
-      clearTimeout(searchTimeout.current);
-    }
-
-    searchTimeout.current = setTimeout(() => {
-      setDelayedSearch(e.target.value);
-      setCurrentPage(1); 
-    }, 150);
-  };
-
+  // 이름으로 필터링된 데이터 반환
   const filteredData = data.filter((employee) =>
-  employee.name.toLowerCase().includes(delayedSearch.toLowerCase())
-);
+    employee.name.toLowerCase().includes(delayedSearch.toLowerCase())
+  );
 
+  // 정렬된 데이터 반환
+  const sortedData = filteredData.sort((a, b) => {
+    if (sort === "asc") {
+      return a[selectedColumn] > b[selectedColumn] ? 1 : -1;
+    } else {
+      return a[selectedColumn] < b[selectedColumn] ? 1 : -1;
+    }
+  });  
+
+  // 현재 페이지에 대한 페이징 처리된 데이터 반환
   const pagenatedData = getPaginatedItems(
-    filteredData,
+    sortedData,
     currentPage,
     itemsPerPage
   );
@@ -54,26 +58,47 @@ const Admin = () => {
   return (
     <section className={style.container}>
       <div className={style.contentWrapper}>
+      <div className={style.caption}>
+        <h2 className={style.h2}>사원 목록</h2>
+          <div>
+            {/* 검색 입력 및 정렬 옵션 박스, 오름차순/내림차순 라디오 버튼들 */}
+            <AdminFilters
+              search={search}
+              setSearch={setSearch}
+              delayedSearch={delayedSearch}
+              setDelayedSearch={setDelayedSearch}
+              sort={sort}
+              setSort={setSort}
+              selectedColumn={selectedColumn}
+              setSelectedColumn1={setSelectedColumn}
+              columns={[
+                { value: "name", text: "사원명" },
+                { value: "restAnnual", text: "잔여 연차" },
+                { value: "workDay", text: "당직 근무일 수" },
+              ]}
+            />
+          </div>
+        </div>
+        {/* 표 작성 및 데이터 매핑 */}
         <table className={style.table}>
           <thead>
             <tr className={style.tr}>
               <th className={style.th}>사원명</th>
               <th className={style.th}>이메일</th>
-              <th className={style.th}>잔여 연차/당직 근무일 수</th>
+              <th className={style.th}>잔여 연차</th>
+              <th className={style.th}>당직 근무일 수</th>
               <th className={style.th}>빈칸</th>
             </tr>
           </thead>
           <tbody>
-            {pagenatedData.map(
-              (employee:userInfo) => (
+            {pagenatedData.map((employee: userInfo) => (
               <tr key={employee.id} className={style.tr}>
                 <td className={style.td}>
                   {employee.name} {employee.employeeNumber}
                 </td>
                 <td className={style.td}>{employee.email}</td>
-                <td className={style.td}>
-                  {employee.restAnnual}/{employee.workDay}
-                </td>
+                <td className={style.td}>{employee.restAnnual}</td>
+                <td className={style.td}>{employee.workDay}</td>
                 <td className={style.td}>
                   <button
                     className={style.delete}
@@ -86,23 +111,15 @@ const Admin = () => {
             ))}
           </tbody>
         </table>
-        <div className={style.searchPaginationWrapper}>
-          <input
-            type="text"
-            className={style.searchInput}
-            placeholder="사원 검색"
-            value={search}
-            onChange={handleSearchChange}
-          />
-          <PageNation
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
-      </div>
+        {/* 검색 입력 및 페이지네이션 컴포넌트 */}
+        <PageNation
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;
