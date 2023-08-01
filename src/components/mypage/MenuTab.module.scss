@@ -1,0 +1,24 @@
+@import '@/variables';
+
+.menu__wrapper {
+  .menu__tab {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 30px;
+
+    .tab__item {
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 20px;
+      color: #000;
+      &:hover {
+        color: $bg-lightgrey;
+      }
+    }
+
+    .tab__active {
+      color: orange;
+    }
+  }
+}
