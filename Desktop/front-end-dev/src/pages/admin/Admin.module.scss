@@ -1,0 +1,61 @@
+html {
+  overflow-y: scroll;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+
+.h2 {
+  font-size: 32px;
+  margin: 20px 0 10px 0;
+}
+
+.table {
+  width: 1100px;
+}
+
+.th, .td {
+  text-align: center;
+  padding: 8px;
+  line-height: 2;
+  border-bottom: 1px solid #e3dede;
+}
+
+.th {
+  background-color: #e3dede;
+  font-weight: bold;
+}
+
+.tr:hover {
+  background-color: #e3dede;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.approve {
+  background-color: green;
+  color: white;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+
+
+
