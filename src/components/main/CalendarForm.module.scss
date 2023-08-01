@@ -1,3 +1,10 @@
+@import '@/_variables.scss';
+
 .calendarWrapper {
-  height: calc(100vh - 215px);
+  width: 96%;
+  height: 90%;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 1px 5px 10px $description_primary-2;
+  padding: 15px;
 }

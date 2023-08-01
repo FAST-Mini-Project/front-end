@@ -1,59 +1,114 @@
 @import '@/_variables.scss';
 
 .container {
-  width: 100%;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  width: 200px;
+  max-height: 100%;
   position: relative;
-  border-bottom: solid 1px $bg-sub-grey;
-  margin-bottom: 15px;
-  .userInfo {
-    width: 250px;
-    height: 100px;
+  box-shadow: -1px 0px 5px $bg-sub-grey;
+  background-color: $bg-secondary;
+  .contents {
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 7px;
+    justify-content: space-between;
     flex-direction: column;
-    border-bottom: solid 2px $bg-blue;
-    border-right: solid 2px $bg-blue;
-    .wrapper {
-      width: 230px;
-      height: 90px;
-      background-color: #fff;
-      border-radius: 5px;
+    min-height: 100vh;
+    .userInfo {
       display: flex;
+      align-items: center;
       justify-content: center;
-      flex-direction: column;
-      div {
-        margin: 3px 10px;
+      margin-top: 15px;
+      .iconWrapper {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $point-bg-secondary-3;
+        .icon {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      .userWrapper {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        .user {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        .role {
+          font-size: 14px;
+          font-weight: 500;
+          width: 50%;
+          text-align: center;
+          line-height: 1.5;
+          margin-top: 5px;
+          color: $bg-secondary;
+          padding: 1px 5px;
+          border-radius: 10px;
+          background-color: $point-blue;
+        }
       }
     }
-  }
-  .welcomeWrapper {
-    width: 250px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    font-size: 18px;
-    font-weight: 500;
-    position: absolute;
-    right: 0;
-    bottom: 15px;
-    .link {
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
+    .nav {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .navItem {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 16px;
+        font-weight: 500;
+        color: $text-secondary;
+        padding-left: 30px;
+        cursor: pointer;
+        &:hover {
+          background-color: $bg-lightgrey;
+        }
+        &.active {
+          color: $point-blue;
+        }
       }
-      &:nth-of-type(2) {
-        margin-right: 10px;
+    }
+    .footer {
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin: 15px 0;
+      .des {
+        color: $description-primary-2;
+        margin-bottom: 5px;
+        line-height: 1.5;
+        text-align: center;
       }
-      &:nth-of-type(2)::before {
-        content: '|';
-        margin-right: 50px;
-        color: $bg-sub-grey;
+      .duration {
+        color: $description-primary-2;
+        margin-bottom: 5px;
+        line-height: 1.5;
+        text-align: center;
+        font-size: 12px;
+      }
+      .copy {
+        font-size: 12px;
+        color: $description-primary-2;
+        a {
+          text-decoration: none;
+          color: $description-primary-2;
+        }
+      }
+      .link {
+        color: $description-primary-2;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
