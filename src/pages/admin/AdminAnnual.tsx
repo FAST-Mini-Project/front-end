@@ -1,6 +1,7 @@
 import style from './AdminAnnual.module.scss'
 import { dummyData2 } from '@/dummy/DummyData'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
+import AdminFilters from '@/components/adminfilter/AdminFilter'
 
 type Data = {
   data: {
@@ -18,8 +19,6 @@ const AdminAnnual = () => {
   })
   const [search1, setSearch1] = useState("");
   const [search2, setSearch2] = useState("");
-  const searchTimeout1 = useRef<number | null>(null);
-  const searchTimeout2 = useRef<number | null>(null);
   const [delayedSearch1, setDelayedSearch1] = useState("");
   const [delayedSearch2, setDelayedSearch2] = useState("");
   const [sort1, setSort1] = useState<"asc" | "desc">("asc");
@@ -35,28 +34,6 @@ const AdminAnnual = () => {
     console.log(`거부 버튼 클릭: ${annualId}`)
   }
 
-  const handleSearchChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch1(e.target.value);
-    if (searchTimeout1.current) {
-      clearTimeout(searchTimeout1.current);
-    }
-
-    searchTimeout1.current = setTimeout(() => {
-      setDelayedSearch1(e.target.value);
-    }, 150);
-  };
-
-  const handleSearchChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch2(e.target.value);
-    if (searchTimeout2.current) {
-      clearTimeout(searchTimeout2.current);
-    }
-
-    searchTimeout2.current = setTimeout(() => {
-      setDelayedSearch2(e.target.value);
-    }, 150);
-  };
-
   const filteredData1 = data.data
     .filter((item) => item.status === "UNAPPROVED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch1.toLowerCase()));
@@ -64,24 +41,6 @@ const AdminAnnual = () => {
   const filteredData2 = data.data
     .filter((item) => item.status === "CANCELED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch2.toLowerCase()));
-
-  const handleColumnChange1 = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedColumn1(e.target.value as "name" | "date");
-  };
-
-  const handleColumnChange2 = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedColumn2(e.target.value as "name" | "date");
-  };
-
-  const handleSortChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSort1(value === "desc" ? "desc" : "asc");
-  };
-
-  const handleSortChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSort2(value === "desc" ? "desc" : "asc");
-  };
 
   const sortedData1 = filteredData1.sort((a, b) => {
     if (sort1 === "asc") {
@@ -105,38 +64,22 @@ const AdminAnnual = () => {
         <div className={style.caption}>
           <h2 className={style.h2}>연차 신청 목록</h2>
           <div>
-            <input
-              type="text"
-              className={style.searchInput}
-              placeholder="사원 검색"
-              value={search1}
-              onChange={handleSearchChange1}
-            />
-            <select
-              className={style.searchInput}
-              onChange={handleColumnChange1}
-            >
-              <option value="name">사원명</option>
-              <option value="date">신청 날짜</option>
-            </select>
-            <label>
-              <input
-                type="radio"
-                value="asc"
-                checked={sort1 === "asc"}
-                onChange={handleSortChange1}
-              />
-              오름차순
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="desc"
-                checked={sort1 === "desc"}
-                onChange={handleSortChange1}
-              />
-              내림차순
-            </label>
+          {/* 검색 입력 및 정렬 옵션 박스, 오름차순/내림차순 라디오 버튼들 */}
+          <AdminFilters 
+            name="sort1"
+            search={search1}
+            setSearch={setSearch1}
+            delayedSearch={delayedSearch1}
+            setDelayedSearch={setDelayedSearch1}
+            sort={sort1}
+            setSort={setSort1}
+            selectedColumn={selectedColumn1}
+            setSelectedColumn2={setSelectedColumn1}
+            columns={[
+              { value: "name", text: "사원명" },
+              { value: "date", text: "신청 날짜" },
+            ]}
+          />
           </div>
         </div>
         <div className={style.tableWrapper}>
@@ -172,38 +115,21 @@ const AdminAnnual = () => {
         <div className={style.caption}>
           <h2 className={style.h2}>취소 신청 목록</h2>
           <div>
-            <input
-              type="text"
-              className={style.searchInput}
-              placeholder="사원 검색"
-              value={search2}
-              onChange={handleSearchChange2}
-            />
-            <select
-              className={style.searchInput}
-              onChange={handleColumnChange2}
-            >
-              <option value="name">사원명</option>
-              <option value="date">신청 날짜</option>
-            </select>
-            <label>
-              <input
-                type="radio"
-                value="asc"
-                checked={sort2 === "asc"}
-                onChange={handleSortChange2}
-              />
-              오름차순
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="desc"
-                checked={sort2 === "desc"}
-                onChange={handleSortChange2}
-              />
-              내림차순
-            </label>
+          <AdminFilters
+            name="sort2"
+            search={search2}
+            setSearch={setSearch2}
+            delayedSearch={delayedSearch2}
+            setDelayedSearch={setDelayedSearch2}
+            sort={sort2}
+            setSort={setSort2}
+            selectedColumn={selectedColumn2}
+            setSelectedColumn2={setSelectedColumn2}
+            columns={[
+              { value: "name", text: "사원명" },
+              { value: "date", text: "신청 날짜" },
+            ]}
+          />
           </div>
         </div>
         <div className={style.tableWrapper}>

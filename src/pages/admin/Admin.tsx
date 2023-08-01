@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import style from "./Admin.module.scss";
 import { dummyData } from "@/dummy/DummyData";
 import PageNation from "@/components/pagenation/PageNation";
 import { userInfo } from "@/types/AdminTypes";
+import AdminFilters from "@/components/adminfilter/AdminFilter";
 
 // 페이지네이션 함수
 const getPaginatedItems = (
@@ -22,39 +23,14 @@ const Admin = () => {
   const itemsPerPage = 10;
   //검색 변수
   const [search, setSearch] = useState("");
-  const searchTimeout = useRef<number | null>(null);
   const [delayedSearch, setDelayedSearch] = useState("");
   //정렬 변수
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [selectedColumn, setSelectedColumn] = useState<"name" | "restAnnual" | "workDay">("name");
 
-  // 정렬할 열을 변경
-  const handleColumnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedColumn(e.target.value as "name" | "restAnnual" | "workDay");
-  };
-
-  // 오름차순, 내림차순 변경
-  const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSort(e.target.value as "asc" | "desc");
-  };
-
   // 삭제 버튼 처리
   const handleDelete = (id) => {
     console.log(`삭제 버튼 클릭: ${id}`);
-  };
-
-  // 검색 이벤트 처리
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    // 딜레이 생성
-    if (searchTimeout.current) {
-      clearTimeout(searchTimeout.current);
-    }
-
-    searchTimeout.current = setTimeout(() => {
-      setDelayedSearch(e.target.value);
-      setCurrentPage(1);
-    }, 150);
   };
 
   // 이름으로 필터링된 데이터 반환
@@ -85,40 +61,22 @@ const Admin = () => {
       <div className={style.caption}>
         <h2 className={style.h2}>사원 목록</h2>
           <div>
-            <input
-              type="text"
-              className={style.searchInput}
-              placeholder="사원 검색"
-              value={search}
-              onChange={handleSearchChange}
+            {/* 검색 입력 및 정렬 옵션 박스, 오름차순/내림차순 라디오 버튼들 */}
+            <AdminFilters
+              search={search}
+              setSearch={setSearch}
+              delayedSearch={delayedSearch}
+              setDelayedSearch={setDelayedSearch}
+              sort={sort}
+              setSort={setSort}
+              selectedColumn={selectedColumn}
+              setSelectedColumn1={setSelectedColumn}
+              columns={[
+                { value: "name", text: "사원명" },
+                { value: "restAnnual", text: "잔여 연차" },
+                { value: "workDay", text: "당직 근무일 수" },
+              ]}
             />
-          {/* 정렬 옵션, 오름차순/내림차순 라디오 버튼들 */}
-            <select className={style.searchInput} onChange={handleColumnChange}>
-              <option value="name">사원명</option>
-              <option value="restAnnual">잔여 연차</option>
-              <option value="workDay">당직 근무일 수</option>
-            </select>
-
-            <label>
-              <input
-                type="radio"
-                name="sort"
-                value="asc"
-                checked={sort === "asc"}
-                onChange={handleSortChange}
-              />
-              오름차순
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="sort"
-                value="desc"
-                checked={sort === "desc"}
-                onChange={handleSortChange}
-              />
-              내림차순
-            </label>
           </div>
         </div>
         {/* 표 작성 및 데이터 매핑 */}
