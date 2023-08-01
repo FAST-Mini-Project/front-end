@@ -1,0 +1,41 @@
+{
+  "statusCode": 200,
+  "data": {
+    "1": [
+      {
+        "annualId": 1,
+        "name": "갑갑산",
+        "employeeNumber": "sadfkl123dlkfjahsdlkjfahs"
+      },
+      {
+        "annualId": 2,
+        "name": "박수짝",
+        "employeeNumber": "sadfklj32kfjahsdlkjfahs"
+      }
+    ],
+    "2": [
+      {
+        "annualId": 3,
+        "name": "김갑순",
+        "employeeNumber": "sadfk12dlkfjahsdlkjfahs"
+      },
+      {
+        "annualId": 4,
+        "name": "청심환",
+        "employeeNumber": "sadfk2321dlkfjahsdlkjfahs"
+      }
+    ],
+    "3": [
+      {
+        "annualId": 5,
+        "name": "김테스트",
+        "employeeNumber": "123123kfjahsdlkjfahs"
+      },
+      {
+        "annualId": 6,
+        "name": "아무무",
+        "employeeNumber": "sadfk21s"
+      }
+    ]
+  }
+}
