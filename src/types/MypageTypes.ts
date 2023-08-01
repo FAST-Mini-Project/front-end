@@ -51,6 +51,6 @@ export interface annualCancelData {
 export type workUserData = works[]
 
 export interface works {
-  workId: number
+  dutyId: number
   date: string // YYYY-MM-DD
 }

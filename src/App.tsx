@@ -1,8 +1,11 @@
 import './App.module.scss'
 import { Route, Routes } from 'react-router-dom'
-import MainLayout from '@/layout/MainLayout'
-import Main from '@/pages/main/Main'
-import Mypage from '@/pages/mypage/Mypage'
+import MainLayout from './layout/MainLayout'
+import Main from './pages/main/Main'
+import MyPage from './pages/mypage/MyPage'
+// import MyAnnual from './pages/mypage/MyAnnual'
+// import MyDuty from './pages/mypage/MyDuty'
+// import MyInfo from './pages/mypage/MyInfo'
 import Admin from './pages/admin/Admin'
 import AdminDuty from './pages/admin/AdminDuty'
 import AdminAnnual from './pages/admin/AdminAnnual'
@@ -17,7 +20,7 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Main />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage/*" element={<MyPage />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="/admin/employee" element={<Admin />} />
