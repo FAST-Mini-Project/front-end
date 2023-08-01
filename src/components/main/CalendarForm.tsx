@@ -11,6 +11,9 @@ import AnnualApplyModal from '@/components/main/AnnualApplyModal'
 interface EventObject {
   title: string
   date: string
+  isAnnual: boolean
+  backgroundColor?: string
+  borderColor?: string
 }
 
 const CalendarForm = () => {
@@ -24,7 +27,6 @@ const CalendarForm = () => {
   // 캘린더 정보
   const calendarRef = useRef<FullCalendar>(null)
   // 캘린더 헤더 툴바 버튼
-  const calendarSelect = ['전체 연차/당직', '내 연차/당직']
   const [selectText, setSelectText] = useState<string>('전체 연차/당직')
   // 연차 신청 팝업 열기
   const [showModal, setShowModal] = useState(false)
@@ -71,11 +73,12 @@ const CalendarForm = () => {
   // 가짜 비동기 함수
   // 년/월에 맞춰서 데이터를 가져온다고 가정
   const fetchDummy = async () => {
-    let resAnnualData: annualData = {}
-    let resWorkData: workData = {}
+    let resAnnualData: annualData = []
+    let resWorkData: workData = []
     try {
       const { data: annualData } = await axios.get(`/DummyAllAnnual${year}${month}.json`)
       resAnnualData = annualData.data
+      console.log('resAnnual', resAnnualData)
     } catch (error) {
       console.log('연차 데이터 없음', error)
     }
@@ -83,33 +86,34 @@ const CalendarForm = () => {
     try {
       const { data: workData } = await axios.get(`/DummyAllWork${year}${month}.json`)
       resWorkData = workData.data
+      console.log('resWork', resWorkData)
     } catch (error) {
       console.error('당직데이터 없음', error)
     }
 
     // 이벤트 생성
-    const annualEvents = []
-    for (const [day, data] of Object.entries(resAnnualData)) {
-      for (const item of data) {
-        annualEvents.push({
-          title: item.name + '#' + item.employeeNumber.slice(0, 3),
-          date: new Date(year, month - 1, Number(day)).toISOString().split('T')[0],
-          isAnnual: true
-        })
-      }
-    }
-    const workEvents = []
-    for (const [day, data] of Object.entries(resWorkData)) {
-      for (const item of data) {
-        workEvents.push({
-          title: item.name + '#' + item.employeeNumber.slice(0, 3),
-          date: new Date(year, month - 1, Number(day)).toISOString().split('T')[0],
-          isAnnual: false,
-          backgroundColor: '#795c34',
-          borderColor: '#795c34'
-        })
-      }
-    }
+    const annualEvents: EventObject[] = []
+    // 연차 events push
+    resAnnualData.forEach((item) => {
+      annualEvents.push({
+        title: item.name + '#' + item.employeeNumber.slice(0, 3),
+        date: item.date,
+        isAnnual: true
+      })
+    })
+
+    const workEvents: EventObject[] = []
+    // 당직 events push
+    resWorkData.forEach((item) => {
+      workEvents.push({
+        title: item.name + '#' + item.employeeNumber.slice(0, 3),
+        date: item.date,
+        isAnnual: false,
+        backgroundColor: '#795c34',
+        borderColor: '#795c34'
+      })
+    })
+
     setCurrentEvents([...annualEvents, ...workEvents])
     console.log([...annualEvents, ...workEvents])
   }
@@ -180,7 +184,7 @@ const CalendarForm = () => {
               return 0
             }
           }}
-          height="inherit"
+          height="100%"
           dayMaxEvents={true}
         />
         {showModal && <AnnualApplyModal dateInfo={dateClickInfo as DateClickInfo} setShowModal={setShowModal} />}
