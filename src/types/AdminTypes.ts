@@ -4,10 +4,6 @@
 
 // Req : 없음
 // Res 200 OK
-// interface userListRes {
-//   statusCode: number
-//   data: userListData
-// }
 
 export type userListData = userInfo[]
 
@@ -37,10 +33,6 @@ export interface workRegistReq {
 }
 
 // Res 201 Created
-// interface workRegistRes {
-//   statusCode: number
-//   data: workRegistData
-// }
 
 export interface workRegistData {
   message: string // "당직 등록에 성공했습니다"
@@ -60,10 +52,6 @@ export interface workRegistData {
 
 // Req : 없음
 // Res 200 OK
-// interface annualAdminRes {
-//   statusCode: number
-//   data: annualAdminData
-// }
 
 export type annualAdminData = annualAdminInfo[]
 
@@ -83,10 +71,6 @@ export interface annualAdminInfo {
 
 // Req : 없음
 // Res 200 OK
-// interface annualAdminApproveRes {
-//   statusCode: number
-//   data: annualAdminApproveData
-// }
 
 export interface annualAdminApproveData {
   message: string // "승인되었습니다"

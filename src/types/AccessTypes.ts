@@ -3,16 +3,13 @@
 
 //로그인
 // /api/login
+// 요청
 export interface LoginReq {
   email: string
   password: string
 }
 
-// interface LoginRes {
-//   statusCode: number
-//   data: LoginResData
-// }
-
+// 응답
 export interface LoginResData {
   user: User
   token: string
@@ -34,11 +31,6 @@ export interface SignupReq {
   password: string // 사용자 비밀번호, 8자 이상 (필수!)
   employeeNumber: string // 사원번호(uuid) 생성한 uuid 값 그대로!
 }
-
-// interface SignupRes {
-//   statusCode: number // 201 Created
-//   data: Message
-// }
 
 // signupRes.data
 export interface Message {

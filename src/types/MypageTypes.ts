@@ -4,10 +4,6 @@
 
 // Req : 없음
 // Res 200 OK
-// interface annualUserRes {
-//   statusCode: number
-//   data: annualUserData
-// }
 
 export type annualUserData = annuals[]
 
@@ -28,10 +24,7 @@ export interface annuals {
 
 // req : 없음
 // Res 200 OK
-// interface annualCancelRes {
-//   statusCode: number
-//   data: annualCancelData
-// }
+
 export interface annualCancelData {
   message: string // "연차 취소가 완료되었습니다" | "연차 취소 신청이 완료되었습니다"
 }
@@ -43,10 +36,6 @@ export interface annualCancelData {
 // Req : 없음
 
 // Res 200 OK
-// interface workUserRes {
-//   statusCode: number
-//   data: workUserData
-// }
 
 export type workUserData = works[]
 
