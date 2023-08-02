@@ -30,7 +30,7 @@ export const deleteUserApi = async (token: string, id: number) => {
       method: 'DELETE',
       url: `/admin/user/${id}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -46,7 +46,7 @@ export const registWorkApi = async (token: string, data: workRegistReq) => {
       method: 'POST',
       url: '/admin/work',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       },
       data: data
     })
@@ -63,7 +63,7 @@ export const deleteWorkApi = async (token: string, workId: number) => {
       method: 'DELETE',
       url: `/admin/work/${workId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -79,7 +79,7 @@ export const getAnnualAdminApi = async (token: string) => {
       method: 'GET',
       url: '/admin/annual',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -95,7 +95,7 @@ export const approveAnnualAdminApi = async (token: string, annualId: number) => 
       method: 'POST',
       url: `/admin/annual/${annualId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -111,7 +111,7 @@ export const rejectAnnualAdminApi = async (token: string, annualId: number) => {
       method: 'DELETE',
       url: `/admin/annual/${annualId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
