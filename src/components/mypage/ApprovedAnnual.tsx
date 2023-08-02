@@ -4,6 +4,9 @@ import styles from './ApprovedAnnual.module.scss'
 // ApprovedAnnual에서 사용할 props 타입 정의
 interface ApprovedAnnualProps {
   annualData: annuals[]
+  selectedYear: number
+  selectedMonth: number
+  setSelectedMonth: React.Dispatch<React.SetStateAction<number>>
 }
 
 // 승인된 연차 목록을 출력할 ApprovedAnnual component
@@ -31,24 +34,24 @@ const ApprovedAnnual: React.FC<ApprovedAnnualProps> = ({ annualData }) => {
           <p>진행 상태</p>
           <p>신청 취소</p>
         </div>
-        <ul className={styles.list__items}>
-          {sortedByDate.map((annual) => {
-            // 연차 목록 중 날짜가 지난 경우 신청 취소 불가능(당일까지는 가능)
-            // button 스타일링도 disabled 처리
-            const itemDate = new Date(annual.date)
-            const isPastDate = itemDate <= currentDate
-
-            return (
-              <li key={annual.annualId} className={styles.list__item}>
-                <span>{annual.date}</span>
-                <span>{annual.status === 'APPROVED' ? '승인 완료' : ''}</span>
-                <button disabled={isPastDate} title={isPastDate ? '날짜가 지난 경우 취소할 수 없습니다.' : ''}>
-                  취소
-                </button>
-              </li>
-            )
-          })}
-        </ul>
+        {sortedByDate.length === 0 ? (
+          <p className={styles.list__none}>해당 기간에 승인된 연차가 없습니다.</p>
+        ) : (
+          <ul>
+            {sortedByDate.map((annual) => {
+              // 연차 목록 중 날짜가 지난 경우 신청 취소 불가능(당일까지는 가능)
+              const itemDate = new Date(annual.date)
+              const isPastDate = itemDate <= currentDate
+              return (
+                <li key={annual.annualId} className={styles.list__item}>
+                  <span>{annual.date}</span>
+                  <span>{annual.status === 'APPROVED' ? '승인 완료' : ''}</span>
+                  <button disabled={isPastDate}>취소</button>
+                </li>
+              )
+            })}
+          </ul>
+        )}
       </div>
     </section>
   )

@@ -5,24 +5,35 @@
   flex-direction: column;
   width: 1000px;
   border-radius: 10px;
-  box-shadow: 8px 8px 10px $description_primary-2;
-  background-color: $bg_secondary;
+  background-color: burlywood;
 
   h2 {
     padding: 20px;
-    border-bottom: 3px solid $point_bg_primary;
+    border-bottom: 1px solid #000;
     font-weight: 600;
-    font-size: 28px;
-    color: $text_primary;
+    font-size: 30px;
   }
 
   .list__body {
+    overflow: auto;
+    max-height: 400px;
+
     .list__headline {
       display: flex;
       justify-content: space-around;
       padding: 15px 0;
       font-size: 22px;
-      color: $text_secondary;
+    }
+
+    .list__none {
+      padding: 20px 0;
+      margin: 0 20px 10px;
+      height: 66px;
+      border: 2px solid $point_bg_primary;
+      border-radius: 10px;
+      background-color: $bg_secondary;
+      text-align: center;
+      font-size: 20px;
     }
 
     .list__item {
@@ -31,19 +42,18 @@
       align-items: center;
       padding: 10px 0;
       margin: 0 20px 10px;
-      border: 2px solid $point_bg_primary;
       border-radius: 10px;
-      background-color: $bg_secondary;
+      background-color: #fff;
       font-size: 20px;
 
       span {
         &:first-child {
           position: relative;
-          left: -22px;
+          left: -18px;
         }
         &:nth-child(2) {
           position: relative;
-          left: -20px;
+          left: -13px;
         }
       }
 
@@ -51,21 +61,13 @@
         position: relative;
         left: 5px;
         padding: 10px 20px;
-        border: none;
         border-radius: 10px;
         cursor: pointer;
-        background-color: $point_bg_secondary-4;
+        background-color: #fff;
         font-size: 18px;
-        color: $point_bg_primary;
-        transition: all 200ms;
         &:hover {
-          background-color: $point_bg_primary;
-          color: $bg_secondary;
-        }
-        &:disabled {
-          cursor: default;
-          background-color: $description_primary-4;
-          color: $description_primary-3;
+          background-color: #000;
+          color: #fff;
         }
       }
     }

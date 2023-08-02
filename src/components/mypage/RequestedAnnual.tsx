@@ -4,6 +4,9 @@ import styles from './RequestedAnnual.module.scss'
 // RequestedAnnual에서 사용할 props 타입 정의
 interface RequestedAnnualProps {
   annualData: annuals[]
+  selectedYear: number
+  selectedMonth: number
+  setSelectedMonth: React.Dispatch<React.SetStateAction<number>>
 }
 
 // 신청한 연차 목록을 출력할 RequestedAnnual component
@@ -19,17 +22,6 @@ const RequestedAnnual: React.FC<RequestedAnnualProps> = ({ annualData }) => {
     return dateB.getTime() - dateA.getTime()
   })
 
-  // 오늘 날짜 확인
-  const currentDate = new Date()
-
-  // 취소 버튼 클릭 시 연차 신청을 취소하는 함수
-  // const handleCancelClick = (annualId: number) => {
-  //   const confirmMessage = window.confirm('확인 버튼을 누르면 연차 신청이 취소됩니다.\n 정말 연차 신청을 취소하시겠습니까?')
-  //   if (confirmMessage) {
-
-  //   }
-  // }
-
   return (
     <section className={styles.list__container}>
       <h2>신청한 연차</h2>
@@ -39,24 +31,19 @@ const RequestedAnnual: React.FC<RequestedAnnualProps> = ({ annualData }) => {
           <p>진행 상태</p>
           <p>신청 취소</p>
         </div>
-        <ul className={styles.list__items}>
-          {sortedByDate.map((annual) => {
-            // 연차 목록 중 날짜가 지난 경우 신청 취소 불가능(당일까지는 가능)
-            // button 스타일링도 disabled 처리
-            const itemDate = new Date(annual.date)
-            const isPastDate = itemDate <= currentDate
-
-            return (
+        {sortedByDate.length === 0 ? (
+          <p className={styles.list__none}>해당 기간에 신청된 연차가 없습니다.</p>
+        ) : (
+          <ul>
+            {sortedByDate.map((annual) => (
               <li key={annual.annualId} className={styles.list__item}>
                 <span>{annual.date}</span>
                 <span>{annual.status === 'UNAPPROVED' ? '승인 처리 중' : ''}</span>
-                <button disabled={isPastDate} title={isPastDate ? '날짜가 지난 경우 취소할 수 없습니다.' : ''}>
-                  취소
-                </button>
+                <button>취소</button>
               </li>
-            )
-          })}
-        </ul>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   )
