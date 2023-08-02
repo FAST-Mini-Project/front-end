@@ -5,7 +5,13 @@ import { LoginReq, SignupReq, LoginResData, SignupResData, LogoutResData } from 
 export const loginApi = async (data: LoginReq) => {
   try {
     const res = await baseApi.post('/login', data)
-    return res.data.data as LoginResData
+    console.log(res)
+    if (res.data.data) {
+      return res.data.data as LoginResData
+    }
+    if (res.data.errorMessage) {
+      return res.data.errorMessage as string[]
+    }
   } catch (error) {
     console.error('로그인 api 오류', error)
   }
@@ -15,7 +21,12 @@ export const loginApi = async (data: LoginReq) => {
 export const signupApi = async (data: SignupReq) => {
   try {
     const res = await baseApi.post('/signup', data)
-    return res.data.data as SignupResData
+    if (res.data.data) {
+      return res.data.data as SignupResData
+    }
+    if (res.data.errorMessage) {
+      return res.data.errorMessage as string[]
+    }
   } catch (error) {
     console.error('회원가입 api 오류', error)
   }
@@ -31,7 +42,12 @@ export const logoutApi = async (token: string) => {
         Authorization: `Bearer ${token}`
       }
     })
-    return res.data.data as LogoutResData
+    if (res.data.data) {
+      return res.data.data as LogoutResData
+    }
+    if (res.data.errorMessage) {
+      return res.data.errorMessage as string[]
+    }
   } catch (error) {
     console.error('로그아웃 api 오류', error)
   }
