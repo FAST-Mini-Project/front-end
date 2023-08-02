@@ -44,10 +44,10 @@ const AdminDuty = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const userList = await getUserListApi("your_token_here");
-  
+      const userList = await getUserListApi("asjldhaslkjdhaslkjdhalskjdhalskj");
+      console.log("User list fetched:", userList);
       if (userList) {
-        setEmployees(userList);
+        setEmployees(userList.data);
       } else {
         console.error("Error fetching user list data.");
       }
@@ -66,14 +66,12 @@ const AdminDuty = () => {
         )
         setCurrentEvents(filteredEvents)
       })
-      console.log(currentEvents)
     }
   }, [selectText, year, month])
 
   // 년/월에 맞춰서 데이터를 가져옴
   const fetchData = async () => {
     const workData = await getWorkApi(year, month);
-    console.log(workData)
   
     if (workData) { 
       const workEvents: EventObject[] = [];
@@ -89,7 +87,6 @@ const AdminDuty = () => {
       });
   
       setCurrentEvents([...workEvents]);
-      console.log([...workEvents]);
     } else {
       console.error('Error fetching data.');
     }

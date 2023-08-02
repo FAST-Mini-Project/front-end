@@ -28,7 +28,7 @@ export const logoutApi = async (token: string) => {
       method: 'POST',
       url: '/logout',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data.data as LogoutResData

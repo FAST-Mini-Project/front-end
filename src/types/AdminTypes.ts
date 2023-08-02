@@ -4,6 +4,9 @@
 
 // Req : 없음
 // Res 200 OK
+export interface userWrapper {
+  data: userInfo[];
+}
 
 export type userListData = userInfo[]
 

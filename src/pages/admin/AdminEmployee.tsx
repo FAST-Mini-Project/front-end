@@ -32,7 +32,6 @@ const AdminEmployee = () => {
     const fetchData = async () => {
       const token = "asjldhaslkjdhaslkjdhalskjdhalskj"; //토큰을 가져오는 방법을 개선해야
       const response = await getUserListApi(token);
-      console.log("API response:", response);
       setData(response.data);
     }
     fetchData();

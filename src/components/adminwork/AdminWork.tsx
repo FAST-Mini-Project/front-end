@@ -63,14 +63,15 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
               >
                 {/* 드롭다운 사원 리스트 */}
                 <option>-- 사원 선택 --</option>
-                {employees
+                {Array.isArray(employees) && employees
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map((employee, index) => (
                     <option
                       key={index}
-                      value={employee.name + '#' + employee.employeeNumber.slice(0,4)}
+                      value={`${employee.name}#${employee.employeeNumber.slice(0,4)}`}
                     >
-                      {employee.name + ' (' + employee.employeeNumber.slice(0,4) + ')'}
+                      {`${employee.name} (#${employee.employeeNumber.slice(0,4)})`}
+
                     </option>
                   ))}
               </select>

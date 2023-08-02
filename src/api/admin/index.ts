@@ -10,7 +10,7 @@ import {
 // 사용자 목록 조회
 export const getUserListApi = async (token: string) => {
   try {
-    const res = await baseApi<userListData>({
+    const res = await baseApi({
       method: 'GET',
       url: '/admin/user',
       headers: {
@@ -27,11 +27,11 @@ export const getUserListApi = async (token: string) => {
 // 당직 등록
 export const registWorkApi = async (token: string, data: workRegistReq) => {
   try {
-    const res = await baseApi<workRegistData>({
+    const res = await baseApi({
       method: 'POST',
       url: '/admin/work',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       },
       data: data
     })
@@ -48,7 +48,7 @@ export const deleteWorkApi = async (token: string, workId: number) => {
       method: 'DELETE',
       url: `/admin/work/${workId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -60,11 +60,11 @@ export const deleteWorkApi = async (token: string, workId: number) => {
 // 관리자 연차 조회
 export const getAnnualAdminApi = async (token: string) => {
   try {
-    const res = await baseApi<annualAdminData>({
+    const res = await baseApi({
       method: 'GET',
       url: '/admin/annual',
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -76,11 +76,11 @@ export const getAnnualAdminApi = async (token: string) => {
 // 관리자 연차 승인
 export const approveAnnualAdminApi = async (token: string, annualId: number) => {
   try {
-    const res = await baseApi<annualAdminApproveData>({
+    const res = await baseApi({
       method: 'POST',
       url: `/admin/annual/${annualId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -92,11 +92,11 @@ export const approveAnnualAdminApi = async (token: string, annualId: number) => 
 // 관리자 연차 반려
 export const rejectAnnualAdminApi = async (token: string, annualId: number) => {
   try {
-    const res = await baseApi<annualAdminApproveData>({
+    const res = await baseApi({
       method: 'DELETE',
       url: `/admin/annual/${annualId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
