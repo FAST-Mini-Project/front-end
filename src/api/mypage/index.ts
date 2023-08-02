@@ -8,7 +8,7 @@ export const getUserAnnualApi = async (token: string, year: number) => {
       method: 'POST',
       url: `/user/annual?year=${year}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -24,7 +24,7 @@ export const getUserWorkApi = async (token: string, year: number) => {
       method: 'POST',
       url: `/user/work?year=${year}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
@@ -40,7 +40,7 @@ export const cancelAnnualApi = async (token: string, annualId: number) => {
       method: 'POST',
       url: `/user/annual/${annualId}`,
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     })
     return res.data
