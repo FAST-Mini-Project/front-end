@@ -1,6 +1,6 @@
-import { useState } from "react";
-import style from "./Admin.module.scss";
-import { dummyData } from "@/dummy/DummyData";
+import { useState, useEffect } from "react";
+import style from "./AdminEmployee.module.scss";
+import { getUserListApi } from "@/api/admin";
 import PageNation from "@/components/pagenation/PageNation";
 import { userInfo } from "@/types/AdminTypes";
 import AdminFilters from "@/components/adminfilter/AdminFilter";
@@ -16,8 +16,8 @@ const getPaginatedItems = (
   return items.slice(startIndex, endIndex);
 };
 
-const Admin = () => {
-  const [data] = useState(dummyData);
+const AdminEmployee = () => {
+  const [data, setData] = useState<userInfo[]>([]);
   //페이지네이션 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -28,10 +28,15 @@ const Admin = () => {
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [selectedColumn, setSelectedColumn] = useState<"name" | "restAnnual" | "workDay">("name");
 
-  // 삭제 버튼 처리
-  const handleDelete = (id) => {
-    console.log(`삭제 버튼 클릭: ${id}`);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = "asjldhaslkjdhaslkjdhalskjdhalskj"; //토큰을 가져오는 방법을 개선해야
+      const response = await getUserListApi(token);
+      console.log("API response:", response);
+      setData(response.data);
+    }
+    fetchData();
+  }, []);
 
   // 이름으로 필터링된 데이터 반환
   const filteredData = data.filter((employee) =>
@@ -87,26 +92,17 @@ const Admin = () => {
               <th className={style.th}>이메일</th>
               <th className={style.th}>잔여 연차</th>
               <th className={style.th}>당직 근무일 수</th>
-              <th className={style.th}>빈칸</th>
             </tr>
           </thead>
           <tbody>
             {pagenatedData.map((employee: userInfo) => (
               <tr key={employee.id} className={style.tr}>
                 <td className={style.td}>
-                  {employee.name} {employee.employeeNumber}
+                  {employee.name} #{employee.employeeNumber.slice(0,4)}
                 </td>
                 <td className={style.td}>{employee.email}</td>
                 <td className={style.td}>{employee.restAnnual}</td>
                 <td className={style.td}>{employee.workDay}</td>
-                <td className={style.td}>
-                  <button
-                    className={style.delete}
-                    onClick={() => handleDelete(employee.id)}
-                  >
-                    삭제
-                  </button>
-                </td>
               </tr>
             ))}
           </tbody>
@@ -122,4 +118,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminEmployee;

@@ -84,7 +84,7 @@ const AdminAnnual = () => {
         </div>
         <div className={style.tableWrapper}>
           <table className={style.table}>
-            <thead>
+            <thead className={style.thead}>
               <tr className={style.tr}>
                 <th className={style.th}>사원명</th>
                 <th className={style.th}>신청 날짜</th>
@@ -134,7 +134,7 @@ const AdminAnnual = () => {
         </div>
         <div className={style.tableWrapper}>
           <table className={style.table}>
-            <thead>
+            <thead className={style.thead}>
               <tr className={style.tr}>
                 <th className={style.th}>사원명</th>
                 <th className={style.th}>신청 날짜</th>

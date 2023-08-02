@@ -68,9 +68,9 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
                   .map((employee, index) => (
                     <option
                       key={index}
-                      value={employee.name + '#' + employee.employeeNumber}
+                      value={employee.name + '#' + employee.employeeNumber.slice(0,4)}
                     >
-                      {employee.name + ' (' + employee.employeeNumber + ')'}
+                      {employee.name + ' (' + employee.employeeNumber.slice(0,4) + ')'}
                     </option>
                   ))}
               </select>

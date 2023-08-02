@@ -3,15 +3,18 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import style from './AdminDuty.module.scss'
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
-import { workData, DateClickInfo } from '@/types/MainTypes'
-import { User } from '@/types/AccessTypes' // 임시
+import { workInfo, DateClickInfo } from '@/types/MainTypes'
 import AdminWork from '@/components/adminwork/AdminWork'
-import { dummyData } from '@/dummy/DummyData'
+import { getWorkApi } from '@/api/main'
+import { getUserListApi } from '@/api/admin'
+import { userListData } from '@/types/AdminTypes'
 
 interface EventObject {
   title: string
   date: string
+  isAnnual: boolean
+  backgroundColor?: string
+  borderColor?: string
 }
 
 const AdminDuty = () => {
@@ -30,25 +33,36 @@ const AdminDuty = () => {
   const [showAdminWork, setShowAdminWork] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
   
-  // 유저 정보(임시)
-  const [user, setUser] = useState<User>({
-    email: '',
+  // 유저 정보
+  const [data, setData] = useState<workInfo>({
+    workId: 0,
     name: '',
     employeeNumber: '',
-    role: 'ROLE_USER'
+    date: ''
   })
+  const [employees, setEmployees] = useState<userListData>([]);
 
   useEffect(() => {
-    fetchUserInfo()
-  }, [])
+    async function fetchData() {
+      const userList = await getUserListApi("your_token_here");
+  
+      if (userList) {
+        setEmployees(userList);
+      } else {
+        console.error("Error fetching user list data.");
+      }
+    }
+  
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (selectText === '전체 연차/당직') {
-      fetchDummy()
+      fetchData()
     } else {
-      fetchDummy().then(() => {
+      fetchData().then(() => {
         const filteredEvents = currentEvents.filter((event) =>
-          event.title.includes(`${user.name}#${user.employeeNumber.slice(0, 3)}`)
+          event.title.includes(`${data.name}#${data.employeeNumber.slice(0, 4)}`)
         )
         setCurrentEvents(filteredEvents)
       })
@@ -56,46 +70,31 @@ const AdminDuty = () => {
     }
   }, [selectText, year, month])
 
-  //가짜 비동기 함수
-  const fetchUserInfo = async () => {
-    try {
-      const { data } = await axios.get('/DummyUser.json')
-      console.log(data)
-      const resData: User = data.data.user
-      setUser(resData)
-    } catch (error) {
-      console.log('유저 정보를 가져오는데 실패했습니다.')
-    }
-  }
-
-  // 가짜 비동기 함수
-  // 년/월에 맞춰서 데이터를 가져온다고 가정
-  const fetchDummy = async () => {
-    let resWorkData: workData = {}
-    try {
-      const { data: workData } = await axios.get(`/DummyAllWork${year}${month}.json`)
-      resWorkData = workData.data
-    } catch (error) {
-      console.error('당직데이터 없음', error)
-    }
-
-    // 이벤트 생성
-    
-    const workEvents = []
-    for (const [day, data] of Object.entries(resWorkData)) {
-      for (const item of data) {
+  // 년/월에 맞춰서 데이터를 가져옴
+  const fetchData = async () => {
+    const workData = await getWorkApi(year, month);
+    console.log(workData)
+  
+    if (workData) { 
+      const workEvents: EventObject[] = [];
+  
+      workData.forEach((item: any) => {
         workEvents.push({
-          title: item.name + '#' + item.employeeNumber.slice(0, 3),
-          date: new Date(year, month - 1, Number(day)).toISOString().split('T')[0],
+          title: item.name + '#' + item.employeeNumber.slice(0, 4),
+          date: item.date,
           isAnnual: false,
           backgroundColor: '#795c34',
-          borderColor: '#795c34'
-        })
-      }
+          borderColor: '#795c34',
+        });
+      });
+  
+      setCurrentEvents([...workEvents]);
+      console.log([...workEvents]);
+    } else {
+      console.error('Error fetching data.');
     }
-    setCurrentEvents([...workEvents])
-    console.log([...workEvents])
-  }
+  };
+
 
   const handleDateClick = (info: DateClickInfo) => {
     setShowAdminWork(true)
@@ -103,7 +102,7 @@ const AdminDuty = () => {
   }
 
   return (
-    <>
+    <div className={style.container}>
       <div className={style.calendarWrapper}>
         <FullCalendar
           ref={calendarRef}
@@ -159,12 +158,12 @@ const AdminDuty = () => {
         />
         {showAdminWork && 
           <AdminWork 
-          dateInfo={dateClickInfo as DateClickInfo}
-          employees={dummyData}
-          setShowAdminWork={setShowAdminWork}   
+            dateInfo={dateClickInfo as DateClickInfo}
+            employees={employees}
+            setShowAdminWork={setShowAdminWork}   
           />}
       </div>
-    </>
+    </div>
   )
 }
 

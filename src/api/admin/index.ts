@@ -20,22 +20,7 @@ export const getUserListApi = async (token: string) => {
     return res.data
   } catch (error) {
     console.error('사용자 목록 조회 api 오류', error)
-  }
-}
-
-// 사용자 계정 삭제
-export const deleteUserApi = async (token: string, id: number) => {
-  try {
-    const res = await baseApi({
-      method: 'DELETE',
-      url: `/admin/user/${id}`,
-      headers: {
-        Authorization: token
-      }
-    })
-    return res.data
-  } catch (error) {
-    console.error('사용자 계정 삭제 api 오류', error)
+    return [];
   }
 }
 
