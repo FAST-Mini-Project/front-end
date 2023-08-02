@@ -1,11 +1,11 @@
 import style from './MainHeader.module.scss'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { User } from '@/types/AccessTypes'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AiFillGithub } from 'react-icons/ai'
 import { BsFillCalendarWeekFill, BsPersonBadgeFill } from 'react-icons/bs'
 import { RiLogoutBoxFill } from 'react-icons/ri'
+import handleLogout from '@/utils/handleLogout'
 
 const MainHeader = () => {
   const [user, setUser] = useState<User>({
@@ -19,19 +19,11 @@ const MainHeader = () => {
 
   //랜딩 시 유저 정보를 가져옵니다.
   useEffect(() => {
-    fetchUserInfo()
+    getUserInfo()
   }, [])
-
-  //가짜 비동기 함수
-  const fetchUserInfo = async () => {
-    try {
-      const { data } = await axios.get('/DummyUser.json')
-      console.log(data)
-      const resData: User = data.data.user
-      setUser(resData)
-    } catch (error) {
-      console.log('유저 정보를 가져오는데 실패했습니다.')
-    }
+  // 유저정보 가져오기
+  const getUserInfo = () => {
+    setUser(JSON.parse(localStorage.getItem('user') || '{}'))
   }
 
   const handleLink = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -53,7 +45,7 @@ const MainHeader = () => {
             <img className={style.icon} src="/free-icon-employee-3043585.png" alt="" />
           </div>
           <div className={style.userWrapper}>
-            <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 3)}`}</div>
+            <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 4)}`}</div>
             <span className={style.role}>유저</span>
           </div>
         </div>
@@ -74,7 +66,14 @@ const MainHeader = () => {
             onClick={handleLink}
           >
             <RiLogoutBoxFill size="20" />
-            <span style={{ marginLeft: '10px' }}>로그아웃</span>
+            <span
+              style={{ marginLeft: '10px' }}
+              onClick={() => {
+                handleLogout('/login', navigate)
+              }}
+            >
+              로그아웃
+            </span>
           </div>
         </div>
         <div className={style.footer}>

@@ -2,7 +2,7 @@ import { Cookies } from 'react-cookie'
 
 const cookies = new Cookies()
 
-export const setCookie = (key: string, value: string) => {
+export const setCookie = (key: string, value: unknown) => {
   return cookies.set(key, value)
 }
 
