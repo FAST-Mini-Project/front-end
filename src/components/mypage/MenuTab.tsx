@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { annuals } from '@/types/MypageTypes'
 import RemainingAnnual from '@/components/mypage/RemainingAnnual'
-import MonthPicker from '@/components/mypage/MonthPicker'
 import styles from './MenuTab.module.scss'
 
 // MenuTab에서 사용할 props 타입 정의
@@ -44,15 +43,8 @@ const MenuTab: React.FC<MenuTabProps> = ({ activeTab, handleTabClick, annualData
             비밀번호 수정
           </NavLink>
         </li>
-        {/* '연차 조회' 탭 활성화 시 RemainingAnnual, MonthPicker 출력 */}
-        {activeTab === 'annual' && (
-          <>
-            <RemainingAnnual annualData={annualData} />
-            <MonthPicker />
-          </>
-        )}
-        {/* '당직 조회' 탭 활성화 시 MonthPicker 출력*/}
-        {activeTab === 'duty' && <MonthPicker />}
+        {/* '연차 조회' 탭 활성화 시 RemainingAnnual 출력 */}
+        {activeTab === 'annual' && <RemainingAnnual annualData={annualData} />}
       </ul>
     </nav>
   )
