@@ -1,12 +1,20 @@
+//fullCalendar
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+//style
 import style from './CalendarForm.module.scss'
+//react
 import { useState, useEffect, useRef } from 'react'
+//axios
 import axios from 'axios'
-import { annualData, workData, DateClickInfo } from '@/types/MainTypes'
+// types
+import { DateClickInfo } from '@/types/MainTypes'
 import { User } from '@/types/AccessTypes' // 임시
+//components
 import AnnualApplyModal from '@/components/main/AnnualApplyModal'
+//api fetch
+import { getAnnualApi, getWorkApi } from '@/api/main'
 
 interface EventObject {
   title: string
@@ -45,17 +53,7 @@ const CalendarForm = () => {
   }, [])
 
   useEffect(() => {
-    if (selectText === '전체 연차/당직') {
-      fetchDummy()
-    } else {
-      fetchDummy().then(() => {
-        const filteredEvents = currentEvents.filter((event) =>
-          event.title.includes(`${user.name}#${user.employeeNumber.slice(0, 3)}`)
-        )
-        setCurrentEvents(filteredEvents)
-      })
-      console.log(currentEvents)
-    }
+    getEvents()
   }, [selectText, year, month])
 
   //가짜 비동기 함수
@@ -70,52 +68,42 @@ const CalendarForm = () => {
     }
   }
 
-  // 가짜 비동기 함수
-  // 년/월에 맞춰서 데이터를 가져온다고 가정
-  const fetchDummy = async () => {
-    let resAnnualData: annualData = []
-    let resWorkData: workData = []
-    try {
-      const { data: annualData } = await axios.get(`/DummyAllAnnual${year}${month}.json`)
-      resAnnualData = annualData.data
-      console.log('resAnnual', resAnnualData)
-    } catch (error) {
-      console.log('연차 데이터 없음', error)
-    }
-
-    try {
-      const { data: workData } = await axios.get(`/DummyAllWork${year}${month}.json`)
-      resWorkData = workData.data
-      console.log('resWork', resWorkData)
-    } catch (error) {
-      console.error('당직데이터 없음', error)
-    }
-
-    // 이벤트 생성
+  // 진짜 api함수
+  const getEvents = async () => {
+    const annualData = await getAnnualApi(year, month)
+    const workData = await getWorkApi(year, month)
     const annualEvents: EventObject[] = []
-    // 연차 events push
-    resAnnualData.forEach((item) => {
-      annualEvents.push({
-        title: item.name + '#' + item.employeeNumber.slice(0, 3),
-        date: item.date,
-        isAnnual: true
-      })
-    })
-
     const workEvents: EventObject[] = []
-    // 당직 events push
-    resWorkData.forEach((item) => {
-      workEvents.push({
-        title: item.name + '#' + item.employeeNumber.slice(0, 3),
-        date: item.date,
-        isAnnual: false,
-        backgroundColor: '#795c34',
-        borderColor: '#795c34'
+    // 연차 events push
+    if (annualData) {
+      annualData.forEach((item) => {
+        annualEvents.push({
+          title: item.name + '#' + item.employeeNumber.slice(0, 3),
+          date: item.date,
+          isAnnual: true
+        })
       })
-    })
-
-    setCurrentEvents([...annualEvents, ...workEvents])
-    console.log([...annualEvents, ...workEvents])
+    }
+    // 당직 events push
+    if (workData) {
+      workData.forEach((item) => {
+        workEvents.push({
+          title: item.name + item.employeeNumber,
+          date: item.date,
+          isAnnual: false,
+          backgroundColor: '#795c34',
+          borderColor: '#795c34'
+        })
+      })
+    }
+    if (selectText === '전체 연차/당직') {
+      setCurrentEvents([...annualEvents, ...workEvents])
+    } else {
+      const filteredEvents = [...annualEvents, ...workEvents].filter((event) =>
+        event.title.includes(`${user.name}#${user.employeeNumber}`)
+      )
+      setCurrentEvents(filteredEvents)
+    }
   }
 
   const handleDateClick = (info: DateClickInfo) => {
