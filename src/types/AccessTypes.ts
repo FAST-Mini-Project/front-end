@@ -33,7 +33,7 @@ export interface SignupReq {
 }
 
 // signupRes.data
-export interface Message {
+export interface SignupResData {
   message: string
 }
 // 실패 시 statusCode: 400, message: '이미 존재하는 이메일입니다.'
@@ -44,3 +44,6 @@ export interface Message {
 // req 없음
 
 // res 200 OK
+export interface LogoutResData {
+  message: string
+}
