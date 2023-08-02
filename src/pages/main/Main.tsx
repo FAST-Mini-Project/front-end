@@ -1,6 +1,6 @@
 import style from './Main.module.scss'
 import CalendarForm from '@/components/main/CalendarForm'
-
+// import { signupApi, loginApi, logoutApi } from '@/api/user'
 const Main = () => {
   return (
     <div className={style.main}>
