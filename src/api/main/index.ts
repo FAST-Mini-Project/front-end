@@ -1,11 +1,22 @@
 import baseApi from '@/api'
-import { annualData, workData, annualApplyReq, annualApplyData } from '@/types/MainTypes'
+import { workData, annualApplyReq, annualApplyData } from '@/types/MainTypes'
 
 //일정 목록 조회 (연차)
-export const getAnnualApi = async (year: number, month: number) => {
+export const getAnnualApi = async (token: string, data: annualApplyReq) => {
   try {
-    const res = await baseApi.get(`/schedule/annual?year=${year}&month=${month}`)
-    return res.data.data as annualData
+    const res = await baseApi({
+      method: 'POST',
+      url: '/schedule/annual',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: data
+    })
+    if (res.data.data) {
+      return res.data.data as annualApplyData
+    } else {
+      return res.data.errorMessage as string[]
+    }
   } catch (error) {
     console.error('연차 일정 목록을 불러올 수 없습니다.', error)
   }
