@@ -63,17 +63,12 @@ const MainHeader = () => {
           </div>
           <div
             className={`${style.navItem} ${location.pathname === '/logout' ? style.active : ''}`}
-            onClick={handleLink}
+            onClick={() => {
+              handleLogout('/login', navigate)
+            }}
           >
             <RiLogoutBoxFill size="20" />
-            <span
-              style={{ marginLeft: '10px' }}
-              onClick={() => {
-                handleLogout('/login', navigate)
-              }}
-            >
-              로그아웃
-            </span>
+            <span style={{ marginLeft: '10px' }}>로그아웃</span>
           </div>
         </div>
         <div className={style.footer}>

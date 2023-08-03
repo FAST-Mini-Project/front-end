@@ -22,10 +22,21 @@ export const getWorkApi = async (year: number, month: number) => {
 }
 
 // 연차 등록 신청
-export const annualApplyApi = async (data: annualApplyReq) => {
+export const annualApplyApi = async (token: string, data: annualApplyReq) => {
   try {
-    const res = await baseApi.post('/schedule/annual', data)
-    return res.data as annualApplyData
+    const res = await baseApi({
+      method: 'POST',
+      url: '/schedule/annual',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: data
+    })
+    if (res.data.data) {
+      return res.data.data as annualApplyData
+    } else {
+      return res.data.errorMessage as string[]
+    }
   } catch (error) {
     console.error('연차 등록에 에러', error)
   }
