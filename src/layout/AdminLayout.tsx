@@ -13,7 +13,7 @@ const AdminLayout = () => {
   }, [navigate, location]);
 
   return (
-    <div style={{ display: "flex", width:"100%" }}>
+    <div style={{ display: 'flex', width: '100%' }}>
       <SideBar />
       <div style={{  width: "100%" }}>
         <Outlet />

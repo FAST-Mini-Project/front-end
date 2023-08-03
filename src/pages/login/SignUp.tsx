@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import style from './SignUp.module.scss'
 import { signupApi } from '@/api/user'
 import { v4 } from 'uuid'
+import { getCookie } from '@/utils/cookie'
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -22,6 +23,15 @@ const SignUp = () => {
       }
     }
   }
+
+  const token = getCookie('token') || ''
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  useEffect(() => {
+    if (token && user.role) {
+      alert('이미 로그인 되어있습니다')
+      navigate(-1)
+    }
+  }, [])
 
   return (
     <form className={style.container} onSubmit={handleSignUp}>
