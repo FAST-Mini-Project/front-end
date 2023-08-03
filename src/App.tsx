@@ -27,7 +27,7 @@ function App() {
       {/* 관리자 페이지  */}
       <Route element={<AdminPrivateRoute />}>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="/admin/employee" element={<Admin />} />
+          <Route path="/admin/employee" element={<AdminEmployee />} />
           <Route path="/admin/duty" element={<AdminDuty />} />
           <Route path="/admin/annual" element={<AdminAnnual />} />
         </Route>
