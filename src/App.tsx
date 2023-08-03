@@ -29,7 +29,6 @@ function App() {
           <Route path="/admin/duty" element={<AdminDuty />} />
           <Route path="/admin/annual" element={<AdminAnnual />} />
         </Route>
-        R
       </Route>
     </Routes>
   )
