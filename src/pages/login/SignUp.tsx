@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import style from './SignUp.module.scss'
 import { signupApi } from '@/api/user'
 import { v4 } from 'uuid'
@@ -25,10 +25,8 @@ const SignUp = () => {
 
   return (
     <form className={style.container} onSubmit={handleSignUp}>
-      <h1 className={style.title}>연차 당직 관리</h1>
-      <div className={style.line} />
-      <img className={style.mainLogo} src="/free-icon-calendar-2738431.png" alt="달력" />
       <div className={style.box}>
+        <h1 className={style.title}>회원가입</h1>
         <input
           className={style.input}
           placeholder="이름을 입력해주세요"
@@ -55,6 +53,9 @@ const SignUp = () => {
         <button className={style.signupButton} onClick={handleSignUp} type="submit">
           회원가입
         </button>
+        <Link className={style.signupLink} to="/login">
+          로그인
+        </Link>
       </div>
     </form>
   )

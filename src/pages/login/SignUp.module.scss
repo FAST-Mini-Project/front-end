@@ -1,44 +1,31 @@
+@import '@/_variables.scss';
+
 .container {
   max-width: 768px;
+  height: 100vh;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  background-color: #e3dede;
-  height: 100vh;
+  background-color: $bg-lightblue;
   position: relative;
 }
 
-.line {
-  width: 100%;
-  height: 1px;
-  background-color: black;
-  margin-top: 30px;
-}
-
-.title {
-  font-size: 48px;
-  margin-top: 30px;
-}
-
-.mainLogo {
-  width: 250px;
-  height: 250px;
-  position: absolute;
-  top: 130px;
-}
-
 .box {
-  background-color: #a99898;
+  background-color: $bg-secondary;
   width: 300px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  position: absolute;
-  top: 400px;
   border-radius: 8px;
+  box-shadow: 1px 1px 5px $bg-sub-grey;
+}
+.title {
+  font-size: 26px;
+  margin-bottom: 30px;
 }
 
 .input {
@@ -47,20 +34,20 @@
   margin-bottom: 5px;
   border: none;
   border-radius: 4px;
-
-  &:focus {
-    border: #333030;
+  border-bottom: 1px solid $point_bg_secondary-4;
+  transition: border 0.2s ease-in-out;
+  &:focus-visible {
+    outline: none;
+    border: 1px solid $point_bg_secondary-4;
   }
 }
 
-
 .signupLink {
-  font-size: 14px;
-  color: var(--color-primary);
+  font-size: 12px;
+  color: $description_secondary;
   text-decoration: none;
   margin-top: 10px;
   cursor: pointer;
-
   &:hover {
     text-decoration: underline;
   }
@@ -70,7 +57,8 @@
   outline: none;
   border: none;
   height: 40px;
-  background-color: #e3dede;
+  background-color: $point-blue;
+  color: $bg-secondary;
   border-radius: 4px;
   cursor: pointer;
 }

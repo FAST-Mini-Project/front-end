@@ -29,10 +29,10 @@ const LogIn = () => {
 
   return (
     <form className={style.container} onSubmit={handleLogin}>
-      <h1 className={style.title}>연차 당직 관리</h1>
-      <div className={style.line} />
-      <img className={style.mainLogo} src="/free-icon-calendar-2738431.png" alt="달력" />
+      {/* <div className={style.line} /> */}
+      {/* <img className={style.mainLogo} src="/free-icon-calendar-2738431.png" alt="달력" /> */}
       <div className={style.box}>
+        <h1 className={style.title}>로그인</h1>
         <input
           className={style.input}
           type="email"
@@ -40,7 +40,6 @@ const LogIn = () => {
           onChange={(e) => setLoginEmail(e.target.value)}
           required
         />
-
         <input
           className={style.input}
           type="password"
@@ -48,7 +47,6 @@ const LogIn = () => {
           onChange={(e) => setLoginPassword(e.target.value)}
           required
         />
-
         <button className={style.loginButton} onClick={handleLogin} type="submit">
           로그인
         </button>
