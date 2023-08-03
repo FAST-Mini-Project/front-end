@@ -64,20 +64,26 @@
 }
 
 .delete {
-  background-color: red;
+  background-color: $point_cherry;
   color: white;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   cursor: pointer;
+  &:hover {
+    background-color: $point_pink;
+  }
 }
 
 .approve {
-  background-color: green;
+  background-color: $point_bg_secondary-2;
   color: white;
   padding: 0.5rem 1rem;
   margin-right: 1rem;
   font-size: 0.875rem;
   cursor: pointer;
+  &:hover {
+    background-color: $point_bg_secondary-4;
+  }
 }
 
 @media (max-width: 1440px) {

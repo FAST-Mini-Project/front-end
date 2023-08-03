@@ -10,11 +10,13 @@ interface Props {
   dateInfo: DateClickInfo
   employees: userListData 
   setShowAdminWork: (showAdminWork: boolean) => void
+  onWorkAssigned: () => void;
 }
 
-const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
+const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Props) => {
    const [selectedEmployees, setSelectedEmployees] = useState<string[]>(['']);
    const modalHeight = 400 + Math.max(0, selectedEmployees.length - 5) * 25;
+
    // 선택한 직원을 관리하는 이벤트 핸들러
    const handleEmployeeChange = (
      e: React.ChangeEvent<HTMLSelectElement>,
@@ -50,6 +52,7 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
 
     setSelectedEmployees(['']);
     setShowAdminWork(false);
+    onWorkAssigned && onWorkAssigned();
   };
 
    const modalCloseHandler = () => {

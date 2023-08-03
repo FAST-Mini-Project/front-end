@@ -13,6 +13,7 @@ html {
 }
 
 .contentWrapper {
+  position: relative;
   width: 96%;
   height: 90%;
   border-radius: 10px;
@@ -54,21 +55,11 @@ html {
   background-color: #e3dede;
 }
 
-.delete {
-  background-color: red;
-  color: white;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-.approve {
-  background-color: green;
-  color: white;
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
-  font-size: 0.875rem;
-  cursor: pointer;
+.pagenationWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -90%);
 }
 
 @media (max-width: 1440px) {

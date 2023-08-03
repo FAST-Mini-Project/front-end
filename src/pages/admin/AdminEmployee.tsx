@@ -108,11 +108,13 @@ const AdminEmployee = () => {
           </tbody>
         </table>
         {/* 검색 입력 및 페이지네이션 컴포넌트 */}
-        <PageNation
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-        />
+        <div className={style.pagenationWrapper}>
+          <PageNation
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        </div>
       </div>
     </section>
   );

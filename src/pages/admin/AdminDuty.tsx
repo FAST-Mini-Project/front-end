@@ -38,6 +38,12 @@ const AdminDuty = () => {
     date: ''
   })
   const [employees, setEmployees] = useState<userListData>([]);
+  const [workAssigned, setWorkAssigned] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, [workAssigned]);
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -108,9 +114,8 @@ const AdminDuty = () => {
     const { isAnnual } = eventInfo.event.extendedProps;
 
     return (
-      <div style={{ display: 'flex' }}>
-        <span>{eventInfo.timeText}</span>
-        <span>{eventInfo.event.title}</span>
+      <div style={{ display: 'flex', padding: '3px' }}>
+        <span style={{ paddingTop:'2px' }}>{eventInfo.event.title}</span>
         {!isAnnual && <FaTrash style={{ marginLeft: 'auto', cursor: 'pointer' }}/>}
       </div>
     );
@@ -178,6 +183,7 @@ const AdminDuty = () => {
             dateInfo={dateClickInfo as DateClickInfo}
             employees={employees}
             setShowAdminWork={setShowAdminWork}   
+            onWorkAssigned={() => setWorkAssigned(!workAssigned)}
           />}
       </div>
     </div>

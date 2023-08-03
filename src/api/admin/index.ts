@@ -1,11 +1,5 @@
 import baseApi from '@/api'
-import {
-  userListData,
-  workRegistReq,
-  workRegistData,
-  annualAdminData,
-  annualAdminApproveData
-} from '@/types/AdminTypes'
+import { workRegistReq } from '@/types/AdminTypes'
 
 // 사용자 목록 조회
 export const getUserListApi = async (token: string) => {

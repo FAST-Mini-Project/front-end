@@ -2,12 +2,12 @@ import './App.module.scss'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layout/MainLayout'
 import Main from './pages/main/Main'
-import MyPage from './pages/mypage/MyPage'
-import Admin from './pages/admin/Admin'
+import MyPage from './pages/mypage/Mypage'
+import AdminEmployee from './pages/admin/AdminEmployee'
 import AdminDuty from './pages/admin/AdminDuty'
 import AdminAnnual from './pages/admin/AdminAnnual'
 import AdminLayout from './layout/AdminLayout'
-import LogIn from './pages/login/Login'
+import LogIn from './pages/login/LogIn'
 import SignUp from './pages/login/SignUp'
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         <Route path="/mypage/*" element={<MyPage />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
-        <Route path="/admin/employee" element={<Admin />} />
+        <Route path="/admin/employee" element={<AdminEmployee />} />
         <Route path="/admin/duty" element={<AdminDuty />} />
         <Route path="/admin/annual" element={<AdminAnnual />} />
       </Route>
