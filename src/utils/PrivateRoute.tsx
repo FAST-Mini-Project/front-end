@@ -1,4 +1,4 @@
-import { Outlet, Navigate, useNavigate } from 'react-router-dom'
+import { Outlet, Navigate } from 'react-router-dom'
 import { getCookie } from '@/utils/cookie'
 
 export const UserPrivateRoute = () => {
