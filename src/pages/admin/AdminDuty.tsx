@@ -3,15 +3,21 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import style from './AdminDuty.module.scss'
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
-import { workData, DateClickInfo } from '@/types/MainTypes'
-import { User } from '@/types/AccessTypes' // 임시
+import { workInfo, DateClickInfo } from '@/types/MainTypes'
 import AdminWork from '@/components/adminwork/AdminWork'
-import { dummyData } from '@/dummy/DummyData'
+import { getWorkApi } from '@/api/main'
+import { getUserListApi, deleteWorkApi } from '@/api/admin'
+import { userListData } from '@/types/AdminTypes'
+import { getCookie } from '@/utils/cookie'
+import {FaTrash} from 'react-icons/fa'
 
 interface EventObject {
-  title: string
-  date: string
+  workId: number;
+  title: string;
+  date: string;
+  isAnnual: boolean;
+  backgroundColor?: string;
+  borderColor?: string;
 }
 
 const AdminDuty = () => {
@@ -29,81 +35,106 @@ const AdminDuty = () => {
   // 연차 신청 팝업 열기
   const [showAdminWork, setShowAdminWork] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
-  
-  // 유저 정보(임시)
-  const [user, setUser] = useState<User>({
-    email: '',
+  // 사원 정보
+  const [data, setData] = useState<workInfo>({
+    workId: 0,
     name: '',
     employeeNumber: '',
-    role: 'ROLE_USER'
+    date: ''
   })
+  const [employees, setEmployees] = useState<userListData>([]);
+  const [workAssigned, setWorkAssigned] = useState(false);
 
+  // 당직 등록시 렌더링
   useEffect(() => {
-    fetchUserInfo()
-  }, [])
+    fetchData();
+  }, [workAssigned]);
+  
+  // 사원 전체 목록 조회
+  useEffect(() => {
+    async function fetchData() {
+      const token = getCookie("token");
+      const userList = await getUserListApi(token);
+      if (userList) {
+        setEmployees(userList.data);
+      } else {
+        console.error("Error fetching user list data.");
+      }
+    }
+  
+    fetchData();
+  }, []);
 
+  // 지정된 날짜에 따라 이벤트 가져오기
   useEffect(() => {
     if (selectText === '전체 연차/당직') {
-      fetchDummy()
+      fetchData()
     } else {
-      fetchDummy().then(() => {
+      fetchData().then(() => {
         const filteredEvents = currentEvents.filter((event) =>
-          event.title.includes(`${user.name}#${user.employeeNumber.slice(0, 3)}`)
+          event.title.includes(`${data.name}#${data.employeeNumber.slice(0, 4)}`)
         )
         setCurrentEvents(filteredEvents)
       })
-      console.log(currentEvents)
     }
   }, [selectText, year, month])
 
-  //가짜 비동기 함수
-  const fetchUserInfo = async () => {
-    try {
-      const { data } = await axios.get('/DummyUser.json')
-      console.log(data)
-      const resData: User = data.data.user
-      setUser(resData)
-    } catch (error) {
-      console.log('유저 정보를 가져오는데 실패했습니다.')
-    }
-  }
-
-  // 가짜 비동기 함수
-  // 년/월에 맞춰서 데이터를 가져온다고 가정
-  const fetchDummy = async () => {
-    let resWorkData: workData = {}
-    try {
-      const { data: workData } = await axios.get(`/DummyAllWork${year}${month}.json`)
-      resWorkData = workData.data
-    } catch (error) {
-      console.error('당직데이터 없음', error)
-    }
-
-    // 이벤트 생성
-    
-    const workEvents = []
-    for (const [day, data] of Object.entries(resWorkData)) {
-      for (const item of data) {
+  // 당직 목록 가져오기
+  const fetchData = async () => {
+    const workData = await getWorkApi(year, month);
+  
+    if (workData) { 
+      const workEvents: EventObject[] = [];
+  
+      workData.forEach((item: any) => {
         workEvents.push({
-          title: item.name + '#' + item.employeeNumber.slice(0, 3),
-          date: new Date(year, month - 1, Number(day)).toISOString().split('T')[0],
+          workId: item.workId,
+          title: item.name + '#' + item.employeeNumber.slice(0, 4),
+          date: item.date,
           isAnnual: false,
           backgroundColor: '#795c34',
-          borderColor: '#795c34'
-        })
-      }
+          borderColor: '#795c34',
+        });
+      });
+  
+      setCurrentEvents([...workEvents]);
+    } else {
+      console.error('Error fetching data.');
     }
-    setCurrentEvents([...workEvents])
-    console.log([...workEvents])
-  }
+  };
 
+  // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
     setShowAdminWork(true)
     setDateClickInfo(info)
   }
 
+  // 당직 삭제
+  const handleEventClick = async (info: any) => {
+    const { workId } = info.event.extendedProps;
+  
+    if (window.confirm("당직을 삭제하시겠습니까?")) {
+      const token = getCookie("token");
+      await deleteWorkApi(token, workId);
+      fetchData();
+    }
+  };  
+
+  // 달력에 정보 표시
+  const renderEventContent = (eventInfo: any) => {
+    const { isAnnual } = eventInfo.event.extendedProps;
+
+    return (
+      <div style={{ display: 'flex', padding: '3px' }}>
+        <span style={{ paddingTop:'2px' }}>{eventInfo.event.title}</span>
+        {!isAnnual && <FaTrash style={{ marginLeft: 'auto', cursor: 'pointer' }}/>}
+      </div>
+    );
+  };
+
   return (
-    <>
+    <div className={style.container}>
+      {/* 달력 */}
       <div className={style.calendarWrapper}>
         <FullCalendar
           ref={calendarRef}
@@ -156,15 +187,19 @@ const AdminDuty = () => {
           }}
           height="inherit"
           dayMaxEvents={true}
+          eventClick={handleEventClick}
+          eventContent={renderEventContent}
         />
+        {/* 클릭시 나오는 모달창 */}
         {showAdminWork && 
           <AdminWork 
-          dateInfo={dateClickInfo as DateClickInfo}
-          employees={dummyData}
-          setShowAdminWork={setShowAdminWork}   
+            dateInfo={dateClickInfo as DateClickInfo}
+            employees={employees}
+            setShowAdminWork={setShowAdminWork}   
+            onWorkAssigned={() => setWorkAssigned(!workAssigned)}
           />}
       </div>
-    </>
+    </div>
   )
 }
 

@@ -1,47 +1,77 @@
 import style from './AdminAnnual.module.scss'
-import { dummyData2 } from '@/dummy/DummyData'
-import { useState } from 'react'
+import { getAnnualAdminApi, approveAnnualAdminApi, rejectAnnualAdminApi } from '@/api/admin'
+import { useState, useEffect } from 'react'
 import AdminFilters from '@/components/adminfilter/AdminFilter'
-
-type Data = {
-  data: {
-    annualId: number
-    name: string
-    employeeNumber: string
-    date: string
-    status: string
-  }[]
-}
+import { getCookie } from '@/utils/cookie'
+import { annualAdmin } from '@/types/AdminTypes'
 
 const AdminAnnual = () => {
-  const [data, setData] = useState<Data>({
-    data: dummyData2.data
-  })
+  const [data, setData] = useState<annualAdmin>({ data: [] })
+  // 검색
   const [search1, setSearch1] = useState("");
   const [search2, setSearch2] = useState("");
+  // 검색 지연
   const [delayedSearch1, setDelayedSearch1] = useState("");
   const [delayedSearch2, setDelayedSearch2] = useState("");
+  //정렬
   const [sort1, setSort1] = useState<"asc" | "desc">("asc");
   const [sort2, setSort2] = useState<"asc" | "desc">("asc");
   const [selectedColumn1, setSelectedColumn1] = useState<"name" | "date">("name");
   const [selectedColumn2, setSelectedColumn2] = useState<"name" | "date">("name");
+  // 승인, 거부 버튼
+  const [approvedId, setApprovedId] = useState<number | null>(null);
+  const [rejectedId, setRejectedId] = useState<number | null>(null);
+  
+  // 관리자 연차 조회 리스트 가져오기
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = getCookie("token");
+      const response = await getAnnualAdminApi(token);
 
-  const handleApprove = (annualId) => {
-    console.log(`승인 버튼 클릭: ${annualId}`)
-  }
+      if (response) {
+        setData({ data: response.data });
+      } else {
+        console.error("Error fetching annual data.");
+      }
+    };
 
-  const handleReject = (annualId) => {
-    console.log(`거부 버튼 클릭: ${annualId}`)
-  }
+    fetchData();
+  }, [approvedId, rejectedId]);
 
+  // 승인 버튼 누를시 
+  const handleApprove = async (annualId: number) => {
+    const token = getCookie("token");
+    try {
+      await approveAnnualAdminApi(token, annualId);
+      console.log("승인 성공");
+      setApprovedId(annualId);
+    } catch (error) {
+      console.error("승인 실패", error);
+    }
+  };
+
+  // 거부 버튼 누를시
+  const handleReject = async (annualId: number) => {
+    const token = getCookie("token");
+    try {
+      await rejectAnnualAdminApi(token, annualId);
+      console.log("거부 성공");
+      setRejectedId(annualId);
+    } catch (error) {
+      console.error("거부 실패", error);
+    }
+  };
+
+  // 연차 신청 목록에 있는 사원 검색
   const filteredData1 = data.data
     .filter((item) => item.status === "UNAPPROVED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch1.toLowerCase()));
-
+  // 취소 신청 목록에 있는 사원 검색
   const filteredData2 = data.data
     .filter((item) => item.status === "CANCELED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch2.toLowerCase()));
 
+  // asc 일때 오름차순, 아닐때 내림차순 정렬
   const sortedData1 = filteredData1.sort((a, b) => {
     if (sort1 === "asc") {
       return a[selectedColumn1] > b[selectedColumn1] ? 1 : -1;
@@ -84,13 +114,14 @@ const AdminAnnual = () => {
         </div>
         <div className={style.tableWrapper}>
           <table className={style.table}>
-            <thead>
+            <thead className={style.thead}>
               <tr className={style.tr}>
                 <th className={style.th}>사원명</th>
                 <th className={style.th}>신청 날짜</th>
                 <th className={style.th}>승인/거부</th>
               </tr>
             </thead>
+            {/* 사원명, 날짜 등 정보 출력 */}
             <tbody>
               {sortedData1.map((employee) => (
                 <tr key={employee.annualId} className={style.tr}>
@@ -115,6 +146,7 @@ const AdminAnnual = () => {
         <div className={style.caption}>
           <h2 className={style.h2}>취소 신청 목록</h2>
           <div>
+          {/* 검색 입력 및 정렬 옵션 박스, 오름차순/내림차순 라디오 버튼들 */}
           <AdminFilters
             name="sort2"
             search={search2}
@@ -134,13 +166,14 @@ const AdminAnnual = () => {
         </div>
         <div className={style.tableWrapper}>
           <table className={style.table}>
-            <thead>
+            <thead className={style.thead}>
               <tr className={style.tr}>
                 <th className={style.th}>사원명</th>
                 <th className={style.th}>신청 날짜</th>
                 <th className={style.th}>승인/거부</th>
               </tr>
             </thead>
+            {/* 사원명, 날짜 등 정보 출력 */}
             <tbody>
               {sortedData2.map((employee) => (
                 <tr key={employee.annualId}>

@@ -1,18 +1,22 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { DateClickInfo } from '@/types/MainTypes'
 import { IoIosClose } from 'react-icons/io'
 import style from './AdminWork.module.scss'
-import { userListData } from '@/types/AdminTypes'
+import { userListData, workRegistReq } from '@/types/AdminTypes'
+import { registWorkApi } from '@/api/admin'
+import { getCookie } from '@/utils/cookie'
 
 interface Props {
   dateInfo: DateClickInfo
   employees: userListData 
   setShowAdminWork: (showAdminWork: boolean) => void
+  onWorkAssigned: () => void;
 }
 
-const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
+const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Props) => {
    const [selectedEmployees, setSelectedEmployees] = useState<string[]>(['']);
    const modalHeight = 400 + Math.max(0, selectedEmployees.length - 5) * 25;
+
    // 선택한 직원을 관리하는 이벤트 핸들러
    const handleEmployeeChange = (
      e: React.ChangeEvent<HTMLSelectElement>,
@@ -29,11 +33,28 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
      setSelectedEmployees(newSelectedEmployees);
    };
  
-   const assignHandler = () => {
-     setSelectedEmployees(['']);
-     setShowAdminWork(false);
-   };
- 
+   const assignHandler = async () => {
+    for (const employee of selectedEmployees) {
+      // 직원 정보로부터 id를 가져옵니다.
+      const foundEmployee = employees.find(e => `${e.name}#${e.employeeNumber.slice(0, 4)}` === employee);
+
+      // id와 날짜 정보를 서버에 전송합니다.
+      if (foundEmployee) {
+        const data: workRegistReq = {
+          id: foundEmployee.id,
+          date: dateInfo.dateStr,
+        };
+
+        const token = getCookie("token");
+        await registWorkApi(token, data);
+      }
+    }
+
+    setSelectedEmployees(['']);
+    setShowAdminWork(false);
+    onWorkAssigned && onWorkAssigned();
+  };
+
    const modalCloseHandler = () => {
      setShowAdminWork(false);
    };
@@ -63,14 +84,15 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
               >
                 {/* 드롭다운 사원 리스트 */}
                 <option>-- 사원 선택 --</option>
-                {employees
+                {Array.isArray(employees) && employees
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map((employee, index) => (
                     <option
                       key={index}
-                      value={employee.name + '#' + employee.employeeNumber}
+                      value={`${employee.name}#${employee.employeeNumber.slice(0,4)}`}
                     >
-                      {employee.name + ' (' + employee.employeeNumber + ')'}
+                      {`${employee.name} (#${employee.employeeNumber.slice(0,4)})`}
+
                     </option>
                   ))}
               </select>
