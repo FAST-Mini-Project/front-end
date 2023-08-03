@@ -17,8 +17,9 @@
   }
 
   .list__body {
-    overflow-y: scroll;
     padding-right: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     max-height: 400px;
 
     .list__headline {
@@ -32,6 +33,7 @@
     .list__none {
       padding: 20px 0;
       margin: 0 20px 10px;
+      width: 940px;
       height: 66px;
       border: 2px solid $point_bg_primary;
       border-radius: 10px;
@@ -46,6 +48,8 @@
       align-items: center;
       padding: 10px 0;
       margin: 0 20px 10px;
+      width: 940px;
+      height: 66px;
       border: 2px solid $point_bg_primary;
       border-radius: 10px;
       background-color: $bg_secondary;
