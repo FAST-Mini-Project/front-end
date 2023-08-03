@@ -40,13 +40,17 @@ const ApprovedAnnual: React.FC<ApprovedAnnualProps> = ({ annualData }) => {
           <ul>
             {sortedByDate.map((annual) => {
               // 연차 목록 중 날짜가 지난 경우 신청 취소 불가능(당일까지는 가능)
+              // button 스타일링도 disabled 처리
               const itemDate = new Date(annual.date)
               const isPastDate = itemDate <= currentDate
+
               return (
                 <li key={annual.annualId} className={styles.list__item}>
                   <span>{annual.date}</span>
                   <span>{annual.status === 'APPROVED' ? '승인 완료' : ''}</span>
-                  <button disabled={isPastDate}>취소</button>
+                  <button disabled={isPastDate} title={isPastDate ? '날짜가 지난 경우 취소할 수 없습니다.' : ''}>
+                    취소
+                  </button>
                 </li>
               )
             })}
