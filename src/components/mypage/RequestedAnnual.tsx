@@ -22,6 +22,9 @@ const RequestedAnnual: React.FC<RequestedAnnualProps> = ({ annualData }) => {
     return dateB.getTime() - dateA.getTime()
   })
 
+  // 오늘 날짜 확인
+  const currentDate = new Date()
+
   return (
     <section className={styles.list__container}>
       <h2>신청한 연차</h2>
@@ -35,13 +38,22 @@ const RequestedAnnual: React.FC<RequestedAnnualProps> = ({ annualData }) => {
           <p className={styles.list__none}>해당 기간에 신청된 연차가 없습니다.</p>
         ) : (
           <ul>
-            {sortedByDate.map((annual) => (
-              <li key={annual.annualId} className={styles.list__item}>
-                <span>{annual.date}</span>
-                <span>{annual.status === 'UNAPPROVED' ? '승인 처리 중' : ''}</span>
-                <button>취소</button>
-              </li>
-            ))}
+            {sortedByDate.map((annual) => {
+              // 연차 목록 중 날짜가 지난 경우 신청 취소 불가능(당일까지는 가능)
+              // button 스타일링도 disabled 처리
+              const itemDate = new Date(annual.date)
+              const isPastDate = itemDate <= currentDate
+
+              return (
+                <li key={annual.annualId} className={styles.list__item}>
+                  <span>{annual.date}</span>
+                  <span>{annual.status === 'UNAPPROVED' ? '승인 처리 중' : ''}</span>
+                  <button disabled={isPastDate} title={isPastDate ? '날짜가 지난 경우 취소할 수 없습니다.' : ''}>
+                    취소
+                  </button>
+                </li>
+              )
+            })}
           </ul>
         )}
       </div>
