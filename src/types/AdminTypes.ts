@@ -66,6 +66,10 @@ export interface annualAdminInfo {
   status: 'UNAPPROVED' | 'CANCELED'
 }
 
+export type annualAdmin = {
+  data: annualAdminInfo[]
+}
+
 // 관리자 연차 승인
 // POST /api/admin/annual/{annualId}
 // \ -H 'Authorization: "asjldhaslkjdhaslkjdhalskjdhalskj"'

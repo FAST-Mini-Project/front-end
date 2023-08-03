@@ -1,22 +1,12 @@
 import style from './AdminAnnual.module.scss'
-import { dummyData2 } from '@/dummy/DummyData'
-import { useState } from 'react'
+import { getAnnualAdminApi, approveAnnualAdminApi, rejectAnnualAdminApi } from '@/api/admin'
+import { useState, useEffect } from 'react'
 import AdminFilters from '@/components/adminfilter/AdminFilter'
-
-type Data = {
-  data: {
-    annualId: number
-    name: string
-    employeeNumber: string
-    date: string
-    status: string
-  }[]
-}
+import { getCookie } from '@/utils/cookie'
+import { annualAdmin } from '@/types/AdminTypes'
 
 const AdminAnnual = () => {
-  const [data, setData] = useState<Data>({
-    data: dummyData2.data
-  })
+  const [data, setData] = useState<annualAdmin>({ data: [] })
   const [search1, setSearch1] = useState("");
   const [search2, setSearch2] = useState("");
   const [delayedSearch1, setDelayedSearch1] = useState("");
@@ -26,13 +16,45 @@ const AdminAnnual = () => {
   const [selectedColumn1, setSelectedColumn1] = useState<"name" | "date">("name");
   const [selectedColumn2, setSelectedColumn2] = useState<"name" | "date">("name");
 
-  const handleApprove = (annualId) => {
-    console.log(`승인 버튼 클릭: ${annualId}`)
-  }
+  const [approvedId, setApprovedId] = useState<number | null>(null);
+  const [rejectedId, setRejectedId] = useState<number | null>(null);
 
-  const handleReject = (annualId) => {
-    console.log(`거부 버튼 클릭: ${annualId}`)
-  }
+   useEffect(() => {
+    const fetchData = async () => {
+      const token = getCookie("token");
+      const response = await getAnnualAdminApi(token);
+
+      if (response) {
+        setData({ data: response.data });
+      } else {
+        console.error("Error fetching annual data.");
+      }
+    };
+
+    fetchData();
+  }, [approvedId, rejectedId]);
+
+  const handleApprove = async (annualId: number) => {
+    const token = getCookie("token");
+    try {
+      await approveAnnualAdminApi(token, annualId);
+      console.log("승인 성공");
+      setApprovedId(annualId);
+    } catch (error) {
+      console.error("승인 실패", error);
+    }
+  };
+
+  const handleReject = async (annualId: number) => {
+    const token = getCookie("token");
+    try {
+      await rejectAnnualAdminApi(token, annualId);
+      console.log("거부 성공");
+      setRejectedId(annualId);
+    } catch (error) {
+      console.error("거부 실패", error);
+    }
+  };
 
   const filteredData1 = data.data
     .filter((item) => item.status === "UNAPPROVED")

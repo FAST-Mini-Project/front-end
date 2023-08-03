@@ -29,12 +29,12 @@ const MyPage: React.FC = () => {
       try {
         // Dummy 데이터로 연차 데이터 axios 호출 및 출력
         const { data: annualData } = await axios.get('/DummyFetchAnnual.json')
-        const dummyAnnualData: annuals[] = annualData.data.annuals
+        const dummyAnnualData: annuals[] = annualData.data
         setAnnualData(dummyAnnualData)
 
         // Dummy 데이터로 당직 데이터 axios 호출 및 출력
         const { data: dutyData } = await axios.get('/DummyFetchDuty.json')
-        const dummyDutyData: works[] = dutyData.data.dutys
+        const dummyDutyData: works[] = dutyData.data
         setDutyData(dummyDutyData)
       } catch (error) {
         console.log(error)

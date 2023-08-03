@@ -6,15 +6,18 @@ import { useState, useEffect, useRef } from 'react'
 import { workInfo, DateClickInfo } from '@/types/MainTypes'
 import AdminWork from '@/components/adminwork/AdminWork'
 import { getWorkApi } from '@/api/main'
-import { getUserListApi } from '@/api/admin'
+import { getUserListApi, deleteWorkApi } from '@/api/admin'
 import { userListData } from '@/types/AdminTypes'
+import { getCookie } from '@/utils/cookie'
+import {FaTrash} from 'react-icons/fa'
 
 interface EventObject {
-  title: string
-  date: string
-  isAnnual: boolean
-  backgroundColor?: string
-  borderColor?: string
+  workId: number;
+  title: string;
+  date: string;
+  isAnnual: boolean;
+  backgroundColor?: string;
+  borderColor?: string;
 }
 
 const AdminDuty = () => {
@@ -22,18 +25,12 @@ const AdminDuty = () => {
   const initialYear = date.getFullYear()
   const initialMonth = date.getMonth() + 1
   const [currentEvents, setCurrentEvents] = useState<EventObject[]>([])
-  // 캘린더 이전, 다음달 변경 시 년/월 정보
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
-  // 캘린더 정보
   const calendarRef = useRef<FullCalendar>(null)
-  // 캘린더 헤더 툴바 버튼
   const [selectText, setSelectText] = useState<string>('전체 연차/당직')
-  // 연차 신청 팝업 열기
   const [showAdminWork, setShowAdminWork] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
-  
-  // 유저 정보
   const [data, setData] = useState<workInfo>({
     workId: 0,
     name: '',
@@ -44,8 +41,8 @@ const AdminDuty = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const userList = await getUserListApi("asjldhaslkjdhaslkjdhalskjdhalskj");
-      console.log("User list fetched:", userList);
+      const token = getCookie("token");
+      const userList = await getUserListApi(token);
       if (userList) {
         setEmployees(userList.data);
       } else {
@@ -69,7 +66,6 @@ const AdminDuty = () => {
     }
   }, [selectText, year, month])
 
-  // 년/월에 맞춰서 데이터를 가져옴
   const fetchData = async () => {
     const workData = await getWorkApi(year, month);
   
@@ -78,6 +74,7 @@ const AdminDuty = () => {
   
       workData.forEach((item: any) => {
         workEvents.push({
+          workId: item.workId,
           title: item.name + '#' + item.employeeNumber.slice(0, 4),
           date: item.date,
           isAnnual: false,
@@ -92,11 +89,32 @@ const AdminDuty = () => {
     }
   };
 
-
   const handleDateClick = (info: DateClickInfo) => {
     setShowAdminWork(true)
     setDateClickInfo(info)
   }
+
+  const handleEventClick = async (info: any) => {
+    const { workId } = info.event.extendedProps;
+  
+    if (window.confirm("당직을 삭제하시겠습니까?")) {
+      const token = getCookie("token");
+      await deleteWorkApi(token, workId);
+      fetchData();
+    }
+  };  
+
+  const renderEventContent = (eventInfo: any) => {
+    const { isAnnual } = eventInfo.event.extendedProps;
+
+    return (
+      <div style={{ display: 'flex' }}>
+        <span>{eventInfo.timeText}</span>
+        <span>{eventInfo.event.title}</span>
+        {!isAnnual && <FaTrash style={{ marginLeft: 'auto', cursor: 'pointer' }}/>}
+      </div>
+    );
+  };
 
   return (
     <div className={style.container}>
@@ -152,6 +170,8 @@ const AdminDuty = () => {
           }}
           height="inherit"
           dayMaxEvents={true}
+          eventClick={handleEventClick}
+          eventContent={renderEventContent}
         />
         {showAdminWork && 
           <AdminWork 

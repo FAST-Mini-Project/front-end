@@ -1,13 +1,30 @@
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import style from "./SideBar.module.scss";
 import { AiFillGithub } from 'react-icons/ai';
 import { PiFinnTheHumanFill } from "react-icons/pi";
 import { MdWorkHistory } from "react-icons/md";
 import { BsFillCalendarHeartFill } from "react-icons/bs";
+import {RiLogoutBoxFill} from "react-icons/ri"
+import handleLogout from "@/utils/handleLogout";
 
 const SideBar = () => {
+  const [user, setUser] = useState({
+    email: '',
+    name: '',
+    employeeNumber: '',
+    role: 'ROLE_USER'
+  })
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+
+  const getUserInfo = () => {
+    setUser(JSON.parse(localStorage.getItem('user') || '{}'))
+  }
 
   const isActive = (route:string) => {
     return location.pathname === route ? style.active : '';
@@ -22,7 +39,7 @@ const SideBar = () => {
             <img className={style.icon} src="/free-icon-employee-3043585.png" alt="" />
           </div>
           <div className={style.userWrapper}>
-            {/* <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 3)}`}</div> */}
+            <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 4)}`}</div>
             <span className={style.role}>관리자</span>
           </div>
         </div>
@@ -45,6 +62,12 @@ const SideBar = () => {
             onClick={() => navigate("/admin/annual")}>
             <BsFillCalendarHeartFill size="20"/>
             <span style={{ marginLeft: '10px' }}>연차 관리 </span>
+          </div>
+          <div 
+            className={`${style.navItem}`} 
+            onClick={() => handleLogout('/login', navigate)}>
+            <RiLogoutBoxFill size="27" style={{ marginLeft: '-5px' }}/>
+            <span style={{ marginLeft: '5px' }}>로그아웃 </span>
           </div>
         </div>
         {/* 푸터*/}

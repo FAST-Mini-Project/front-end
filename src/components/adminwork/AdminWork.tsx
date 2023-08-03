@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { DateClickInfo } from '@/types/MainTypes'
 import { IoIosClose } from 'react-icons/io'
 import style from './AdminWork.module.scss'
-import { userListData } from '@/types/AdminTypes'
+import { userListData, workRegistReq } from '@/types/AdminTypes'
+import { registWorkApi } from '@/api/admin'
+import { getCookie } from '@/utils/cookie'
 
 interface Props {
   dateInfo: DateClickInfo
@@ -29,11 +31,27 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork }: Props) => {
      setSelectedEmployees(newSelectedEmployees);
    };
  
-   const assignHandler = () => {
-     setSelectedEmployees(['']);
-     setShowAdminWork(false);
-   };
- 
+   const assignHandler = async () => {
+    for (const employee of selectedEmployees) {
+      // 직원 정보로부터 id를 가져옵니다.
+      const foundEmployee = employees.find(e => `${e.name}#${e.employeeNumber.slice(0, 4)}` === employee);
+
+      // id와 날짜 정보를 서버에 전송합니다.
+      if (foundEmployee) {
+        const data: workRegistReq = {
+          id: foundEmployee.id,
+          date: dateInfo.dateStr,
+        };
+
+        const token = getCookie("token");
+        await registWorkApi(token, data);
+      }
+    }
+
+    setSelectedEmployees(['']);
+    setShowAdminWork(false);
+  };
+
    const modalCloseHandler = () => {
      setShowAdminWork(false);
    };

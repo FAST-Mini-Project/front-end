@@ -1,0 +1,49 @@
+@import '@/variables';
+
+.list__container {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  border-radius: 10px;
+  box-shadow: 8px 8px 10px $description_primary-2;
+  background-color: $bg_secondary;
+
+  h2 {
+    padding: 20px;
+    border-bottom: 3px solid $point_bg_primary;
+    font-weight: 600;
+    font-size: 28px;
+    color: $text_primary;
+  }
+
+  .list__body {
+    padding: 15px 0;
+    overflow: auto;
+    max-height: 400px;
+
+    .list__none {
+      padding: 20px 0;
+      margin: 0 20px 10px;
+      height: 66px;
+      border: 2px solid $point_bg_primary;
+      border-radius: 10px;
+      background-color: $bg_secondary;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .list__item {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      margin: 0 20px 10px;
+      height: 66px;
+      border: 2px solid $bg_primary;
+      border-radius: 10px;
+      background-color: $description_primary-4;
+      font-size: 20px;
+      color: $description_primary-3;
+    }
+  }
+}

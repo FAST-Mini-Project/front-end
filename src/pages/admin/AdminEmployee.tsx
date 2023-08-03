@@ -4,6 +4,7 @@ import { getUserListApi } from "@/api/admin";
 import PageNation from "@/components/pagenation/PageNation";
 import { userInfo } from "@/types/AdminTypes";
 import AdminFilters from "@/components/adminfilter/AdminFilter";
+import { getCookie } from "@/utils/cookie";
 
 // 페이지네이션 함수
 const getPaginatedItems = (
@@ -30,7 +31,7 @@ const AdminEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = "asjldhaslkjdhaslkjdhalskjdhalskj"; //토큰을 가져오는 방법을 개선해야
+      const token = getCookie("token");
       const response = await getUserListApi(token);
       setData(response.data);
     }
