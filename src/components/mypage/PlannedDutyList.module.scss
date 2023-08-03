@@ -10,6 +10,7 @@
 
   h2 {
     padding: 20px;
+    margin-bottom: 15px;
     border-bottom: 3px solid $point_bg_primary;
     font-weight: 600;
     font-size: 28px;
@@ -17,13 +18,15 @@
   }
 
   .list__body {
-    padding: 15px 0;
-    overflow: auto;
+    padding-right: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     max-height: 400px;
 
     .list__none {
       padding: 20px 0;
       margin: 0 20px 10px;
+      width: 940px;
       height: 66px;
       border: 2px solid $point_bg_primary;
       border-radius: 10px;
@@ -38,7 +41,7 @@
       align-items: center;
       padding: 10px 0;
       margin: 0 20px 10px;
-      width: 960px;
+      width: 940px;
       height: 66px;
       border: 2px solid $point_bg_primary;
       border-radius: 10px;
