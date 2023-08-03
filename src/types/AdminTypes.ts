@@ -4,6 +4,9 @@
 
 // Req : 없음
 // Res 200 OK
+export interface userWrapper {
+  data: userInfo[];
+}
 
 export type userListData = userInfo[]
 
@@ -61,6 +64,10 @@ export interface annualAdminInfo {
   employeeNumber: string
   date: string
   status: 'UNAPPROVED' | 'CANCELED'
+}
+
+export type annualAdmin = {
+  data: annualAdminInfo[]
 }
 
 // 관리자 연차 승인

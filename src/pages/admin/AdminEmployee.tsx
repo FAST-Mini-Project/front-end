@@ -1,9 +1,10 @@
-import { useState } from "react";
-import style from "./Admin.module.scss";
-import { dummyData } from "@/dummy/DummyData";
+import { useState, useEffect } from "react";
+import style from "./AdminEmployee.module.scss";
+import { getUserListApi } from "@/api/admin";
 import PageNation from "@/components/pagenation/PageNation";
 import { userInfo } from "@/types/AdminTypes";
 import AdminFilters from "@/components/adminfilter/AdminFilter";
+import { getCookie } from "@/utils/cookie";
 
 // 페이지네이션 함수
 const getPaginatedItems = (
@@ -16,22 +17,27 @@ const getPaginatedItems = (
   return items.slice(startIndex, endIndex);
 };
 
-const Admin = () => {
-  const [data] = useState(dummyData);
-  //페이지네이션 변수
+const AdminEmployee = () => {
+  const [data, setData] = useState<userInfo[]>([]);
+  //페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  //검색 변수
+  //검색
   const [search, setSearch] = useState("");
   const [delayedSearch, setDelayedSearch] = useState("");
-  //정렬 변수
+  //정렬
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [selectedColumn, setSelectedColumn] = useState<"name" | "restAnnual" | "workDay">("name");
 
-  // 삭제 버튼 처리
-  const handleDelete = (id) => {
-    console.log(`삭제 버튼 클릭: ${id}`);
-  };
+  // 사원 리스트 출력
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = getCookie("token");
+      const response = await getUserListApi(token);
+      setData(response.data);
+    }
+    fetchData();
+  }, []);
 
   // 이름으로 필터링된 데이터 반환
   const filteredData = data.filter((employee) =>
@@ -87,39 +93,32 @@ const Admin = () => {
               <th className={style.th}>이메일</th>
               <th className={style.th}>잔여 연차</th>
               <th className={style.th}>당직 근무일 수</th>
-              <th className={style.th}>빈칸</th>
             </tr>
           </thead>
           <tbody>
             {pagenatedData.map((employee: userInfo) => (
               <tr key={employee.id} className={style.tr}>
                 <td className={style.td}>
-                  {employee.name} {employee.employeeNumber}
+                  {employee.name} #{employee.employeeNumber.slice(0,4)}
                 </td>
                 <td className={style.td}>{employee.email}</td>
                 <td className={style.td}>{employee.restAnnual}</td>
                 <td className={style.td}>{employee.workDay}</td>
-                <td className={style.td}>
-                  <button
-                    className={style.delete}
-                    onClick={() => handleDelete(employee.id)}
-                  >
-                    삭제
-                  </button>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
         {/* 검색 입력 및 페이지네이션 컴포넌트 */}
-        <PageNation
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-        />
+        <div className={style.pagenationWrapper}>
+          <PageNation
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        </div>
       </div>
     </section>
   );
 };
 
-export default Admin;
+export default AdminEmployee;

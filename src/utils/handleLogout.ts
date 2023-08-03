@@ -1,5 +1,5 @@
 import { logoutApi } from '@/api/user'
-import { setCookie, getCookie } from '@/utils/cookie'
+import { removeCookie, getCookie } from '@/utils/cookie'
 import { useNavigate } from 'react-router-dom'
 
 const handleLogout = async (to: string, navigate: ReturnType<typeof useNavigate>) => {
@@ -8,7 +8,7 @@ const handleLogout = async (to: string, navigate: ReturnType<typeof useNavigate>
       if (Array.isArray(res)) {
         console.error(res[0])
       } else {
-        setCookie('token', '')
+        removeCookie('token')
         localStorage.removeItem('user')
         alert(res.message)
         navigate(to)

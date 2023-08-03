@@ -76,7 +76,7 @@ const CalendarForm = () => {
     if (workData) {
       workData.forEach((item) => {
         workEvents.push({
-          title: item.name + item.employeeNumber,
+          title: item.name + item.employeeNumber.slice(0, 3),
           date: item.date,
           isAnnual: false,
           backgroundColor: '#795c34',
