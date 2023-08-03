@@ -4,7 +4,7 @@ import { getCookie } from '@/utils/cookie'
 export const UserPrivateRoute = () => {
   const token = getCookie('token')
   const user = JSON.parse(localStorage.getItem('user') || '{}')
-  if (token && user.role === 'ROLE_USER') {
+  if (token && user.role) {
     // 일반 유저
     return <Outlet />
   }
