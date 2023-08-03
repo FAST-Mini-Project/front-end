@@ -30,7 +30,7 @@ const AdminFilters = ({
   name,
 }:AdminFiltersProps) => {
   const searchTimeout = useRef<number | null>(null)
-
+  // 이름 입력시 약간 지연시켜서 검색 결과 출력
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
     if (searchTimeout.current) {
@@ -42,15 +42,18 @@ const AdminFilters = ({
     }, 150)
   }
 
+  // 정렬 함수
   const handleColumnChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    // 선택한 열에 대한 새로운 값을 가져옴
     const newColumnValue = e.target.value as "name" | "restAnnual" | "workDay" | "date";
+    // 선택한 열에 대한 상태를 업데이트
     if (setSelectedColumn1 && ["name", "restAnnual", "workDay"].includes(newColumnValue)) {
       setSelectedColumn1(newColumnValue as "name" | "restAnnual" | "workDay");
     } else if (setSelectedColumn2 && ["name", "date"].includes(newColumnValue)) {
       setSelectedColumn2(newColumnValue as "name" | "date");
     }
   };  
-
+  // 선택한 정렬 값을 setSort 함수를 사용하여 업데이트
   const handleSortChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSort(e.target.value as "asc" | "desc")
   }

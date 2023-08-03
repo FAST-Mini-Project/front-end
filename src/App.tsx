@@ -13,12 +13,14 @@ import SignUp from './pages/login/SignUp'
 function App() {
   return (
     <Routes>
+      {/* 일반 유저 페이지 */}
       <Route path="/login" element={<LogIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Main />} />
         <Route path="/mypage/*" element={<MyPage />} />
       </Route>
+      {/* 관리자 페이지  */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="/admin/employee" element={<AdminEmployee />} />
         <Route path="/admin/duty" element={<AdminDuty />} />

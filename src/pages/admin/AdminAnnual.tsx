@@ -7,19 +7,23 @@ import { annualAdmin } from '@/types/AdminTypes'
 
 const AdminAnnual = () => {
   const [data, setData] = useState<annualAdmin>({ data: [] })
+  // 검색
   const [search1, setSearch1] = useState("");
   const [search2, setSearch2] = useState("");
+  // 검색 지연
   const [delayedSearch1, setDelayedSearch1] = useState("");
   const [delayedSearch2, setDelayedSearch2] = useState("");
+  //정렬
   const [sort1, setSort1] = useState<"asc" | "desc">("asc");
   const [sort2, setSort2] = useState<"asc" | "desc">("asc");
   const [selectedColumn1, setSelectedColumn1] = useState<"name" | "date">("name");
   const [selectedColumn2, setSelectedColumn2] = useState<"name" | "date">("name");
-
+  // 승인, 거부 버튼
   const [approvedId, setApprovedId] = useState<number | null>(null);
   const [rejectedId, setRejectedId] = useState<number | null>(null);
-
-   useEffect(() => {
+  
+  // 관리자 연차 조회 리스트 가져오기
+  useEffect(() => {
     const fetchData = async () => {
       const token = getCookie("token");
       const response = await getAnnualAdminApi(token);
@@ -34,6 +38,7 @@ const AdminAnnual = () => {
     fetchData();
   }, [approvedId, rejectedId]);
 
+  // 승인 버튼 누를시 
   const handleApprove = async (annualId: number) => {
     const token = getCookie("token");
     try {
@@ -45,6 +50,7 @@ const AdminAnnual = () => {
     }
   };
 
+  // 거부 버튼 누를시
   const handleReject = async (annualId: number) => {
     const token = getCookie("token");
     try {
@@ -56,14 +62,16 @@ const AdminAnnual = () => {
     }
   };
 
+  // 연차 신청 목록에 있는 사원 검색
   const filteredData1 = data.data
     .filter((item) => item.status === "UNAPPROVED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch1.toLowerCase()));
-
+  // 취소 신청 목록에 있는 사원 검색
   const filteredData2 = data.data
     .filter((item) => item.status === "CANCELED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch2.toLowerCase()));
 
+  // asc 일때 오름차순, 아닐때 내림차순 정렬
   const sortedData1 = filteredData1.sort((a, b) => {
     if (sort1 === "asc") {
       return a[selectedColumn1] > b[selectedColumn1] ? 1 : -1;
@@ -113,6 +121,7 @@ const AdminAnnual = () => {
                 <th className={style.th}>승인/거부</th>
               </tr>
             </thead>
+            {/* 사원명, 날짜 등 정보 출력 */}
             <tbody>
               {sortedData1.map((employee) => (
                 <tr key={employee.annualId} className={style.tr}>
@@ -137,6 +146,7 @@ const AdminAnnual = () => {
         <div className={style.caption}>
           <h2 className={style.h2}>취소 신청 목록</h2>
           <div>
+          {/* 검색 입력 및 정렬 옵션 박스, 오름차순/내림차순 라디오 버튼들 */}
           <AdminFilters
             name="sort2"
             search={search2}
@@ -163,6 +173,7 @@ const AdminAnnual = () => {
                 <th className={style.th}>승인/거부</th>
               </tr>
             </thead>
+            {/* 사원명, 날짜 등 정보 출력 */}
             <tbody>
               {sortedData2.map((employee) => (
                 <tr key={employee.annualId}>

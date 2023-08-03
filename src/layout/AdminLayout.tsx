@@ -5,6 +5,7 @@ import SideBar from '@/components/sidebar/SideBar';
 const AdminLayout = () => {
   const navigate = useNavigate();
 
+  // admin으로 입력해도 사원 조회 페이지로
   useEffect(() => {
     if (location.pathname === '/admin') {
       navigate('/admin/employee');

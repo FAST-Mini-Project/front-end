@@ -19,16 +19,17 @@ const getPaginatedItems = (
 
 const AdminEmployee = () => {
   const [data, setData] = useState<userInfo[]>([]);
-  //페이지네이션 변수
+  //페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  //검색 변수
+  //검색
   const [search, setSearch] = useState("");
   const [delayedSearch, setDelayedSearch] = useState("");
-  //정렬 변수
+  //정렬
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [selectedColumn, setSelectedColumn] = useState<"name" | "restAnnual" | "workDay">("name");
 
+  // 사원 리스트 출력
   useEffect(() => {
     const fetchData = async () => {
       const token = getCookie("token");

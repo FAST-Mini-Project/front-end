@@ -25,12 +25,17 @@ const AdminDuty = () => {
   const initialYear = date.getFullYear()
   const initialMonth = date.getMonth() + 1
   const [currentEvents, setCurrentEvents] = useState<EventObject[]>([])
+  // 캘린더 이전, 다음달 변경 시 년/월 정보
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
+  // 캘린더 정보
   const calendarRef = useRef<FullCalendar>(null)
+  // 캘린더 헤더 툴바 버튼
   const [selectText, setSelectText] = useState<string>('전체 연차/당직')
+  // 연차 신청 팝업 열기
   const [showAdminWork, setShowAdminWork] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
+  // 사원 정보
   const [data, setData] = useState<workInfo>({
     workId: 0,
     name: '',
@@ -40,11 +45,12 @@ const AdminDuty = () => {
   const [employees, setEmployees] = useState<userListData>([]);
   const [workAssigned, setWorkAssigned] = useState(false);
 
+  // 당직 등록시 렌더링
   useEffect(() => {
     fetchData();
   }, [workAssigned]);
   
-
+  // 사원 전체 목록 조회
   useEffect(() => {
     async function fetchData() {
       const token = getCookie("token");
@@ -59,6 +65,7 @@ const AdminDuty = () => {
     fetchData();
   }, []);
 
+  // 지정된 날짜에 따라 이벤트 가져오기
   useEffect(() => {
     if (selectText === '전체 연차/당직') {
       fetchData()
@@ -72,6 +79,7 @@ const AdminDuty = () => {
     }
   }, [selectText, year, month])
 
+  // 당직 목록 가져오기
   const fetchData = async () => {
     const workData = await getWorkApi(year, month);
   
@@ -95,11 +103,13 @@ const AdminDuty = () => {
     }
   };
 
+  // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
     setShowAdminWork(true)
     setDateClickInfo(info)
   }
 
+  // 당직 삭제
   const handleEventClick = async (info: any) => {
     const { workId } = info.event.extendedProps;
   
@@ -110,6 +120,7 @@ const AdminDuty = () => {
     }
   };  
 
+  // 달력에 정보 표시
   const renderEventContent = (eventInfo: any) => {
     const { isAnnual } = eventInfo.event.extendedProps;
 
@@ -123,6 +134,7 @@ const AdminDuty = () => {
 
   return (
     <div className={style.container}>
+      {/* 달력 */}
       <div className={style.calendarWrapper}>
         <FullCalendar
           ref={calendarRef}
@@ -178,6 +190,7 @@ const AdminDuty = () => {
           eventClick={handleEventClick}
           eventContent={renderEventContent}
         />
+        {/* 클릭시 나오는 모달창 */}
         {showAdminWork && 
           <AdminWork 
             dateInfo={dateClickInfo as DateClickInfo}

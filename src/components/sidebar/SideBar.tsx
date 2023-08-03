@@ -43,7 +43,7 @@ const SideBar = () => {
             <span className={style.role}>관리자</span>
           </div>
         </div>
-        {/* 페이지 정보*/}
+        {/* 해당 페이지로 이동*/}
         <div className={style.nav}>
           <div 
             className={`${style.navItem} ${isActive('/admin/employee')}`} 
