@@ -53,9 +53,12 @@ const SignUp = () => {
         <button className={style.signupButton} onClick={handleSignUp} type="submit">
           회원가입
         </button>
-        <Link className={style.signupLink} to="/login">
-          로그인
-        </Link>
+        <div className={style.loginLinkContainer}>
+          <span className={style.des}>이미 계정이 있으신가요?</span>
+          <Link className={style.loginLink} to="/login">
+            로그인하기
+          </Link>
+        </div>
       </div>
     </form>
   )

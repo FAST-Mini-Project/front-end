@@ -7,8 +7,8 @@ import { setCookie } from '@/utils/cookie'
 const LogIn = () => {
   const navigate = useNavigate()
 
-  const [loginEmail, setLoginEmail] = useState('test@naver.com')
-  const [loginPassword, setLoginPassword] = useState('11111111')
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -22,7 +22,12 @@ const LogIn = () => {
         console.log(res)
         setCookie('token', res.token)
         localStorage.setItem('user', JSON.stringify(res.user))
-        navigate('/')
+        // 유저 유형에 따라 페이지 이동 (추후 관리자 accessToken 환경변수로 검증?)
+        if (res.user.role === 'ROLE_USER') {
+          navigate('/')
+        } else {
+          navigate('/admin/employee')
+        }
       }
     }
   }

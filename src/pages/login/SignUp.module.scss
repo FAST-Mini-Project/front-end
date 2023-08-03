@@ -42,14 +42,22 @@
   }
 }
 
-.signupLink {
-  font-size: 12px;
-  color: $description_secondary;
-  text-decoration: none;
-  margin-top: 10px;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
+.loginLinkContainer {
+  margin-top: 20px;
+  .des {
+    font-size: 11px;
+    color: $description_secondary;
+    margin-bottom: 10px;
+  }
+  .loginLink {
+    margin-left: 10px;
+    font-size: 12px;
+    color: $description_secondary;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
