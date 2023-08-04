@@ -14,6 +14,7 @@ export interface annualInfo {
   name: string // 연차 사용자 이름
   employeeNumber: string // 연차 사용자 사원번호
   date: string // 당직 날짜
+  status: 'APPROVED' | 'CANCELED' | 'UNAPPROVED' // 연차 상태
 }
 
 // 일정 목록 조회(당직)
