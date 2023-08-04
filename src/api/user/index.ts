@@ -53,7 +53,6 @@ export const adminAuthApi = async (token: string) => {
         Authorization: `Bearer ${token}`
       }
     })
-    console.log(res)
     return res
   } catch (error: any) {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
