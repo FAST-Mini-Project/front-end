@@ -55,7 +55,7 @@ const MainHeader = () => {
             <span style={{ marginLeft: '10px' }}>전체 일정 보기</span>
           </div>
           <div
-            className={`${style.navItem} ${location.pathname === '/mypage' ? style.active : ''}`}
+            className={`${style.navItem} ${location.pathname.includes('/mypage') ? style.active : ''}`}
             onClick={handleLink}
           >
             <BsPersonBadgeFill size="20" />
