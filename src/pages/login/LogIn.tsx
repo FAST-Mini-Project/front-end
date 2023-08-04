@@ -77,7 +77,7 @@ const LogIn = () => {
         updatedLoginButtonDisabled[1] = true
         setLoginButtonDisabled(updatedLoginButtonDisabled)
       } else {
-        setPasswordValidateText('❌8자 이상의 비밀번호를 작성해주세요')
+        setPasswordValidateText('❌4자 이상의 비밀번호를 작성해주세요')
         const updatedLoginButtonDisabled = [...loginButtonDisabled]
         updatedLoginButtonDisabled[1] = false
         setLoginButtonDisabled(updatedLoginButtonDisabled)
