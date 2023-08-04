@@ -98,3 +98,19 @@ export const rejectAnnualAdminApi = async (token: string, annualId: number) => {
     console.error('관리자 연차 반려 api 오류', error)
   }
 }
+
+// 관리자 권한 체크
+export const getAuthAdminApi = async (token: string) => {
+  try {
+    const res = await baseApi({
+      method: 'GET',
+      url: '/admin',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return res;
+  } catch (error) {
+    console.error('관리자 권한 체크 api 오류', error)
+  }
+}
