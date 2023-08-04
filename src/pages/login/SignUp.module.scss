@@ -69,4 +69,8 @@
   color: $bg-secondary;
   border-radius: 4px;
   cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: $point_bg_secondary-4;
+  }
 }
