@@ -45,6 +45,7 @@ const MyAnnual: React.FC<MyAnnualProps> = ({ annualData }) => {
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
       />
+      <div style={{ height: '30px' }} />
       <ApprovedAnnual
         annualData={filteredData}
         selectedYear={selectedYear}
