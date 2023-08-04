@@ -46,7 +46,7 @@ const MainHeader = () => {
           </div>
           <div className={style.userWrapper}>
             <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 4)}`}</div>
-            <span className={style.role}>유저</span>
+            <span className={style.role}>{user.role === 'ROLE_USER' ? '유저' : '관리자'}</span>
           </div>
         </div>
         <div className={style.nav}>

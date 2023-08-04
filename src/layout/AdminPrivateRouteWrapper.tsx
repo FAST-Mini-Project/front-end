@@ -16,17 +16,19 @@ const AdminPrivateRouteWrapper = () => {
         alert('로그인이 필요합니다.')
         setIsAdmin(false)
       } else {
-        const res = await adminAuthApi(token)
-        if (res && res.status === 200) {
-          alert(res.data)
-          setIsAdmin(true)
-        } else if (res && (res.status === 401 || res.status === 403)) {
-          alert(res.data)
-          setIsAdmin(false)
-        } else {
-          alert('관리자 권한이 필요합니다.')
-          setIsAdmin(false)
-        }
+        await adminAuthApi(token).then((res) => {
+          if (res && res.status === 200) {
+            console.log(res)
+            alert(res.data.data)
+            setIsAdmin(true)
+          } else if (res && (res.status === 401 || res.status === 403)) {
+            alert(res.data)
+            setIsAdmin(false)
+          } else {
+            alert('관리자 권한이 필요합니다.')
+            setIsAdmin(false)
+          }
+        })
       }
       setLoading(false)
     }
