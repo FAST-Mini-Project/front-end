@@ -5,7 +5,6 @@ import { LoginReq, SignupReq, LoginResData, SignupResData, LogoutResData } from 
 export const loginApi = async (data: LoginReq) => {
   try {
     const res = await baseApi.post('/login', data)
-    console.log(res)
     if (res.data.data) {
       return res.data.data as LoginResData
     }
