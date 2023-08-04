@@ -176,7 +176,7 @@ const AdminAnnual = () => {
             {/* 사원명, 날짜 등 정보 출력 */}
             <tbody>
               {sortedData2.map((employee) => (
-                <tr key={employee.annualId}>
+                <tr key={employee.annualId} className={style.tr}>
                   <td className={style.td}>
                     {employee.name} {employee.employeeNumber}
                   </td>

@@ -43,16 +43,13 @@ const AdminFilters = ({
   }
 
   // 정렬 함수
-  const handleColumnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    // 선택한 열에 대한 새로운 값을 가져옴
-    const newColumnValue = e.target.value as "name" | "restAnnual" | "workDay" | "date";
-    // 선택한 열에 대한 상태를 업데이트
-    if (setSelectedColumn1 && ["name", "restAnnual", "workDay"].includes(newColumnValue)) {
-      setSelectedColumn1(newColumnValue as "name" | "restAnnual" | "workDay");
-    } else if (setSelectedColumn2 && ["name", "date"].includes(newColumnValue)) {
-      setSelectedColumn2(newColumnValue as "name" | "date");
-    }
-  };  
+  const handleColumnChange1 = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedColumn1?.(e.target.value as SetStateAction<"name" | "restAnnual" | "workDay">);
+  };
+
+  const handleColumnChange2 = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedColumn2?.(e.target.value as SetStateAction<"name" | "date">);
+  };
   // 선택한 정렬 값을 setSort 함수를 사용하여 업데이트
   const handleSortChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSort(e.target.value as "asc" | "desc")
@@ -68,7 +65,8 @@ const AdminFilters = ({
         value={search}
         onChange={handleSearchChange}
       />
-      <select className={style.searchInput} onChange={handleColumnChange}>
+      <select className={style.searchInput} 
+        onChange={setSelectedColumn1 ? handleColumnChange1 : handleColumnChange2}>
         {columns.map((col, index) => (
           <option key={index} value={col.value}>{col.text}</option>
         ))}

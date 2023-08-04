@@ -36,7 +36,7 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Pr
    const assignHandler = async () => {
     for (const employee of selectedEmployees) {
       // 직원 정보로부터 id를 가져옵니다.
-      const foundEmployee = employees.find(e => `${e.name}#${e.employeeNumber.slice(0, 4)}` === employee);
+      const foundEmployee = employees.find(e => `${e.name}#${e.employeeNumber.slice(4, 8)}` === employee);
 
       // id와 날짜 정보를 서버에 전송합니다.
       if (foundEmployee) {
@@ -55,9 +55,7 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Pr
     onWorkAssigned && onWorkAssigned();
   };
 
-   const modalCloseHandler = () => {
-     setShowAdminWork(false);
-   };
+   const modalCloseHandler = () => setShowAdminWork(false);
 
   return (
     <>
