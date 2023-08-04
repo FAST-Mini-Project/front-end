@@ -11,7 +11,7 @@
     color: $text_secondary;
     transition: 300ms;
     &:hover {
-      color: $point_bg_primary;
+      color: $point_bg_secondary-3;
     }
   }
 
@@ -27,7 +27,7 @@
     color: $text_secondary;
     transition: 300ms;
     &:hover {
-      color: $point_bg_primary;
+      color: $point_bg_secondary-3;
     }
   }
 }

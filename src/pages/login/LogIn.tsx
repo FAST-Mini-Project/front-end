@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import style from './LogIn.module.scss'
 import { loginApi } from '@/api/user'
-import { setCookie } from '@/utils/cookie'
+import { setCookie, getCookie } from '@/utils/cookie'
 
 const LogIn = () => {
   const navigate = useNavigate()
@@ -31,11 +31,17 @@ const LogIn = () => {
       }
     }
   }
+  const token = getCookie('token') || ''
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  useEffect(() => {
+    if (token && user.role) {
+      alert('이미 로그인 되어있습니다')
+      navigate(-1)
+    }
+  }, [])
 
   return (
     <form className={style.container} onSubmit={handleLogin}>
-      {/* <div className={style.line} /> */}
-      {/* <img className={style.mainLogo} src="/free-icon-calendar-2738431.png" alt="달력" /> */}
       <div className={style.box}>
         <h1 className={style.title}>로그인</h1>
         <input
