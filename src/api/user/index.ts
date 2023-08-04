@@ -46,7 +46,7 @@ export const logoutApi = async (token: string) => {
       return res.data.data as LogoutResData
     }
     if (res.data.errorMessage) {
-      return res.data.errorMessage as string[]
+      return res.data.errorMessage 
     }
   } catch (error) {
     console.error('로그아웃 api 오류', error)
