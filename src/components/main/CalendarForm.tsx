@@ -52,11 +52,11 @@ const CalendarForm = () => {
 
   useEffect(() => {
     getEvents()
+    console.log(currentEvents)
   }, [selectText, year, month])
 
   // 진짜 api함수
   const getEvents = async () => {
-    console.log(currentEvents)
     const annualData = await getAnnualApi(year, month)
     const workData = await getWorkApi(year, month)
     const annualEvents: EventObject[] = []
