@@ -5,7 +5,7 @@ import { workData, annualApplyReq, annualApplyData, annualData } from '@/types/M
 export const getAnnualApi = async (year: number, month: number) => {
   try {
     const res = await baseApi.get(`/schedule/annual?year=${year}&month=${month}`)
-    return res.data.data as annualData
+    if (res.status === 200) return res.data.data as annualData
   } catch (error) {
     console.error('연차 일정 목록을 불러올 수 없습니다.', error)
   }
