@@ -18,7 +18,6 @@ const AdminPrivateRouteWrapper = () => {
       } else {
         await adminAuthApi(token).then((res) => {
           if (res && res.status === 200) {
-            console.log(res)
             alert(res.data.data)
             setIsAdmin(true)
           } else if (res && (res.status === 401 || res.status === 403)) {
