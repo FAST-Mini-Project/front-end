@@ -44,13 +44,13 @@ const MyPage: React.FC = () => {
   }, [])
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       {/* 활성화된 Tab에 따라 해당 컴포넌트 렌더링 */}
       <MenuTab activeTab={activeTab} handleTabClick={handleTabClick} annualData={annualData} />
       {activeTab === 'annual' && <MyAnnual annualData={annualData} />}
       {activeTab === 'duty' && <MyDuty dutyData={dutyData} />}
       {activeTab === 'info' && <MyInfo />}
-    </main>
+    </div>
   )
 }
 

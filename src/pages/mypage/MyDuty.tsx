@@ -65,6 +65,7 @@ const MyDuty: React.FC<MyDutyProps> = ({ dutyData }) => {
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
       />
+      <div style={{ height: '30px' }} />
       <CompletedDutyList
         dutyData={completedDuties}
         selectedYear={selectedYear}

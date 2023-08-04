@@ -6,8 +6,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import style from './CalendarForm.module.scss'
 //react
 import { useState, useEffect, useRef } from 'react'
-//axios
-import axios from 'axios'
 // types
 import { DateClickInfo } from '@/types/MainTypes'
 import { User } from '@/types/AccessTypes' // 임시
@@ -54,6 +52,7 @@ const CalendarForm = () => {
 
   useEffect(() => {
     getEvents()
+    console.log(currentEvents)
   }, [selectText, year, month])
 
   // 진짜 api함수
@@ -62,11 +61,12 @@ const CalendarForm = () => {
     const workData = await getWorkApi(year, month)
     const annualEvents: EventObject[] = []
     const workEvents: EventObject[] = []
+    // console.log(annualData)
     // 연차 events push
     if (annualData) {
       annualData.forEach((item) => {
         annualEvents.push({
-          title: item.name + '#' + item.employeeNumber.slice(0, 3),
+          title: item.name + item.employeeNumber,
           date: item.date,
           isAnnual: true
         })
@@ -76,7 +76,7 @@ const CalendarForm = () => {
     if (workData) {
       workData.forEach((item) => {
         workEvents.push({
-          title: item.name + item.employeeNumber.slice(0, 3),
+          title: item.name + item.employeeNumber,
           date: item.date,
           isAnnual: false,
           backgroundColor: '#795c34',
@@ -87,14 +87,20 @@ const CalendarForm = () => {
     if (selectText === '전체 연차/당직') {
       setCurrentEvents([...annualEvents, ...workEvents])
     } else {
+      console.log(user.employeeNumber)
       const filteredEvents = [...annualEvents, ...workEvents].filter((event) =>
-        event.title.includes(`${user.name}#${user.employeeNumber}`)
+        event.title.includes(`${user.name}${user.employeeNumber}`)
       )
       setCurrentEvents(filteredEvents)
     }
   }
 
   const handleDateClick = (info: DateClickInfo) => {
+    const current = new Date()
+    if (current > info.date) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.')
+      return
+    }
     setShowModal(true)
     setDateClickInfo(info)
   }
