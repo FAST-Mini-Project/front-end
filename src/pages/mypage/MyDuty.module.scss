@@ -3,8 +3,12 @@
 .board__container {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  gap: 30px;
   padding-bottom: 20px;
-  height: 100%;
+  width: 95%;
+  height: 85%;
+  border-radius: 10px;
+  box-shadow: 8px 8px 10px $description_primary-2;
+  background-color: $bg_secondary;
 }
