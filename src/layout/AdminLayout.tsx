@@ -13,15 +13,15 @@ const AdminLayout = () => {
       
       try {
         const res = await getAuthAdminApi(token);
-        
         if (res?.status === 200) {
           if (location.pathname === '/admin') {
             navigate('/admin/employee');
           }
+          
         } else {
-          navigate('/login')
           removeCookie('token')
           localStorage.removeItem('user')
+          navigate('/login')
         }
       } catch (error) {
         console.error('관리자 권한 체크 오류', error);
