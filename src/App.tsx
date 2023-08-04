@@ -10,7 +10,8 @@ import AdminLayout from './layout/AdminLayout'
 import LogIn from './pages/login/LogIn'
 import SignUp from './pages/login/SignUp'
 
-import { UserPrivateRoute, AdminPrivateRoute } from './utils/PrivateRoute'
+import { UserPrivateRoute } from './utils/PrivateRoute'
+import AdminPrivateRouteWrapper from '@/layout/AdminPrivateRouteWrapper'
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         </Route>
       </Route>
       {/* 관리자 페이지  */}
-      <Route element={<AdminPrivateRoute />}>
+      <Route element={<AdminPrivateRouteWrapper />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin/employee" element={<AdminEmployee />} />
           <Route path="/admin/duty" element={<AdminDuty />} />
