@@ -105,6 +105,11 @@ const AdminDuty = () => {
 
   // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
+    const current = new Date()
+    if (current > info.date) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.')
+      return
+    }
     setShowAdminWork(true)
     setDateClickInfo(info)
   }

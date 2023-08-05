@@ -12,16 +12,24 @@ export const UserPrivateRoute = () => {
   return <Navigate to="/login" />
 }
 
-export const AdminPrivateRoute = () => {
-  const token = getCookie('token')
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
-  if (token && user.role === 'ROLE_ADMIN') {
-    // 관리자
-    return <Outlet />
-  } else if (token && user.role === 'ROLE_USER') {
-    alert('접근 권한이 없습니다.')
-    return <Navigate to="/" />
-  }
-  alert('로그인이 필요합니다.')
-  return <Navigate to="/login" />
-}
+// export const AdminPrivateRoute = async () => {
+//   const token = getCookie('token')
+//   const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+//   if (!token && !user) {
+//     alert('로그인이 필요합니다.')
+//     return <Navigate to="/login" />
+//   } else {
+//     const res = await adminAuthApi(token)
+//     if (res && res.status === 200) {
+//       alert(res.data)
+//       return <Outlet />
+//     } else if (res && (res.status === 401 || res.status === 403)) {
+//       alert(res.data)
+//       return <Navigate to="/" />
+//     } else {
+//       alert('관리자 권한이 필요합니다.')
+//       return <Navigate to="/" />
+//     }
+//   }
+// }
