@@ -72,7 +72,7 @@ const AdminDuty = () => {
     } else {
       fetchData().then(() => {
         const filteredEvents = currentEvents.filter((event) =>
-          event.title.includes(`${data.name}#${data.employeeNumber.slice(0, 4)}`)
+          event.title.includes(`${data.name}${data.employeeNumber.slice(0, 5)}`)
         )
         setCurrentEvents(filteredEvents)
       })
@@ -89,7 +89,7 @@ const AdminDuty = () => {
       workData.forEach((item: any) => {
         workEvents.push({
           workId: item.workId,
-          title: item.name + '#' + item.employeeNumber.slice(0, 4),
+          title: item.name + item.employeeNumber.slice(0, 5),
           date: item.date,
           isAnnual: false,
           backgroundColor: '#795c34',

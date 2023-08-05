@@ -16,7 +16,7 @@ interface Props {
 const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Props) => {
    const [selectedEmployees, setSelectedEmployees] = useState<string[]>(['']);
    const modalHeight = 400 + Math.max(0, selectedEmployees.length - 5) * 25;
-
+   
    // 선택한 직원을 관리하는 이벤트 핸들러
    const handleEmployeeChange = (
      e: React.ChangeEvent<HTMLSelectElement>,
@@ -32,12 +32,12 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Pr
  
      setSelectedEmployees(newSelectedEmployees);
    };
- 
+
    const assignHandler = async () => {
     for (const employee of selectedEmployees) {
+      if (!employee) continue;
       // 직원 정보로부터 id를 가져옵니다.
-      const foundEmployee = employees.find(e => `${e.name}#${e.employeeNumber.slice(4, 8)}` === employee);
-
+      const foundEmployee = employees.find(e => `${e.name}${e.employeeNumber.slice(0, 5)}` === employee);
       // id와 날짜 정보를 서버에 전송합니다.
       if (foundEmployee) {
         const data: workRegistReq = {
@@ -87,9 +87,9 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Pr
                   .map((employee, index) => (
                     <option
                       key={index}
-                      value={`${employee.name}#${employee.employeeNumber.slice(0,4)}`}
+                      value={`${employee.name}${employee.employeeNumber.slice(0,5)}`}
                     >
-                      {`${employee.name} (#${employee.employeeNumber.slice(0,4)})`}
+                      {`${employee.name} (${employee.employeeNumber.slice(0,5)})`}
 
                     </option>
                   ))}
