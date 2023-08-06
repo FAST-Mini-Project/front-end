@@ -3,12 +3,11 @@
 .board__container {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
   padding-bottom: 30px;
-  width: 95%;
-  height: 85%;
+  width: 92%;
+  height: 87%;
   border-radius: 10px;
-  box-shadow: 8px 8px 10px $description_primary-2;
+  box-shadow: 1px 8px 10px $description_primary-2;
   background-color: $bg_secondary;
 }
