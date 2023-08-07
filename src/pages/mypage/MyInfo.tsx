@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { updatePasswordApi } from '@/api/mypage/index'
 import { updatePasswordData, updatePasswordReq } from '@/types/MypageTypes'
 import { getCookie, removeCookie } from '@/utils/cookie'
-import styles from './MyInfo.module.scss'
+// import styles from './MyInfo.module.scss'
 
 const MyInfo: React.FC = () => {
   // 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인, 출력 메시지 상태 관리

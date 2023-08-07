@@ -48,7 +48,7 @@ const CalendarForm = () => {
     if (selectText === '내 연차/당직') {
       getMyEvents()
     }
-  }, [selectText, year, month, currentEvents])
+  }, [selectText, year, month])
 
   // 진짜 api함수
   const getAllEvents = async () => {

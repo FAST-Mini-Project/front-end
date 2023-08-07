@@ -39,7 +39,7 @@ const SideBar = () => {
             <img className={style.icon} src="/free-icon-employee-3043585.png" alt="" />
           </div>
           <div className={style.userWrapper}>
-            <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 4)}`}</div>
+            <div className={style.user}>{`${user.name}${user.employeeNumber.slice(0, 5)}`}</div>
             <span className={style.role}>관리자</span>
           </div>
         </div>
