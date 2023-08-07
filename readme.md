@@ -1,4 +1,4 @@
-# 💰 당연해 (DangYeonHae)
+# 📑 당연해 (DangYeonHae)
 
 <p>React, TypeScript, Rest API를 활용한 연차 / 당직 관리 웹사이트 입니다.</p>
 
@@ -8,9 +8,9 @@
 
 > **패스트캠퍼스 프론트엔드 개발 부트캠프 5기**<br />
 > **개발 기간** : 2023. 07. 24 ~ 2023. 08. 10<br />
-> **배포 주소** : [당연해](https://dev--boisterous-nasturtium-8f3a3d.netlify.app/)
-> **프론트엔드** : [프론트](https://github.com/FAST-Mini-Project/front-end)
-> **백엔드** : [백엔드](https://github.com/FAST-Mini-Project/back-end)
+> **배포 주소** : [당연해](https://dev--boisterous-nasturtium-8f3a3d.netlify.app/)<br />
+> **프론트엔드 레포지토리** : [프론트](https://github.com/FAST-Mini-Project/front-end)<br />
+> **백엔드 레포지토리** : [백엔드](https://github.com/FAST-Mini-Project/back-end)
 <br />
 
 ## 개발자
