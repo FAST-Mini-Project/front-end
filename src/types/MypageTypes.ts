@@ -22,7 +22,7 @@ export interface annuals {
 //     - 상태가 CANCELED로 바뀌고, 관리자 취소 목록에 보이게됨.
 //     - 관리자가 취소 승인하면 그때 삭제됨
 
-// req : 없음
+// Req : 없음
 // Res 200 OK
 
 export interface annualCancelData {
@@ -34,7 +34,6 @@ export interface annualCancelData {
 // \ -H 'Authorization: "asjldhaslkjdhaslkjdhalskjdhalskj"'
 
 // Req : 없음
-
 // Res 200 OK
 
 export type workUserData = works[]
@@ -42,4 +41,19 @@ export type workUserData = works[]
 export interface works {
   dutyId: number
   date: string // YYYY-MM-DD
+}
+
+// 비밀번호 수정
+// PUT /api/user
+// \ -H 'Authorization: "asjldhaslkjdhaslkjdhalskjdhalskj"'
+// Res 200 OK
+
+export interface updatePasswordReq {
+  email: string
+  oldPassword: string
+  newPassword: string
+}
+
+export interface updatePasswordData {
+  message: string // "비밀번호가 정상적으로 변경되었습니다."
 }

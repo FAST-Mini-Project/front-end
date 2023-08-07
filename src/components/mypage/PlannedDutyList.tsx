@@ -6,7 +6,6 @@ interface MyDutyProps {
   dutyData: works[]
   selectedYear: number
   selectedMonth: number
-  setSelectedMonth: React.Dispatch<React.SetStateAction<number>>
 }
 
 // 예정된 당직 일정을 출력할 PlannedDutyList component
