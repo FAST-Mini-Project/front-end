@@ -2,9 +2,7 @@
 
 <p>React, TypeScript, Rest API를 활용한 연차 / 당직 관리 웹사이트 입니다.</p>
 
-<br />
-
-## 프로젝트 소개
+## 📌 프로젝트 소개
 
 > **패스트캠퍼스 프론트엔드 개발 부트캠프 5기**<br />
 > **개발 기간** : 2023. 07. 24 ~ 2023. 08. 10<br />
@@ -13,14 +11,14 @@
 > **백엔드 레포지토리** : [백엔드](https://github.com/FAST-Mini-Project/back-end)
 <br />
 
-## 개발자
+## 📌 개발 팀원 및 역할
 
-| **[황인승](https://github.com/hwanginseung)** | **[김경원](https://github.com/ruddnjs3769)** | **[윤금엽](https://github.com/DevYBecca)** |
+| <a href="https://github.com/ruddnjs3769"><img src="https://avatars.githubusercontent.com/u/84277185?v=4" width=200px alt="김경원" /></a> | <a href="https://github.com/hwanginseung"><img src="https://avatars.githubusercontent.com/u/128157440?v=4" width=200px alt="황인승" /></a> | <a href="https://github.com/DevYBecca"><img src="https://avatars.githubusercontent.com/u/125433485?v=4" width=200px alt="윤금엽" /></a> | 
+| :----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | 
+|                                                 [김경원](https://github.com/ruddnjs3769)                                                  |                                                 [황인승](https://github.com/hwanginseung)                                                  |                                                 [윤금엽](https://github.com/DevYBecca)
+|                                                          GitHub 팀장<br /> 초기 개발 세팅<br /> 메인 페이지<br /> 로그인, 회원가입, 로그아웃<br /> Header, Footer                                                       |                                                        관리자 페이지<br />                                                          |                                                            마이 페이지<br />                                                             
 
-
-<br />
-
-## 사용기술 및 개발환경
+## 📌 사용 기술 및 개발 환경
 
 ### Development
 
@@ -35,13 +33,13 @@
 ### Config
 
 <p>
+<img src="https://img.shields.io/badge/npm-CB3837?style=flat&logo=Npm&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=white"/></a>
-<img src="https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white"/></a>
 </p>
 
 ### Deployment
 
-<img src="https://img.shields.io/badge/netlify-00C7B7?style=flat&logo=netlify&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Netlify-00C7B7?style=flat&logo=netlify&logoColor=white"/></a>
 
 ### Environment
 
@@ -53,6 +51,7 @@
 
 ### Cowork Tools
 <p>
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=figma&logoColor=white" />
 <img src="https://img.shields.io/badge/Slack-4A154B?style=flat&logo=Slack&logoColor=white" />
 <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white" />
 <img src="https://img.shields.io/badge/Zoom-2D8CFF?style=flat&logo=Zoom&logoColor=white" />
@@ -60,7 +59,7 @@
 
 <br />
 
-## 프로젝트 테스트
+## 📌 프로젝트 테스트
 
 ### clone project
 
@@ -84,7 +83,7 @@ $ npm run dev
 
 
 
-## 프로젝트 상세 기능
+## 📌 프로젝트 상세 기능
 
 ### Main
 + DatePicker 이용하여 날짜별 데이터 출력
@@ -154,4 +153,125 @@ $ npm run dev
 
 <br />
 
-## 프로젝트 구조
+## 📌 프로젝트 구조
+<details>
+<summary>보기</summary>
+<div markdown="1">
+
+```
+📑 DangYeonHae
+.eslintrc.cjs
+.gitignore
+.prettierignore
+.prettierrc
+index.html
+package-lock.json
+package.json
+public
+│  ├─ free-icon-calendar-2738431.png
+│  └─ free-icon-employee-3043585.png
+readme.md
+├─ src
+App.module.scss
+App.tsx
+_variables.scss
+│  ├─ api
+│  │  ├─ admin
+│  │  │  └─ index.ts
+│  │  ├─ index.ts
+│  │  ├─ main
+│  │  │  └─ index.ts
+│  │  ├─ mypage
+│  │  │  └─ index.ts
+│  │  └─ user
+│  │     └─ index.ts
+│  ├─ assets
+│  │  └─ react.svg
+│  ├─ components
+│  │  ├─ adminfilter
+│  │  │  ├─ AdminFilter.tsx
+│  │  │  └─ AdminFilters.module.scss
+│  │  ├─ adminwork
+│  │  │  ├─ AdminWork.module.scss
+│  │  │  └─ AdminWork.tsx
+│  │  ├─ common
+│  │  │  ├─ MainHeader.module.scss
+│  │  │  └─ MainHeader.tsx
+│  │  ├─ main
+│  │  │  ├─ AnnualApplyModal.module.scss
+│  │  │  ├─ AnnualApplyModal.tsx
+│  │  │  ├─ CalendarForm.module.scss
+│  │  │  └─ CalendarForm.tsx
+│  │  ├─ mypage
+│  │  │  ├─ ApprovedAnnual.module.scss
+│  │  │  ├─ ApprovedAnnual.tsx
+│  │  │  ├─ CompletedDutyList.module.scss
+│  │  │  ├─ CompletedDutyList.tsx
+│  │  │  ├─ MenuTab.module.scss
+│  │  │  ├─ MenuTab.tsx
+│  │  │  ├─ MonthRange.module.scss
+│  │  │  ├─ MonthRange.tsx
+│  │  │  ├─ PlannedDutyList.module.scss
+│  │  │  ├─ PlannedDutyList.tsx
+│  │  │  ├─ RemainingAnnual.module.scss
+│  │  │  ├─ RemainingAnnual.tsx
+│  │  │  ├─ RequestedAnnual.module.scss
+│  │  │  └─ RequestedAnnual.tsx
+│  │  ├─ pagenation
+│  │  │  ├─ PageNation.module.scss
+│  │  │  └─ PageNation.tsx
+│  │  └─ sidebar
+│  │     ├─ SideBar.module.scss
+│  │     └─ SideBar.tsx
+│  ├─ custom.d.ts
+│  ├─ index.scss
+│  ├─ index.tsx
+│  ├─ layout
+│  │  ├─ AdminLayout.tsx
+│  │  ├─ AdminPrivateRouteWrapper.tsx
+│  │  ├─ MainLayout.module.scss
+│  │  └─ MainLayout.tsx
+│  ├─ pages
+│  │  ├─ admin
+│  │  │  ├─ AdminAnnual.module.scss
+│  │  │  ├─ AdminAnnual.tsx
+│  │  │  ├─ AdminDuty.module.scss
+│  │  │  ├─ AdminDuty.tsx
+│  │  │  ├─ AdminEmployee.module.scss
+│  │  │  └─ AdminEmployee.tsx
+│  │  ├─ login
+│  │  │  ├─ LogIn.module.scss
+│  │  │  ├─ LogIn.tsx
+│  │  │  ├─ SignUp.module.scss
+│  │  │  └─ SignUp.tsx
+│  │  ├─ main
+│  │  │  ├─ Main.module.scss
+│  │  │  └─ Main.tsx
+│  │  └─ mypage
+│  │     ├─ MyAnnual.module.scss
+│  │     ├─ MyAnnual.tsx
+│  │     ├─ MyDuty.module.scss
+│  │     ├─ MyDuty.tsx
+│  │     ├─ MyInfo.module.scss
+│  │     ├─ MyInfo.tsx
+│  │     ├─ MyPage.module.scss
+│  │     └─ Mypage.tsx
+│  ├─ types
+│  │  ├─ AccessTypes.ts
+│  │  ├─ AdminTypes.ts
+│  │  ├─ MainTypes.ts
+│  │  └─ MypageTypes.ts
+│  ├─ utils
+│  │  ├─ PrivateRoute.tsx
+│  │  ├─ constants
+│  │  │  └─ regex.ts
+│  │  ├─ cookie.ts
+│  │  └─ handleLogout.ts
+│  └─ vite-env.d.ts
+├─ tsconfig.json
+├─ tsconfig.node.json
+└─ vite.config.ts
+```
+
+</div>
+</details>
