@@ -165,6 +165,7 @@ $ npm run dev
   ```
 📦front-end
  ┣ 📂public
+ ┃ ┣ 📜favicon.ico
  ┃ ┣ 📜free-icon-calendar-2738431.png
  ┃ ┗ 📜free-icon-employee-3043585.png
  ┣ 📂src
@@ -179,7 +180,6 @@ $ npm run dev
  ┃ ┃ ┃ ┗ 📜index.ts
  ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📂assets
- ┃ ┃ ┗ 📜react.svg
  ┃ ┣ 📂components
  ┃ ┃ ┣ 📂adminfilter
  ┃ ┃ ┃ ┣ 📜AdminFilter.tsx
