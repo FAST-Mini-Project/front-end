@@ -31,12 +31,12 @@ const AdminDuty = () => {
   // 캘린더 정보
   const calendarRef = useRef<FullCalendar>(null)
   // 캘린더 헤더 툴바 버튼
-  const [selectText, setSelectText] = useState<string>('전체 연차/당직')
+  const [selectText] = useState<string>('전체 연차/당직')
   // 연차 신청 팝업 열기
   const [showAdminWork, setShowAdminWork] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
   // 사원 정보
-  const [data, setData] = useState<workInfo>({
+  const [data] = useState<workInfo>({
     workId: 0,
     name: '',
     employeeNumber: '',

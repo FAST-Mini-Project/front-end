@@ -19,11 +19,9 @@ interface AdminFiltersProps {
 const AdminFilters = ({
   search,
   setSearch,
-  delayedSearch,
   setDelayedSearch,
   sort,
   setSort,
-  selectedColumn,
   setSelectedColumn1,
   setSelectedColumn2,
   columns,
