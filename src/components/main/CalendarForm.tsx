@@ -8,16 +8,17 @@ import style from './CalendarForm.module.scss'
 import { useState, useEffect, useRef } from 'react'
 // types
 import { DateClickInfo } from '@/types/MainTypes'
-import { User } from '@/types/AccessTypes' // 임시
 //components
 import AnnualApplyModal from '@/components/main/AnnualApplyModal'
 //api fetch
 import { getAnnualApi, getWorkApi } from '@/api/main'
+import { getUserAnnualApi, getUserWorkApi } from '@/api/mypage'
+//cookie
+import { getCookie } from '@/utils/cookie'
 
 interface EventObject {
   title: string
   date: string
-  isAnnual: boolean
   backgroundColor?: string
   borderColor?: string
 }
@@ -37,40 +38,46 @@ const CalendarForm = () => {
   // 연차 신청 팝업 열기
   const [showModal, setShowModal] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
-
-  // 유저 정보(임시)
-  const [user, setUser] = useState<User>({
-    email: '',
-    name: '',
-    employeeNumber: '',
-    role: 'ROLE_USER'
-  })
+  // 유저 정보
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user') || '{}'))
-  }, [])
-
-  useEffect(() => {
-    getEvents()
-    console.log(currentEvents)
-  }, [selectText, year, month])
+    if (selectText === '전체 연차/당직') {
+      getAllEvents()
+    }
+    if (selectText === '내 연차/당직') {
+      getMyEvents()
+    }
+  }, [selectText, year, month, currentEvents])
 
   // 진짜 api함수
-  const getEvents = async () => {
+  const getAllEvents = async () => {
     const annualData = await getAnnualApi(year, month)
     const workData = await getWorkApi(year, month)
     const annualEvents: EventObject[] = []
     const workEvents: EventObject[] = []
-    // console.log(annualData)
     // 연차 events push
     if (annualData) {
-      annualData.forEach((item) => {
-        annualEvents.push({
-          title: item.name + item.employeeNumber,
-          date: item.date,
-          isAnnual: true
+      annualData
+        .filter((item) => item.status === 'APPROVED')
+        .forEach((item) => {
+          annualEvents.push({
+            title: item.name + item.employeeNumber,
+            date: item.date,
+            backgroundColor: '#5b8ce5',
+            borderColor: '#5b8ce5'
+          })
         })
-      })
+      annualData
+        .filter((item) => item.status === 'CANCELED')
+        .forEach((item) => {
+          annualEvents.push({
+            title: item.name + item.employeeNumber,
+            date: item.date,
+            backgroundColor: 'rgba(91, 140, 229, 0.5)',
+            borderColor: 'rgba(91, 140, 229, 0.5)'
+          })
+        })
     }
     // 당직 events push
     if (workData) {
@@ -78,21 +85,13 @@ const CalendarForm = () => {
         workEvents.push({
           title: item.name + item.employeeNumber,
           date: item.date,
-          isAnnual: false,
-          backgroundColor: '#795c34',
-          borderColor: '#795c34'
+          backgroundColor: '#ff7976',
+          borderColor: '#ff7976'
         })
       })
     }
-    if (selectText === '전체 연차/당직') {
-      setCurrentEvents([...annualEvents, ...workEvents])
-    } else {
-      console.log(user.employeeNumber)
-      const filteredEvents = [...annualEvents, ...workEvents].filter((event) =>
-        event.title.includes(`${user.name}${user.employeeNumber}`)
-      )
-      setCurrentEvents(filteredEvents)
-    }
+    const events = [...annualEvents, ...workEvents]
+    setCurrentEvents(events)
   }
 
   const handleDateClick = (info: DateClickInfo) => {
@@ -103,6 +102,60 @@ const CalendarForm = () => {
     }
     setShowModal(true)
     setDateClickInfo(info)
+  }
+
+  const getMyEvents = async () => {
+    const token = getCookie('token')
+    const annualData = await getUserAnnualApi(token, year)
+    const workData = await getUserWorkApi(token, year, month)
+    const annualEvents: EventObject[] = []
+    const workEvents: EventObject[] = []
+    // 연차 events push
+    if (annualData) {
+      annualData
+        .filter((item) => item.status === 'APPROVED')
+        .forEach((item) => {
+          annualEvents.push({
+            title: user.name + user.employeeNumber,
+            date: item.date,
+            backgroundColor: '#5b8ce5',
+            borderColor: '#5b8ce5'
+          })
+        })
+      annualData
+        .filter((item) => item.status === 'CANCELED')
+        .forEach((item) => {
+          annualEvents.push({
+            title: user.name + user.employeeNumber,
+            date: item.date,
+            backgroundColor: 'rgba(91, 140, 229, 0.5)',
+            borderColor: 'rgba(91, 140, 229, 0.5)'
+          })
+        })
+      annualData
+        .filter((item) => item.status === 'UNAPPROVED')
+        .forEach((item) => {
+          annualEvents.push({
+            title: user.name + user.employeeNumber,
+            date: item.date,
+            backgroundColor: 'rgba(171, 152, 242, 0.5)',
+            borderColor: 'rgba(171, 152, 242, 0.5)'
+          })
+        })
+    }
+    // 당직 events push
+    if (workData) {
+      workData.forEach((item) => {
+        workEvents.push({
+          title: user.name + user.employeeNumber,
+          date: item.date,
+          backgroundColor: '#ff7976',
+          borderColor: '#ff7976'
+        })
+      })
+    }
+    const events = [...annualEvents, ...workEvents]
+    setCurrentEvents(events)
   }
 
   const selectHandler = () => {
@@ -165,9 +218,38 @@ const CalendarForm = () => {
               return 0
             }
           }}
-          height="100%"
+          height="95%"
           dayMaxEvents={true}
         />
+        <div className={style.indicator}>
+          <div className={style.item}>
+            <div style={{ width: '10px', height: '10px', backgroundColor: '#3788d8', marginRight: '10px' }}></div>
+            <span>승인된 연차</span>
+          </div>
+          <div className={style.item}>
+            <div
+              style={{ width: '10px', height: '10px', backgroundColor: 'rgba(91, 140, 229, 0.5)', marginRight: '10px' }}
+            ></div>
+            <span>취소 신청된 연차</span>
+          </div>
+          {selectText === '내 연차/당직' && (
+            <div className={style.item}>
+              <div
+                style={{
+                  width: '10px',
+                  height: '10px',
+                  backgroundColor: 'rgba(171, 152, 242, 0.5)',
+                  marginRight: '10px'
+                }}
+              ></div>
+              <span>신청한 연차</span>
+            </div>
+          )}
+          <div className={style.item}>
+            <div style={{ width: '10px', height: '10px', backgroundColor: '#ff7976', marginRight: '10px' }}></div>
+            <span>당직</span>
+          </div>
+        </div>
         {showModal && <AnnualApplyModal dateInfo={dateClickInfo as DateClickInfo} setShowModal={setShowModal} />}
       </div>
     </>

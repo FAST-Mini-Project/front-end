@@ -1,29 +1,45 @@
+import { useEffect, useState } from 'react'
 import { annuals } from '@/types/MypageTypes'
 import styles from './ApprovedAnnual.module.scss'
 
 // ApprovedAnnual에서 사용할 props 타입 정의
 interface ApprovedAnnualProps {
-  annualData: annuals[]
-  selectedYear: number
-  selectedMonth: number
-  setSelectedMonth: React.Dispatch<React.SetStateAction<number>>
+  filteredAnnualData: annuals[]
+  onCancelClick: (annualId: number, status: string) => void
 }
 
 // 승인된 연차 목록을 출력할 ApprovedAnnual component
-const ApprovedAnnual: React.FC<ApprovedAnnualProps> = ({ annualData }) => {
+const ApprovedAnnual: React.FC<ApprovedAnnualProps> = ({ filteredAnnualData, onCancelClick }) => {
+  // 승인된 연차 목록 상태 관리
+  const [, setAnnualList] = useState<annuals[]>([])
+
+  // 오늘 날짜 확인
+  const currentDate = new Date()
+
   // 메인 캘린더에서 신청한 연차 중 승인된 연차 목록 Filtering
-  const approvedAnnualData = annualData.filter((annual) => annual.status === 'APPROVED')
+  const approvedAnnualData = filteredAnnualData.filter((annual) => annual.status === 'APPROVED')
 
   // 최근 신청한 내용이 상단으로 오도록 최신 순 정렬
   const sortedByDate = approvedAnnualData.sort((a, b) => {
     const dateA = new Date(a.date)
     const dateB = new Date(b.date)
-
     return dateB.getTime() - dateA.getTime()
   })
 
-  // 오늘 날짜 확인
-  const currentDate = new Date()
+  // 취소 버튼 클릭 시 '승인된 연차 취소 신청' 기능을 수행하는 함수
+  const handleCancelClick = async (annualId: number) => {
+    const isConfirmed = window.confirm(
+      '승인된 연차는 관리자의 취소 승인 절차가 필요합니다.\n연차 취소 신청을 하시겠습니까?'
+    )
+    if (isConfirmed) {
+      onCancelClick(annualId, 'APPROVED')
+    }
+  }
+
+  // 선택한 년도와 월에 해당하는 연차 데이터가 변경될 때마다 재렌더링
+  useEffect(() => {
+    setAnnualList(filteredAnnualData)
+  }, [filteredAnnualData])
 
   return (
     <section className={styles.list__container}>
@@ -48,7 +64,11 @@ const ApprovedAnnual: React.FC<ApprovedAnnualProps> = ({ annualData }) => {
                 <li key={annual.annualId} className={styles.list__item}>
                   <span>{annual.date}</span>
                   <span>{annual.status === 'APPROVED' ? '승인 완료' : ''}</span>
-                  <button disabled={isPastDate} title={isPastDate ? '날짜가 지난 경우 취소할 수 없습니다.' : ''}>
+                  <button
+                    disabled={isPastDate}
+                    title={isPastDate ? '날짜가 지난 경우 취소할 수 없습니다.' : ''}
+                    onClick={() => handleCancelClick(annual.annualId)}
+                  >
                     취소
                   </button>
                 </li>

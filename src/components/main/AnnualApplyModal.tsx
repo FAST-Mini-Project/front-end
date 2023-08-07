@@ -23,7 +23,7 @@ const AnnaulApplyModal = ({ dateInfo, setShowModal }: Props) => {
       if (Array.isArray(res)) {
         alert('연차 신청에 실패했습니다.')
       } else {
-        alert('연차 신청이 완료되었습니다! 관리자 승인 후 반영됩니다. 마이페이지에서 확인해주세요.')
+        alert('연차 신청이 완료되었습니다! 관리자 승인 후 반영됩니다.')
       }
     })
 
