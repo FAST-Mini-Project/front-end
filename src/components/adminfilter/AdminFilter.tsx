@@ -29,7 +29,7 @@ const AdminFilters = ({
   columns,
   name
 }: AdminFiltersProps) => {
-  const searchTimeout = useRef<number | null>(null)
+  const searchTimeout = useRef<NodeJS.Timeout | null>(null)
   // 이름 입력시 약간 지연시켜서 검색 결과 출력
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
