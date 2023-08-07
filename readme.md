@@ -151,6 +151,127 @@ $ npm run dev
 + loadable 사용하여 코드 스플릿 및 로딩 컴포넌트 추가
 + day.js 및 moment 사용하여 날짜 포멧팅
 
+## 프로젝트 구조
+
+<details>
+  <summary>자료구조</summary>
+
+  ```
+📦front-end
+ ┣ 📂public
+ ┃ ┣ 📜free-icon-calendar-2738431.png
+ ┃ ┗ 📜free-icon-employee-3043585.png
+ ┣ 📂src
+ ┃ ┣ 📂api
+ ┃ ┃ ┣ 📂admin
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂main
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂mypage
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂assets
+ ┃ ┃ ┗ 📜react.svg
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂adminfilter
+ ┃ ┃ ┃ ┣ 📜AdminFilter.tsx
+ ┃ ┃ ┃ ┗ 📜AdminFilters.module.scss
+ ┃ ┃ ┣ 📂adminwork
+ ┃ ┃ ┃ ┣ 📜AdminWork.module.scss
+ ┃ ┃ ┃ ┗ 📜AdminWork.tsx
+ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┣ 📜MainHeader.module.scss
+ ┃ ┃ ┃ ┗ 📜MainHeader.tsx
+ ┃ ┃ ┣ 📂main
+ ┃ ┃ ┃ ┣ 📜AnnualApplyModal.module.scss
+ ┃ ┃ ┃ ┣ 📜AnnualApplyModal.tsx
+ ┃ ┃ ┃ ┣ 📜CalendarForm.module.scss
+ ┃ ┃ ┃ ┗ 📜CalendarForm.tsx
+ ┃ ┃ ┣ 📂mypage
+ ┃ ┃ ┃ ┣ 📜ApprovedAnnual.module.scss
+ ┃ ┃ ┃ ┣ 📜ApprovedAnnual.tsx
+ ┃ ┃ ┃ ┣ 📜CompletedDutyList.module.scss
+ ┃ ┃ ┃ ┣ 📜CompletedDutyList.tsx
+ ┃ ┃ ┃ ┣ 📜MenuTab.module.scss
+ ┃ ┃ ┃ ┣ 📜MenuTab.tsx
+ ┃ ┃ ┃ ┣ 📜MonthRange.module.scss
+ ┃ ┃ ┃ ┣ 📜MonthRange.tsx
+ ┃ ┃ ┃ ┣ 📜PlannedDutyList.module.scss
+ ┃ ┃ ┃ ┣ 📜PlannedDutyList.tsx
+ ┃ ┃ ┃ ┣ 📜RemainingAnnual.module.scss
+ ┃ ┃ ┃ ┣ 📜RemainingAnnual.tsx
+ ┃ ┃ ┃ ┣ 📜RequestedAnnual.module.scss
+ ┃ ┃ ┃ ┗ 📜RequestedAnnual.tsx
+ ┃ ┃ ┣ 📂pagenation
+ ┃ ┃ ┃ ┣ 📜PageNation.module.scss
+ ┃ ┃ ┃ ┗ 📜PageNation.tsx
+ ┃ ┃ ┗ 📂sidebar
+ ┃ ┃ ┃ ┣ 📜SideBar.module.scss
+ ┃ ┃ ┃ ┗ 📜SideBar.tsx
+ ┃ ┣ 📂layout
+ ┃ ┃ ┣ 📜AdminLayout.tsx
+ ┃ ┃ ┣ 📜AdminPrivateRouteWrapper.tsx
+ ┃ ┃ ┣ 📜MainLayout.module.scss
+ ┃ ┃ ┗ 📜MainLayout.tsx
+ ┃ ┣ 📂pages
+ ┃ ┃ ┣ 📂admin
+ ┃ ┃ ┃ ┣ 📜AdminAnnual.module.scss
+ ┃ ┃ ┃ ┣ 📜AdminAnnual.tsx
+ ┃ ┃ ┃ ┣ 📜AdminDuty.module.scss
+ ┃ ┃ ┃ ┣ 📜AdminDuty.tsx
+ ┃ ┃ ┃ ┣ 📜AdminEmployee.module.scss
+ ┃ ┃ ┃ ┗ 📜AdminEmployee.tsx
+ ┃ ┃ ┣ 📂login
+ ┃ ┃ ┃ ┣ 📜LogIn.module.scss
+ ┃ ┃ ┃ ┣ 📜LogIn.tsx
+ ┃ ┃ ┃ ┣ 📜SignUp.module.scss
+ ┃ ┃ ┃ ┗ 📜SignUp.tsx
+ ┃ ┃ ┣ 📂main
+ ┃ ┃ ┃ ┣ 📜Main.module.scss
+ ┃ ┃ ┃ ┗ 📜Main.tsx
+ ┃ ┃ ┗ 📂mypage
+ ┃ ┃ ┃ ┣ 📜MyAnnual.module.scss
+ ┃ ┃ ┃ ┣ 📜MyAnnual.tsx
+ ┃ ┃ ┃ ┣ 📜MyDuty.module.scss
+ ┃ ┃ ┃ ┣ 📜MyDuty.tsx
+ ┃ ┃ ┃ ┣ 📜MyInfo.module.scss
+ ┃ ┃ ┃ ┣ 📜MyInfo.tsx
+ ┃ ┃ ┃ ┣ 📜MyPage.module.scss
+ ┃ ┃ ┃ ┗ 📜Mypage.tsx
+ ┃ ┣ 📂types
+ ┃ ┃ ┣ 📜AccessTypes.ts
+ ┃ ┃ ┣ 📜AdminTypes.ts
+ ┃ ┃ ┣ 📜MainTypes.ts
+ ┃ ┃ ┗ 📜MypageTypes.ts
+ ┃ ┣ 📂utils
+ ┃ ┃ ┣ 📂constants
+ ┃ ┃ ┃ ┗ 📜regex.ts
+ ┃ ┃ ┣ 📜cookie.ts
+ ┃ ┃ ┣ 📜handleLogout.ts
+ ┃ ┃ ┗ 📜PrivateRoute.tsx
+ ┃ ┣ 📜App.module.scss
+ ┃ ┣ 📜App.tsx
+ ┃ ┣ 📜custom.d.ts
+ ┃ ┣ 📜index.scss
+ ┃ ┣ 📜index.tsx
+ ┃ ┣ 📜vite-env.d.ts
+ ┃ ┗ 📜_variables.scss
+ ┣ 📜.env
+ ┣ 📜.eslintrc.cjs
+ ┣ 📜.gitignore
+ ┣ 📜.prettierignore
+ ┣ 📜.prettierrc
+ ┣ 📜index.html
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┣ 📜tsconfig.json
+ ┣ 📜tsconfig.node.json
+ ┗ 📜vite.config.ts
+</details>
+
 
 <br />
 
