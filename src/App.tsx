@@ -94,9 +94,6 @@ function App() {
           </Route>
         </Route>
       </Routes>
-      <div className="spin">
-        <Spin size="large" style={{ fontSize: '64px' }} />
-      </div>
     </>
   )
 }
