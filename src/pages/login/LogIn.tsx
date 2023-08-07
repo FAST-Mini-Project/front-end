@@ -1,89 +1,89 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import style from './LogIn.module.scss'
-import { loginApi } from '@/api/user'
-import { setCookie, getCookie } from '@/utils/cookie'
-import { Tooltip } from 'antd'
-import { emailRegex, passwordRegex } from '@/utils/constants/regex'
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import style from './LogIn.module.scss';
+import { loginApi } from '@/api/user';
+import { setCookie, getCookie } from '@/utils/cookie';
+import { Tooltip } from 'antd';
+import { emailRegex, passwordRegex } from '@/utils/constants/regex';
 
 const LogIn = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [loginEmail, setLoginEmail] = useState('')
-  const [loginPassword, setLoginPassword] = useState('')
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
-  //유효성 검사
-  const [emailValidateText, setEmailValidateText] = useState('')
-  const [passwordValidateText, setPasswordValidateText] = useState('')
-  const [emailFocused, setEmailFocused] = useState(false)
-  const [passwordFocused, setPasswordFocused] = useState(false)
-  const [loginButtonDisabled, setLoginButtonDisabled] = useState<boolean[]>([false, false])
+  const [emailValidateText, setEmailValidateText] = useState('');
+  const [passwordValidateText, setPasswordValidateText] = useState('');
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [isLoginDisabled, setIsLoginDisabled] = useState(true);
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    const res = await loginApi({ email: loginEmail, password: loginPassword })
-    if (res) {
-      if (Array.isArray(res)) {
-        //errorMessage
-        alert(res[0])
-      } else {
-        // success
-        console.log(res)
-        setCookie('token', res.token)
-        localStorage.setItem('user', JSON.stringify(res.user))
-        // 유저 유형에 따라 페이지 이동 (추후 관리자 accessToken 환경변수로 검증?)
-        if (res.user.role === 'ROLE_USER') {
-          navigate('/')
-        } else {
-          navigate('/admin/employee')
-        }
-      }
-    }
-  }
-  const token = getCookie('token') || ''
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const token = getCookie('token') || '';
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
   useEffect(() => {
     if (token && user.role) {
-      alert('이미 로그인 되어있습니다')
-      navigate(-1)
+      alert('이미 로그인 되어있습니다');
+      navigate(-1);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if (loginEmail === '') {
-      setEmailValidateText('🙂이메일을 입력해주세요.')
-    } else {
-      if (emailRegex.test(loginEmail)) {
-        setEmailValidateText('✅올바른 이메일 형식입니다.')
-        const updatedLoginButtonDisabled = [...loginButtonDisabled]
-        updatedLoginButtonDisabled[0] = true
-        setLoginButtonDisabled(updatedLoginButtonDisabled)
-      } else {
-        setEmailValidateText('❌이메일 형식이 올바르지 않습니다.')
-        const updatedLoginButtonDisabled = [...loginButtonDisabled]
-        updatedLoginButtonDisabled[0] = false
-        setLoginButtonDisabled(updatedLoginButtonDisabled)
-      }
-    }
-  }, [loginEmail])
+    validateEmail(loginEmail);
+  }, [loginEmail]);
 
   useEffect(() => {
-    if (loginPassword === '') {
-      setPasswordValidateText('🙂비밀번호를 입력해주세요.')
-    } else {
-      if (passwordRegex.test(loginPassword)) {
-        setPasswordValidateText('✅올바른 비밀번호 형식입니다.')
-        const updatedLoginButtonDisabled = [...loginButtonDisabled]
-        updatedLoginButtonDisabled[1] = true
-        setLoginButtonDisabled(updatedLoginButtonDisabled)
+    validatePassword(loginPassword);
+  }, [loginPassword]);
+
+  const handleLogin = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await loginApi({ email: loginEmail, password: loginPassword });
+    if (res) {
+      if (Array.isArray(res)) {
+        alert(res[0]);
       } else {
-        setPasswordValidateText('❌4자 이상의 비밀번호를 작성해주세요')
-        const updatedLoginButtonDisabled = [...loginButtonDisabled]
-        updatedLoginButtonDisabled[1] = false
-        setLoginButtonDisabled(updatedLoginButtonDisabled)
+        console.log(res);
+        setCookie('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        res.user.role === 'ROLE_USER' 
+        ? navigate('/') 
+        : navigate('/admin/employee');
       }
     }
-  }, [loginPassword])
+  };
+
+  const validateEmail = (email: string) => {
+    const isEmailValid = email !== '' && emailRegex.test(email);
+    const isPasswordValid = loginPassword !== '' && passwordRegex.test(loginPassword);
+    setIsLoginDisabled(!(isEmailValid && isPasswordValid));
+
+    if (email === '') {
+      setEmailValidateText('🙂이메일을 입력해주세요.');
+    } else {
+      setEmailValidateText(
+        isEmailValid 
+        ? '✅올바른 이메일 형식입니다.' 
+        : '❌이메일 형식이 올바르지 않습니다.'
+      );
+    }
+  };
+
+  const validatePassword = (password: string) => {
+    const isEmailValid = loginEmail !== '' && emailRegex.test(loginEmail);
+    const isPasswordValid = password !== '' && passwordRegex.test(password);
+    setIsLoginDisabled(!(isEmailValid && isPasswordValid));
+
+    if (password === '') {
+      setPasswordValidateText('🙂비밀번호를 입력해주세요.');
+    } else {
+      setPasswordValidateText(
+        isPasswordValid 
+        ? '✅올바른 비밀번호 형식입니다.' 
+        : '❌4자 이상의 비밀번호를 작성해주세요'
+      );
+    }
+  };
 
   return (
     <form className={style.container} onSubmit={handleLogin}>
@@ -112,12 +112,9 @@ const LogIn = () => {
           />
         </Tooltip>
         <button
-          className={`${style.loginButton} ${
-            loginButtonDisabled.every((check) => check === true) ? '' : style.disabled
-          }`}
-          onClick={handleLogin}
+          className={`${style.loginButton} ${isLoginDisabled ? '' : style.disabled}`}
           type="submit"
-          disabled={loginButtonDisabled.every((check) => check === true) ? false : true}
+          disabled={isLoginDisabled}
         >
           로그인
         </button>
@@ -126,7 +123,7 @@ const LogIn = () => {
         </Link>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default LogIn
+export default LogIn;

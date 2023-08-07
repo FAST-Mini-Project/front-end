@@ -6,17 +6,6 @@ import { userInfo } from "@/types/AdminTypes";
 import AdminFilters from "@/components/adminfilter/AdminFilter";
 import { getCookie } from "@/utils/cookie";
 
-// 페이지네이션 함수
-const getPaginatedItems = (
-  items: userInfo[],
-  currentPage: number,
-  itemsPerPage: number,
-): userInfo[] => {
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  return items.slice(startIndex, endIndex);
-};
-
 const AdminEmployee = () => {
   const [data, setData] = useState<userInfo[]>([]);
   //페이지네이션
@@ -52,6 +41,17 @@ const AdminEmployee = () => {
       return a[selectedColumn] < b[selectedColumn] ? 1 : -1;
     }
   });  
+
+  // 페이지네이션 함수
+  const getPaginatedItems = (
+    items: userInfo[],
+    currentPage: number,
+    itemsPerPage: number,
+  ): userInfo[] => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return items.slice(startIndex, endIndex);
+  };
 
   // 현재 페이지에 대한 페이징 처리된 데이터 반환
   const pagenatedData = getPaginatedItems(
@@ -89,21 +89,23 @@ const AdminEmployee = () => {
         <table className={style.table}>
           <thead>
             <tr className={style.tr}>
-              <th className={style.th}>사원명</th>
-              <th className={style.th}>이메일</th>
-              <th className={style.th}>잔여 연차</th>
-              <th className={style.th}>당직 근무일 수</th>
+              <th className={`${style.th} ${style.nameEmail}`}>사원명</th>
+              <th className={`${style.th} ${style.nameEmail}`}>이메일</th>
+              <th className={`${style.th} ${style.restWork}`}>잔여 연차</th>
+              <th className={`${style.th} ${style.restWork}`}>당직 근무일 수</th>
             </tr>
           </thead>
           <tbody>
             {pagenatedData.map((employee: userInfo) => (
               <tr key={employee.id} className={style.tr}>
-                <td className={style.td}>
-                  {employee.name} #{employee.employeeNumber.slice(0,4)}
-                </td>
-                <td className={style.td}>{employee.email}</td>
-                <td className={style.td}>{employee.restAnnual}</td>
-                <td className={style.td}>{employee.workDay}</td>
+                <td className={`${style.td} ${style.nameEmail}`}>
+                  {employee.name} {employee.employeeNumber.slice(0,5)}</td>
+                <td className={`${style.td} ${style.nameEmail}`}>
+                  {employee.email}</td>
+                <td className={`${style.td} ${style.restWork}`}>
+                  {employee.restAnnual}</td>
+                <td className={`${style.td} ${style.restWork}`}>
+                  {employee.workDay}</td>
               </tr>
             ))}
           </tbody>

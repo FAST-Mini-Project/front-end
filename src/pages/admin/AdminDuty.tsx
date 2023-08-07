@@ -72,7 +72,7 @@ const AdminDuty = () => {
     } else {
       fetchData().then(() => {
         const filteredEvents = currentEvents.filter((event) =>
-          event.title.includes(`${data.name}#${data.employeeNumber.slice(0, 4)}`)
+          event.title.includes(`${data.name}${data.employeeNumber.slice(0, 5)}`)
         )
         setCurrentEvents(filteredEvents)
       })
@@ -89,7 +89,7 @@ const AdminDuty = () => {
       workData.forEach((item: any) => {
         workEvents.push({
           workId: item.workId,
-          title: item.name + '#' + item.employeeNumber.slice(0, 4),
+          title: item.name + item.employeeNumber.slice(0, 5),
           date: item.date,
           isAnnual: false,
           backgroundColor: '#795c34',
@@ -105,6 +105,11 @@ const AdminDuty = () => {
 
   // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
+    const current = new Date()
+    if (current > info.date) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.')
+      return
+    }
     setShowAdminWork(true)
     setDateClickInfo(info)
   }
