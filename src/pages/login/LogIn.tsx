@@ -3,8 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import style from './LogIn.module.scss'
 import { loginApi } from '@/api/user'
 import { setCookie, getCookie } from '@/utils/cookie'
-import { Tooltip } from 'antd'
-import { emailRegex, passwordRegex } from '@/utils/constants/regex'
+import { EmailInput, PasswordInput } from '@/components/loginSignupRegex/regexValid'
 
 const LogIn = () => {
   const navigate = useNavigate()
@@ -12,11 +11,8 @@ const LogIn = () => {
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
 
-  const [emailValidateText, setEmailValidateText] = useState('')
-  const [passwordValidateText, setPasswordValidateText] = useState('')
-  const [emailFocused, setEmailFocused] = useState(false)
-  const [passwordFocused, setPasswordFocused] = useState(false)
-  const [isLoginDisabled, setIsLoginDisabled] = useState(true)
+  const [isEmailValid, setIsEmailValid] = useState(false)
+  const [isPasswordValid, setIsPasswordValid] = useState(false)
 
   const token = getCookie('token') || ''
   const user = JSON.parse(localStorage.getItem('user') || '{}')
@@ -28,13 +24,13 @@ const LogIn = () => {
     }
   }, [])
 
-  useEffect(() => {
-    validateEmail(loginEmail)
-  }, [loginEmail])
+  const handleEmailValidate = (isValid: boolean) => {
+    setIsEmailValid(isValid)
+  }
 
-  useEffect(() => {
-    validatePassword(loginPassword)
-  }, [loginPassword])
+  const handlePasswordValidate = (isValid: boolean) => {
+    setIsPasswordValid(isValid)
+  }
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -51,63 +47,25 @@ const LogIn = () => {
     }
   }
 
-  const validateEmail = (email: string) => {
-    const isEmailValid = email !== '' && emailRegex.test(email)
-    const isPasswordValid = loginPassword !== '' && passwordRegex.test(loginPassword)
-    setIsLoginDisabled(!(isEmailValid && isPasswordValid))
-
-    if (email === '') {
-      setEmailValidateText('🙂이메일을 입력해주세요.')
-    } else {
-      setEmailValidateText(isEmailValid ? '✅올바른 이메일 형식입니다.' : '❌이메일 형식이 올바르지 않습니다.')
-    }
-  }
-
-  const validatePassword = (password: string) => {
-    const isEmailValid = loginEmail !== '' && emailRegex.test(loginEmail)
-    const isPasswordValid = password !== '' && passwordRegex.test(password)
-    setIsLoginDisabled(!(isEmailValid && isPasswordValid))
-
-    if (password === '') {
-      setPasswordValidateText('🙂비밀번호를 입력해주세요.')
-    } else {
-      setPasswordValidateText(
-        isPasswordValid ? '✅올바른 비밀번호 형식입니다.' : '❌4자 이상의 비밀번호를 작성해주세요'
-      )
-    }
-  }
-
   return (
     <form className={style.container} onSubmit={handleLogin}>
       <img className={style.img} src="/logo.png" alt="로고" />
       <div className={style.box}>
         <h1 className={style.title}>로그인</h1>
-        <Tooltip title={emailValidateText} open={emailFocused} placement="right">
-          <input
-            className={style.input}
-            type="email"
-            placeholder="이메일 입력"
-            onChange={(e) => setLoginEmail(e.target.value)}
-            onFocus={() => setEmailFocused(true)}
-            onBlur={() => setEmailFocused(false)}
-            required
-          />
-        </Tooltip>
-        <Tooltip title={passwordValidateText} open={passwordFocused} placement="right">
-          <input
-            className={style.input}
-            type="password"
-            placeholder="비밀번호 입력"
-            onChange={(e) => setLoginPassword(e.target.value)}
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
-            required
-          />
-        </Tooltip>
+        <EmailInput
+          value={loginEmail}
+          onChange={(e) => setLoginEmail(e.target.value)}
+          onValidate={handleEmailValidate}
+        />
+        <PasswordInput
+          value={loginPassword}
+          onChange={(e) => setLoginPassword(e.target.value)}
+          onValidate={handlePasswordValidate}
+        />
         <button
-          className={`${style.loginButton} ${isLoginDisabled ? '' : style.disabled}`}
+          className={`${style.loginButton} ${isEmailValid && isPasswordValid ? '' : style.disabled}`}
           type="submit"
-          disabled={isLoginDisabled}
+          disabled={!isEmailValid || !isPasswordValid}
         >
           로그인
         </button>

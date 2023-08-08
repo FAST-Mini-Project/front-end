@@ -45,7 +45,7 @@ const MainHeader = () => {
             <img className={style.icon} src="/free-icon-employee-3043585.png" alt="" />
           </div>
           <div className={style.userWrapper}>
-            <div className={style.user}>{`${user.name}#${user.employeeNumber.slice(0, 4)}`}</div>
+            <div className={style.user}>{`${user.name}${user.employeeNumber}`}</div>
             <span className={style.role}>{user.role === 'ROLE_USER' ? '유저' : '관리자'}</span>
           </div>
         </div>
