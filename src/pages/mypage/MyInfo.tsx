@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { updatePasswordApi } from '@/api/mypage/index'
 import { updatePasswordData, updatePasswordReq } from '@/types/MypageTypes'
 import { getCookie, removeCookie } from '@/utils/cookie'
-// import styles from './MyInfo.module.scss'
+import { emailRegex, passwordRegex } from '@/utils/constants/regex'
+import styles from './MyInfo.module.scss'
 
 const MyInfo: React.FC = () => {
   // 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인, 출력 메시지 상태 관리
@@ -22,17 +23,29 @@ const MyInfo: React.FC = () => {
     const user = userString ? JSON.parse(userString) : null
     const userEmail = user?.email || ''
 
-    // 비밀번호 수정 api에 보내는 RequestBody
-    const requestBody: updatePasswordReq = {
-      email: userEmail,
-      oldPassword,
-      newPassword
+    // email 유효성 검사
+    if (!emailRegex.test(userEmail)) {
+      setMessage('유효한 이메일이 아닙니다. 이메일 주소를 확인해주세요.')
+      return
+    }
+
+    // 새 비밀번호가 8자 이상인지 확인
+    if (!passwordRegex.test(newPassword)) {
+      setMessage('새 비밀번호는 최소 8자 이상이어야 합니다.')
+      return
     }
 
     // 새 비밀번호와 확인 비밀번호의 일치 여부 확인
     if (newPassword !== confirmNewPassword) {
       setMessage('새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.')
       return
+    }
+
+    // 비밀번호 수정 api에 보내는 RequestBody
+    const requestBody: updatePasswordReq = {
+      email: userEmail,
+      oldPassword,
+      newPassword
     }
 
     try {
@@ -53,23 +66,25 @@ const MyInfo: React.FC = () => {
   }
 
   return (
-    <section>
+    <section className={styles.form__container}>
       <form onSubmit={handleFormSubmit}>
         <label>
-          현재 비밀번호:
+          현재 비밀번호
           <input type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
         </label>
         <label>
-          새 비밀번호:
+          새 비밀번호
           <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
         </label>
         <label>
-          새 비밀번호 확인:
+          새 비밀번호 확인
           <input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} />
         </label>
         <button>비밀번호 변경</button>
       </form>
-      <p>{message}</p>
+      <div className={styles.form__description}>
+        <p>{message}</p>
+      </div>
     </section>
   )
 }
