@@ -16,8 +16,11 @@ export const getUserAnnualApi = async (token: string, year: number) => {
         Authorization: `Bearer ${token}`
       }
     })
-    const data: annualUserData = res.data.data
-    if (res.status === 200) return data
+
+    if (res.status === 200) {
+      const data: annualUserData = res.data.data
+      return data
+    }
   } catch (error) {
     console.error('개인 연차 조회 api 오류', error)
   }

@@ -1,5 +1,6 @@
 import style from './AnnualApplyModal.module.scss'
 import { DateClickInfo } from '@/types/MainTypes'
+import { annualUserData } from '@/types/MypageTypes'
 import { useState } from 'react'
 import { IoIosClose } from 'react-icons/io'
 import { getCookie } from '@/utils/cookie'
@@ -8,17 +9,41 @@ import { annualApplyApi } from '@/api/main'
 interface Props {
   dateInfo: DateClickInfo
   setShowModal: (showModal: boolean) => void
+  myAnnual: annualUserData
 }
 
-const AnnaulApplyModal = ({ dateInfo, setShowModal }: Props) => {
+const AnnaulApplyModal = ({ dateInfo, setShowModal, myAnnual }: Props) => {
   const [dateValue, setDateValue] = useState<string>(dateInfo.dateStr)
 
   const dateValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const current = new Date()
+    if (e.target.value < current.toISOString().slice(0, 10)) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.')
+      return
+    }
+    const isExist = myAnnual.find((item) => item.date === e.target.value)
+    if (isExist) {
+      alert('이미 신청한 연차가 있습니다.')
+      return
+    }
     setDateValue(e.target.value)
     console.log(e.target.value)
   }
 
   const applyHandler = async () => {
+    //연차 신청 전에, 전체 연차 개수가 15개 이상인지 확인
+    const annualCount = myAnnual.length
+    if ((annualCount as number) >= 15) {
+      alert('연차를 15일 이상 사용하실 수 없습니다.')
+      return
+    }
+    //현재 있는 이벤트 중에, 클릭한 날짜에 유저가 신청한 연차가 있는지 확인
+    const isExist = myAnnual.find((item) => item.date === dateValue)
+    if (isExist) {
+      alert('이미 신청한 연차가 있습니다.')
+      return
+    }
+    //연차 신청
     await annualApplyApi(getCookie('token'), { date: dateValue }).then((res) => {
       if (Array.isArray(res)) {
         alert('연차 신청에 실패했습니다.')
