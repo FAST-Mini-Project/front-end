@@ -83,6 +83,10 @@
       justify-content: center;
       flex-direction: column;
       margin: 15px 0;
+      .img {
+        width: 150px;
+        margin-bottom: 10px;
+      }
       .des {
         color: $description-primary-2;
         margin-bottom: 5px;

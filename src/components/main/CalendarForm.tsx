@@ -7,7 +7,8 @@ import style from './CalendarForm.module.scss'
 //react
 import { useState, useEffect, useRef } from 'react'
 // types
-import { DateClickInfo } from '@/types/MainTypes'
+import { DateClickInfo, Events } from '@/types/MainTypes'
+import { annualUserData } from '@/types/MypageTypes'
 //components
 import AnnualApplyModal from '@/components/main/AnnualApplyModal'
 //api fetch
@@ -16,18 +17,11 @@ import { getUserAnnualApi, getUserWorkApi } from '@/api/mypage'
 //cookie
 import { getCookie } from '@/utils/cookie'
 
-interface EventObject {
-  title: string
-  date: string
-  backgroundColor?: string
-  borderColor?: string
-}
-
 const CalendarForm = () => {
   const date = new Date()
   const initialYear = date.getFullYear()
   const initialMonth = date.getMonth() + 1
-  const [currentEvents, setCurrentEvents] = useState<EventObject[]>([])
+  const [currentEvents, setCurrentEvents] = useState<Events[]>([])
   // 캘린더 이전, 다음달 변경 시 년/월 정보
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
@@ -40,6 +34,10 @@ const CalendarForm = () => {
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
   // 유저 정보
   const user = JSON.parse(localStorage.getItem('user') || '{}')
+  //props로 내려줄 내 연차 정보
+  const [myAnnual, setMyAnnual] = useState<annualUserData>([])
+  //token
+  const token = getCookie('token')
 
   useEffect(() => {
     if (selectText === '전체 연차/당직') {
@@ -50,12 +48,22 @@ const CalendarForm = () => {
     }
   }, [selectText, year, month])
 
+  useEffect(() => {
+    // eslint-disable-next-line no-extra-semi
+    ;(async () => {
+      const annualData = await getUserAnnualApi(token, year)
+      if (annualData) {
+        setMyAnnual(annualData)
+      }
+    })()
+  }, [])
+
   // 진짜 api함수
   const getAllEvents = async () => {
     const annualData = await getAnnualApi(year, month)
     const workData = await getWorkApi(year, month)
-    const annualEvents: EventObject[] = []
-    const workEvents: EventObject[] = []
+    const annualEvents: Events[] = []
+    const workEvents: Events[] = []
     // 연차 events push
     if (annualData) {
       annualData
@@ -94,24 +102,14 @@ const CalendarForm = () => {
     setCurrentEvents(events)
   }
 
-  const handleDateClick = (info: DateClickInfo) => {
-    const current = new Date()
-    if (current > info.date) {
-      alert('오늘 이전 날짜는 선택할 수 없습니다.')
-      return
-    }
-    setShowModal(true)
-    setDateClickInfo(info)
-  }
-
   const getMyEvents = async () => {
-    const token = getCookie('token')
     const annualData = await getUserAnnualApi(token, year)
     const workData = await getUserWorkApi(token, year, month)
-    const annualEvents: EventObject[] = []
-    const workEvents: EventObject[] = []
+    const annualEvents: Events[] = []
+    const workEvents: Events[] = []
     // 연차 events push
     if (annualData) {
+      setMyAnnual(annualData)
       annualData
         .filter((item) => item.status === 'APPROVED')
         .forEach((item) => {
@@ -156,6 +154,24 @@ const CalendarForm = () => {
     }
     const events = [...annualEvents, ...workEvents]
     setCurrentEvents(events)
+  }
+
+  const handleDateClick = (info: DateClickInfo) => {
+    const current = new Date()
+    current.setHours(0, 0, 0, 0)
+    if (current > info.date) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.')
+      return
+    }
+    //현재 있는 이벤트 중에, 클릭한 날짜에 유저가 신청한 연차가 있는지 확인
+    const isExist = myAnnual.find((item) => item.date === info.dateStr)
+    if (isExist) {
+      alert('이미 신청한 연차가 있습니다.')
+      return
+    }
+
+    setShowModal(true)
+    setDateClickInfo(info)
   }
 
   const selectHandler = () => {
@@ -250,7 +266,9 @@ const CalendarForm = () => {
             <span>당직</span>
           </div>
         </div>
-        {showModal && <AnnualApplyModal dateInfo={dateClickInfo as DateClickInfo} setShowModal={setShowModal} />}
+        {showModal && (
+          <AnnualApplyModal dateInfo={dateClickInfo as DateClickInfo} setShowModal={setShowModal} myAnnual={myAnnual} />
+        )}
       </div>
     </>
   )

@@ -5,7 +5,7 @@ import loadable from '@loadable/component'
 //spinner
 import { Spin } from 'antd'
 
-import { UserPrivateRoute } from './utils/PrivateRoute'
+import { UserPrivateRoute } from '@/utils/UserPrivateRoute'
 import AdminPrivateRouteWrapper from '@/layout/AdminPrivateRouteWrapper'
 
 const MainLayout = loadable(() => import('@/layout/MainLayout'), {

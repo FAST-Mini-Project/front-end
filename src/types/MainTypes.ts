@@ -57,3 +57,10 @@ export interface DateClickInfo {
   view: unknown
   resource?: unknown
 }
+
+export interface Events {
+  title: string
+  date: string
+  backgroundColor?: string
+  borderColor?: string
+}

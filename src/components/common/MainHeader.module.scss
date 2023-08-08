@@ -1,7 +1,7 @@
 @import '@/_variables.scss';
 
 .container {
-  width: 200px;
+  min-width: 200px;
   max-height: 100%;
   position: relative;
   box-shadow: -1px 0px 5px $bg-sub-grey;
@@ -82,6 +82,11 @@
       justify-content: center;
       flex-direction: column;
       margin: 15px 0;
+      .img {
+        width: 150px;
+        margin-bottom: 10px;
+      }
+
       .des {
         color: $description-primary-2;
         margin-bottom: 5px;
