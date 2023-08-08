@@ -30,9 +30,7 @@ const AdminAnnual = () => {
 
       if (response) {
         setData({ data: response.data });
-      } else {
-        console.error("Error fetching annual data.");
-      }
+      } 
     };
 
     fetchData();
@@ -41,25 +39,15 @@ const AdminAnnual = () => {
   // 승인 버튼 누를시 
   const handleApprove = async (annualId: number) => {
     const token = getCookie("token");
-    try {
       await approveAnnualAdminApi(token, annualId);
-      console.log("승인 성공");
       setApprovedId(annualId);
-    } catch (error) {
-      console.error("승인 실패", error);
-    }
   };
 
   // 거부 버튼 누를시
   const handleReject = async (annualId: number) => {
     const token = getCookie("token");
-    try {
       await rejectAnnualAdminApi(token, annualId);
-      console.log("거부 성공");
-      setRejectedId(annualId);
-    } catch (error) {
-      console.error("거부 실패", error);
-    }
+      setRejectedId(annualId);   
   };
 
   // 연차 신청 목록에 있는 사원 검색

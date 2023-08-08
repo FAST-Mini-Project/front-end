@@ -32,7 +32,7 @@ const AdminDuty = () => {
   const calendarRef = useRef<FullCalendar>(null)
   // 캘린더 헤더 툴바 버튼
   const [selectText] = useState<string>('전체 연차/당직')
-  // 연차 신청 팝업 열기
+  // 당직 신청 팝업 열기
   const [showAdminWork, setShowAdminWork] = useState(false)
   const [dateClickInfo, setDateClickInfo] = useState<DateClickInfo | null>(null)
   // 사원 정보
@@ -57,9 +57,7 @@ const AdminDuty = () => {
       const userList = await getUserListApi(token)
       if (userList) {
         setEmployees(userList.data)
-      } else {
-        console.error('Error fetching user list data.')
-      }
+      } 
     }
 
     fetchData()
@@ -96,23 +94,24 @@ const AdminDuty = () => {
           borderColor: '#795c34'
         })
       })
-
       setCurrentEvents([...workEvents])
-    } else {
-      console.error('Error fetching data.')
-    }
+    } 
   }
 
   // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
-    const current = new Date()
-    if (current > info.date) {
-      alert('오늘 이전 날짜는 선택할 수 없습니다.')
-      return
+    const current = new Date();
+    const currentDate = new Date(current.getFullYear(), current.getMonth(), current.getDate());
+    const selectedDate = new Date(info.date.getFullYear(), info.date.getMonth(), info.date.getDate());
+  
+    if (currentDate > selectedDate) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.');
+      return;
     }
-    setShowAdminWork(true)
-    setDateClickInfo(info)
+    setShowAdminWork(true);
+    setDateClickInfo(info);
   }
+  
 
   // 당직 삭제
   const handleEventClick = async (info: any) => {

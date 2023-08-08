@@ -4,6 +4,7 @@ import { IoIosClose } from 'react-icons/io'
 import style from './AdminWork.module.scss'
 import { userListData, workRegistReq } from '@/types/AdminTypes'
 import { registWorkApi } from '@/api/admin'
+import { getAnnualApi } from '@/api/main'
 import { getCookie } from '@/utils/cookie'
 
 interface Props {
@@ -34,11 +35,36 @@ const AdminWork = ({ dateInfo, employees, setShowAdminWork, onWorkAssigned }: Pr
    };
 
    const assignHandler = async () => {
+    const annualData = await getAnnualApi(
+      parseInt(dateInfo.dateStr.slice(0, 4)),
+      parseInt(dateInfo.dateStr.slice(5, 7))
+    );console.log(annualData)
+
     for (const employee of selectedEmployees) {
       if (!employee) continue;
-      // 직원 정보로부터 id를 가져옵니다.
-      const foundEmployee = employees.find(e => `${e.name}${e.employeeNumber.slice(0, 5)}` === employee);
-      // id와 날짜 정보를 서버에 전송합니다.
+
+      const foundEmployee = employees.find(
+        (e) => `${e.name}${e.employeeNumber.slice(0, 5)}` === employee
+      );
+
+      if (foundEmployee && annualData) {
+        const employeeOnLeave = annualData.find(
+          (leave) =>
+            leave.name === foundEmployee.name &&
+            leave.employeeNumber.slice(0, 5) === foundEmployee.employeeNumber.slice(0, 5) &&
+            leave.date === dateInfo.dateStr &&
+            leave.status === "APPROVED"
+        );
+
+        if (employeeOnLeave) {
+          alert(`${foundEmployee.name} 사원의 휴가일 입니다.`);
+          const newSelectedEmployees = [...selectedEmployees];
+          newSelectedEmployees[selectedEmployees.indexOf(employee)] = "";
+          setSelectedEmployees(newSelectedEmployees);
+          continue;
+        }
+      }
+
       if (foundEmployee) {
         const data: workRegistReq = {
           id: foundEmployee.id,
