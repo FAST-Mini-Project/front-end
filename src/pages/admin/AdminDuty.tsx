@@ -57,9 +57,7 @@ const AdminDuty = () => {
       const userList = await getUserListApi(token)
       if (userList) {
         setEmployees(userList.data)
-      } else {
-        console.error('Error fetching user list data.')
-      }
+      } 
     }
 
     fetchData()
@@ -96,11 +94,8 @@ const AdminDuty = () => {
           borderColor: '#795c34'
         })
       })
-
       setCurrentEvents([...workEvents])
-    } else {
-      console.error('Error fetching data.')
-    }
+    } 
   }
 
   // 달력 클릭시 모달창

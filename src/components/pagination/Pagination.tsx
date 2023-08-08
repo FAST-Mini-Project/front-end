@@ -1,18 +1,17 @@
 import style from "./PageNation.module.scss";
 import { Dispatch, SetStateAction } from "react";
 
-interface PageNationProps {
+interface PaginationProps {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   totalPages: number;
 }
 
-const PageNation = ({ currentPage, setCurrentPage, totalPages }: PageNationProps) => {
-  // 이전 페이지로 이동
+const Pagination = ({ currentPage, setCurrentPage, totalPages }: PaginationProps) => {
   const goToPreviousPage = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
-  // 다음 페이지로 이동
+
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
@@ -32,4 +31,4 @@ const PageNation = ({ currentPage, setCurrentPage, totalPages }: PageNationProps
   );
 };
 
-export default PageNation;
+export default Pagination;

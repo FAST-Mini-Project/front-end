@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import style from "./AdminEmployee.module.scss";
 import { getUserListApi } from "@/api/admin";
-import PageNation from "@/components/pagenation/PageNation";
+import Pagination from "@/components/pagination/Pagination";
 import { userInfo } from "@/types/AdminTypes";
 import AdminFilters from "@/components/adminfilter/AdminFilter";
 import { getCookie } from "@/utils/cookie";
@@ -112,7 +112,7 @@ const AdminEmployee = () => {
         </table>
         {/* 검색 입력 및 페이지네이션 컴포넌트 */}
         <div className={style.pagenationWrapper}>
-          <PageNation
+          <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}

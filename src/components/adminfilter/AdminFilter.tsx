@@ -63,7 +63,9 @@ const AdminFilters = ({
         value={search}
         onChange={handleSearchChange}
       />
-      <select className={style.searchInput} onChange={setSelectedColumn1 ? handleColumnChange1 : handleColumnChange2}>
+      <select 
+        className={style.searchInput} 
+        onChange={setSelectedColumn1 ? handleColumnChange1 : handleColumnChange2}>
         {columns.map((col, index) => (
           <option key={index} value={col.value}>
             {col.text}
@@ -71,11 +73,21 @@ const AdminFilters = ({
         ))}
       </select>
       <label>
-        <input type="radio" name={name} value="asc" checked={sort === 'asc'} onChange={handleSortChange} />
+        <input 
+          type="radio" 
+          name={name} 
+          value="asc" 
+          checked={sort === 'asc'} 
+          onChange={handleSortChange} />
         오름차순
       </label>
       <label>
-        <input type="radio" name={name} value="desc" checked={sort === 'desc'} onChange={handleSortChange} />
+        <input 
+          type="radio" 
+          name={name} 
+          value="desc" 
+          checked={sort === 'desc'} 
+          onChange={handleSortChange} />
         내림차순
       </label>
     </>
