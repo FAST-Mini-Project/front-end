@@ -69,8 +69,9 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'APPROVED')
         .forEach((item) => {
+          const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
           annualEvents.push({
-            title: item.name + item.employeeNumber,
+            title: truncatedName + item.employeeNumber,
             date: item.date,
             backgroundColor: '#5b8ce5',
             borderColor: '#5b8ce5'
@@ -79,8 +80,9 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'CANCELED')
         .forEach((item) => {
+          const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
           annualEvents.push({
-            title: item.name + item.employeeNumber,
+            title: truncatedName + item.employeeNumber,
             date: item.date,
             backgroundColor: 'rgba(91, 140, 229, 0.5)',
             borderColor: 'rgba(91, 140, 229, 0.5)'
@@ -90,8 +92,9 @@ const CalendarForm = () => {
     // 당직 events push
     if (workData) {
       workData.forEach((item) => {
+        const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
         workEvents.push({
-          title: item.name + item.employeeNumber,
+          title: truncatedName + item.employeeNumber,
           date: item.date,
           backgroundColor: '#ff7976',
           borderColor: '#ff7976'
@@ -113,8 +116,9 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'APPROVED')
         .forEach((item) => {
+          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
           annualEvents.push({
-            title: user.name + user.employeeNumber,
+            title: truncatedName + user.employeeNumber,
             date: item.date,
             backgroundColor: '#5b8ce5',
             borderColor: '#5b8ce5'
@@ -123,8 +127,9 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'CANCELED')
         .forEach((item) => {
+          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
           annualEvents.push({
-            title: user.name + user.employeeNumber,
+            title: truncatedName + user.employeeNumber,
             date: item.date,
             backgroundColor: 'rgba(91, 140, 229, 0.5)',
             borderColor: 'rgba(91, 140, 229, 0.5)'
@@ -133,8 +138,9 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'UNAPPROVED')
         .forEach((item) => {
+          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
           annualEvents.push({
-            title: user.name + user.employeeNumber,
+            title: truncatedName + user.employeeNumber,
             date: item.date,
             backgroundColor: 'rgba(171, 152, 242, 0.5)',
             borderColor: 'rgba(171, 152, 242, 0.5)'
@@ -144,8 +150,9 @@ const CalendarForm = () => {
     // 당직 events push
     if (workData) {
       workData.forEach((item) => {
+        const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
         workEvents.push({
-          title: user.name + user.employeeNumber,
+          title: truncatedName + user.employeeNumber,
           date: item.date,
           backgroundColor: '#ff7976',
           borderColor: '#ff7976'

@@ -78,25 +78,27 @@ const AdminDuty = () => {
   }, [selectText, year, month])
 
   // 당직 목록 가져오기
-  const fetchData = async () => {
-    const workData = await getWorkApi(year, month)
+const fetchData = async () => {
+  const workData = await getWorkApi(year, month);
 
-    if (workData) {
-      const workEvents: EventObject[] = []
+  if (workData) {
+    const workEvents: EventObject[] = [];
 
-      workData.forEach((item: any) => {
-        workEvents.push({
-          workId: item.workId,
-          title: item.name + item.employeeNumber.slice(0, 5),
-          date: item.date,
-          isAnnual: false,
-          backgroundColor: '#795c34',
-          borderColor: '#795c34'
-        })
-      })
-      setCurrentEvents([...workEvents])
-    } 
+    workData.forEach((item: any) => {
+      const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
+      workEvents.push({
+        workId: item.workId,
+        title: truncatedName + item.employeeNumber.slice(0, 5),
+        date: item.date,
+        isAnnual: false,
+        backgroundColor: "#795c34",
+        borderColor: "#795c34",
+      });
+    });
+    setCurrentEvents([...workEvents]);
   }
+};
+
 
   // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
