@@ -93,6 +93,7 @@ const SignUp = () => {
 
   return (
     <form className={style.container} onSubmit={handleSignUp}>
+      <img className={style.img} src="/logo.png" alt="로고" />
       <div className={style.box}>
         <h1 className={style.title}>회원가입</h1>
         <input

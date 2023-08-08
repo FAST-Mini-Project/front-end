@@ -72,7 +72,7 @@ const MainHeader = () => {
           </div>
         </div>
         <div className={style.footer}>
-          <div className={style.des}>Fast Campus MiniProject TEAM2</div>
+          <img className={style.img} src="/logo.png" alt="로고" />
           <div className={style.duration}>2023.07.24 ~ 2021.08.10</div>
           <div className={style.copy}>
             <span>© Icon by</span> <br />
