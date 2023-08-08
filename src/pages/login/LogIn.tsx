@@ -39,7 +39,6 @@ const LogIn = () => {
       if (Array.isArray(res)) {
         alert(res[0])
       } else {
-        console.log(res)
         setCookie('token', res.token)
         localStorage.setItem('user', JSON.stringify(res.user))
         res.user.role === 'ROLE_USER' ? navigate('/') : navigate('/admin/employee')

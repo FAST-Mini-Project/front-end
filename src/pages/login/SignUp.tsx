@@ -27,9 +27,7 @@ const SignUp = () => {
       }
     }
   }
-  useEffect(() => {
-    console.log(loginButtonDisabled)
-  }, [loginButtonDisabled])
+  useEffect(() => {}, [loginButtonDisabled])
 
   const token = getCookie('token') || ''
   const user = JSON.parse(localStorage.getItem('user') || '{}')

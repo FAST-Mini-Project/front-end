@@ -27,7 +27,6 @@ const AnnaulApplyModal = ({ dateInfo, setShowModal, myAnnual }: Props) => {
       return
     }
     setDateValue(e.target.value)
-    console.log(e.target.value)
   }
 
   const applyHandler = async () => {

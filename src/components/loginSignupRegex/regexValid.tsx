@@ -15,7 +15,6 @@ export const EmailInput = ({ value, onChange, onValidate }: InputProps) => {
 
   useEffect(() => {
     const isValid = emailRegex.test(value)
-    console.log('isValid', isValid)
     if (value === '') {
       setEmailValidateText('🙂이메일을 입력해주세요.')
     } else {
