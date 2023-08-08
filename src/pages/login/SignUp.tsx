@@ -4,7 +4,7 @@ import style from './SignUp.module.scss'
 import { signupApi } from '@/api/user'
 import { v4 } from 'uuid'
 import { getCookie } from '@/utils/cookie'
-import { EmailInput, PasswordInput } from '@/components/loginSignupRegex/regexValid'
+import { EmailInput, PasswordInput, NameInput } from '@/components/loginSignupRegex/regexValid'
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -27,6 +27,9 @@ const SignUp = () => {
       }
     }
   }
+  useEffect(() => {
+    console.log(loginButtonDisabled)
+  }, [loginButtonDisabled])
 
   const token = getCookie('token') || ''
   const user = JSON.parse(localStorage.getItem('user') || '{}')
@@ -37,49 +40,25 @@ const SignUp = () => {
     }
   }, [])
 
-  const handleEmailValidate = (isValid: boolean) => {
+  const handleValidate = (isValid: boolean, index?: number) => {
     const updatedLoginButtonDisabled = [...loginButtonDisabled]
-    updatedLoginButtonDisabled[0] = isValid
-    setLoginButtonDisabled(updatedLoginButtonDisabled)
-  }
-  const handlePasswordValidate = (isValid: boolean) => {
-    const updatedLoginButtonDisabled = [...loginButtonDisabled]
-    updatedLoginButtonDisabled[1] = isValid
-    setLoginButtonDisabled(updatedLoginButtonDisabled)
-  }
-
-  useEffect(() => {
-    if (username === '') {
-      const updatedLoginButtonDisabled = [...loginButtonDisabled]
-      updatedLoginButtonDisabled[2] = false
-      setLoginButtonDisabled(updatedLoginButtonDisabled)
-    } else {
-      const updatedLoginButtonDisabled = [...loginButtonDisabled]
-      updatedLoginButtonDisabled[2] = true
-      setLoginButtonDisabled(updatedLoginButtonDisabled)
+    if (index !== undefined) {
+      updatedLoginButtonDisabled[index] = isValid
     }
-  }, [username])
+    setLoginButtonDisabled(updatedLoginButtonDisabled)
+  }
 
   return (
     <form className={style.container} onSubmit={handleSignUp}>
       <img className={style.img} src="/logo.png" alt="로고" />
       <div className={style.box}>
         <h1 className={style.title}>회원가입</h1>
-        <input
-          className={style.input}
-          placeholder="이름을 입력해주세요"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <EmailInput
-          value={loginEmail}
-          onChange={(e) => setLoginEmail(e.target.value)}
-          onValidate={handleEmailValidate}
-        />
+        <NameInput value={username} onChange={(e) => setUsername(e.target.value)} onValidate={handleValidate} />
+        <EmailInput value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} onValidate={handleValidate} />
         <PasswordInput
           value={loginPassword}
           onChange={(e) => setLoginPassword(e.target.value)}
-          onValidate={handlePasswordValidate}
+          onValidate={handleValidate}
         />
         <button
           className={`${style.signupButton} ${

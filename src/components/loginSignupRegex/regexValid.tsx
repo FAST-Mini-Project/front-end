@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Tooltip } from 'antd'
-import { emailRegex, passwordRegex } from '@/utils/constants/regex'
+import { emailRegex, passwordRegex, nameRegex } from '@/utils/constants/regex'
 import style from './regexValid.module.scss'
 
 interface InputProps {
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onValidate: (isValid: boolean) => void
+  onValidate: (isValid: boolean, index?: number) => void
 }
 
 export const EmailInput = ({ value, onChange, onValidate }: InputProps) => {
@@ -15,6 +15,7 @@ export const EmailInput = ({ value, onChange, onValidate }: InputProps) => {
 
   useEffect(() => {
     const isValid = emailRegex.test(value)
+    console.log('isValid', isValid)
     if (value === '') {
       setEmailValidateText('🙂이메일을 입력해주세요.')
     } else {
@@ -23,7 +24,7 @@ export const EmailInput = ({ value, onChange, onValidate }: InputProps) => {
       )
     }
     if (onValidate) {
-      onValidate(isValid)
+      onValidate(isValid, 0)
     }
   }, [value])
 
@@ -32,7 +33,7 @@ export const EmailInput = ({ value, onChange, onValidate }: InputProps) => {
       <input
         className={style.input}
         type="email"
-        placeholder="이메일 입력"
+        placeholder="이메일을 입력해주세요"
         value={value}
         onChange={onChange}
         onFocus={() => setEmailFocused(true)}
@@ -53,11 +54,11 @@ export const PasswordInput = ({ value, onChange, onValidate }: InputProps) => {
       setPasswordValidateText('🙂비밀번호를 입력해주세요.')
     } else {
       setPasswordValidateText(
-        passwordRegex.test(value) ? '✅올바른 비밀번호 형식입니다.' : '❌4자 이상의 비밀번호를 작성해주세요'
+        passwordRegex.test(value) ? '✅올바른 비밀번호 형식입니다.' : '❌8자 이상의 비밀번호를 작성해주세요'
       )
     }
     if (onValidate) {
-      onValidate(isValid)
+      onValidate(isValid, 1)
     }
   }, [value])
 
@@ -66,11 +67,43 @@ export const PasswordInput = ({ value, onChange, onValidate }: InputProps) => {
       <input
         className={style.input}
         type="password"
-        placeholder="비밀번호 입력"
+        placeholder="비밀번호를 입력해주세요"
         value={value}
         onChange={onChange}
         onFocus={() => setPasswordFocused(true)}
         onBlur={() => setPasswordFocused(false)}
+        required
+      />
+    </Tooltip>
+  )
+}
+
+export const NameInput = ({ value, onChange, onValidate }: InputProps) => {
+  const [nameValidateText, setNameValidateText] = useState('')
+  const [nameFocused, setNameFocused] = useState(false)
+
+  useEffect(() => {
+    const isValid = nameRegex.test(value)
+    if (value === '') {
+      setNameValidateText('🙂이름을 입력해주세요.')
+    } else {
+      setNameValidateText(nameRegex.test(value) ? '✅올바른 이름 형식입니다.' : '❌20자 이하의 이름을 작성해주세요.')
+    }
+    if (onValidate) {
+      onValidate(isValid, 2)
+    }
+  }, [value])
+
+  return (
+    <Tooltip title={nameValidateText} open={nameFocused} placement="right">
+      <input
+        className={style.input}
+        type="text"
+        placeholder="이름을 입력해주세요"
+        value={value}
+        onChange={onChange}
+        onFocus={() => setNameFocused(true)}
+        onBlur={() => setNameFocused(false)}
         required
       />
     </Tooltip>
