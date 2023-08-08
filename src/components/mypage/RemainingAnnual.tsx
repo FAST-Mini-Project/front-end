@@ -8,20 +8,22 @@ interface RemainingAnnualProps {
 }
 
 // 사용 가능한 잔여 연차 개수를 출력하는 RemainingAnnual component
-// 1년 연차 갯수(15개) - 승인 처리된 연차 갯수 차감
+// 1년 연차 갯수(15개) - 신청한 연차 갯수 차감
 const RemainingAnnual: React.FC<RemainingAnnualProps> = ({ fetchedAnnualData }) => {
   // 년도 별 연차 갯수 상태 관리
   const [remainedAnnuals, setRemainedAnnuals] = useState<number>(15)
 
   useEffect(() => {
-    // 메인 캘린더에서 신청한 연차 중 승인된 연차 목록 Filtering
+    // 신청한 연차 및 승인된 연차 목록 Filtering
+    const requestedAnnualData = fetchedAnnualData.filter((annual) => annual.status === 'UNAPPROVED')
     const approvedAnnualData = fetchedAnnualData.filter((annual) => annual.status === 'APPROVED')
 
-    // 승인된 연차 갯수 Count
+    // 신청한, 승인된 연차 갯수 Count
+    const requestedAnnuals = requestedAnnualData.length
     const approvedAnnuals = approvedAnnualData.length
 
     // 잔여 연차 갯수 Count
-    const remainingAnnuals = 15 - approvedAnnuals
+    const remainingAnnuals = 15 - (requestedAnnuals + approvedAnnuals)
     setRemainedAnnuals(remainingAnnuals)
   }, [fetchedAnnualData])
 
