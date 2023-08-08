@@ -100,14 +100,18 @@ const AdminDuty = () => {
 
   // 달력 클릭시 모달창
   const handleDateClick = (info: DateClickInfo) => {
-    const current = new Date()
-    if (current > info.date) {
-      alert('오늘 이전 날짜는 선택할 수 없습니다.')
-      return
+    const current = new Date();
+    const currentDate = new Date(current.getFullYear(), current.getMonth(), current.getDate());
+    const selectedDate = new Date(info.date.getFullYear(), info.date.getMonth(), info.date.getDate());
+  
+    if (currentDate > selectedDate) {
+      alert('오늘 이전 날짜는 선택할 수 없습니다.');
+      return;
     }
-    setShowAdminWork(true)
-    setDateClickInfo(info)
+    setShowAdminWork(true);
+    setDateClickInfo(info);
   }
+  
 
   // 당직 삭제
   const handleEventClick = async (info: any) => {

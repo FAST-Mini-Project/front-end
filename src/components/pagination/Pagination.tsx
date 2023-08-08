@@ -1,4 +1,4 @@
-import style from "./PageNation.module.scss";
+import style from "./Pagination.module.scss";
 import { Dispatch, SetStateAction } from "react";
 
 interface PaginationProps {
