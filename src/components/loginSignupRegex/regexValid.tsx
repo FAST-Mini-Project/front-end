@@ -53,7 +53,7 @@ export const PasswordInput = ({ value, onChange, onValidate }: InputProps) => {
       setPasswordValidateText('🙂비밀번호를 입력해주세요.')
     } else {
       setPasswordValidateText(
-        passwordRegex.test(value) ? '✅올바른 비밀번호 형식입니다.' : '❌8자 이상의 비밀번호를 작성해주세요'
+        passwordRegex.test(value) ? '✅올바른 비밀번호 형식입니다.' : '❌8자 이상으로 작성해주세요'
       )
     }
     if (onValidate) {
@@ -86,7 +86,7 @@ export const NameInput = ({ value, onChange, onValidate }: InputProps) => {
     if (value === '') {
       setNameValidateText('🙂이름을 입력해주세요.')
     } else {
-      setNameValidateText(nameRegex.test(value) ? '✅올바른 이름 형식입니다.' : '❌20자 이하의 이름을 작성해주세요.')
+      setNameValidateText(nameRegex.test(value) ? '✅올바른 이름 형식입니다.' : '❌20자 이하로 작성해주세요')
     }
     if (onValidate) {
       onValidate(isValid, 2)
