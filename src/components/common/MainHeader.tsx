@@ -73,7 +73,7 @@ const MainHeader = () => {
         </div>
         <div className={style.footer}>
           <img className={style.img} src="/logo.png" alt="로고" />
-          <div className={style.duration}>2023.07.24 ~ 2021.08.10</div>
+          <div className={style.duration}>2023.07.24 ~ 2023.08.10</div>
           <div className={style.copy}>
             <span>© Icon by</span> <br />
             <a href="https://www.flaticon.com/kr/free-icons/" title="직원 아이콘">
