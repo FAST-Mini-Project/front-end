@@ -166,119 +166,133 @@ $ npm run dev
   <summary>보기</summary>
 
   ```
-📦front-end
- ┣ 📂public
- ┃ ┣ 📜favicon.ico
- ┃ ┣ 📜free-icon-calendar-2738431.png
- ┃ ┗ 📜free-icon-employee-3043585.png
- ┣ 📂src
- ┃ ┣ 📂api
- ┃ ┃ ┣ 📂admin
- ┃ ┃ ┃ ┗ 📜index.ts
- ┃ ┃ ┣ 📂main
- ┃ ┃ ┃ ┗ 📜index.ts
- ┃ ┃ ┣ 📂mypage
- ┃ ┃ ┃ ┗ 📜index.ts
- ┃ ┃ ┣ 📂user
- ┃ ┃ ┃ ┗ 📜index.ts
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂assets
- ┃ ┣ 📂components
- ┃ ┃ ┣ 📂adminfilter
- ┃ ┃ ┃ ┣ 📜AdminFilter.tsx
- ┃ ┃ ┃ ┗ 📜AdminFilters.module.scss
- ┃ ┃ ┣ 📂adminwork
- ┃ ┃ ┃ ┣ 📜AdminWork.module.scss
- ┃ ┃ ┃ ┗ 📜AdminWork.tsx
- ┃ ┃ ┣ 📂common
- ┃ ┃ ┃ ┣ 📜MainHeader.module.scss
- ┃ ┃ ┃ ┗ 📜MainHeader.tsx
- ┃ ┃ ┣ 📂main
- ┃ ┃ ┃ ┣ 📜AnnualApplyModal.module.scss
- ┃ ┃ ┃ ┣ 📜AnnualApplyModal.tsx
- ┃ ┃ ┃ ┣ 📜CalendarForm.module.scss
- ┃ ┃ ┃ ┗ 📜CalendarForm.tsx
- ┃ ┃ ┣ 📂mypage
- ┃ ┃ ┃ ┣ 📜ApprovedAnnual.module.scss
- ┃ ┃ ┃ ┣ 📜ApprovedAnnual.tsx
- ┃ ┃ ┃ ┣ 📜CompletedDutyList.module.scss
- ┃ ┃ ┃ ┣ 📜CompletedDutyList.tsx
- ┃ ┃ ┃ ┣ 📜MenuTab.module.scss
- ┃ ┃ ┃ ┣ 📜MenuTab.tsx
- ┃ ┃ ┃ ┣ 📜MonthRange.module.scss
- ┃ ┃ ┃ ┣ 📜MonthRange.tsx
- ┃ ┃ ┃ ┣ 📜PlannedDutyList.module.scss
- ┃ ┃ ┃ ┣ 📜PlannedDutyList.tsx
- ┃ ┃ ┃ ┣ 📜RemainingAnnual.module.scss
- ┃ ┃ ┃ ┣ 📜RemainingAnnual.tsx
- ┃ ┃ ┃ ┣ 📜RequestedAnnual.module.scss
- ┃ ┃ ┃ ┗ 📜RequestedAnnual.tsx
- ┃ ┃ ┣ 📂pagenation
- ┃ ┃ ┃ ┣ 📜PageNation.module.scss
- ┃ ┃ ┃ ┗ 📜PageNation.tsx
- ┃ ┃ ┗ 📂sidebar
- ┃ ┃ ┃ ┣ 📜SideBar.module.scss
- ┃ ┃ ┃ ┗ 📜SideBar.tsx
- ┃ ┣ 📂layout
- ┃ ┃ ┣ 📜AdminLayout.tsx
- ┃ ┃ ┣ 📜AdminPrivateRouteWrapper.tsx
- ┃ ┃ ┣ 📜MainLayout.module.scss
- ┃ ┃ ┗ 📜MainLayout.tsx
- ┃ ┣ 📂pages
- ┃ ┃ ┣ 📂admin
- ┃ ┃ ┃ ┣ 📜AdminAnnual.module.scss
- ┃ ┃ ┃ ┣ 📜AdminAnnual.tsx
- ┃ ┃ ┃ ┣ 📜AdminDuty.module.scss
- ┃ ┃ ┃ ┣ 📜AdminDuty.tsx
- ┃ ┃ ┃ ┣ 📜AdminEmployee.module.scss
- ┃ ┃ ┃ ┗ 📜AdminEmployee.tsx
- ┃ ┃ ┣ 📂login
- ┃ ┃ ┃ ┣ 📜LogIn.module.scss
- ┃ ┃ ┃ ┣ 📜LogIn.tsx
- ┃ ┃ ┃ ┣ 📜SignUp.module.scss
- ┃ ┃ ┃ ┗ 📜SignUp.tsx
- ┃ ┃ ┣ 📂main
- ┃ ┃ ┃ ┣ 📜Main.module.scss
- ┃ ┃ ┃ ┗ 📜Main.tsx
- ┃ ┃ ┗ 📂mypage
- ┃ ┃ ┃ ┣ 📜MyAnnual.module.scss
- ┃ ┃ ┃ ┣ 📜MyAnnual.tsx
- ┃ ┃ ┃ ┣ 📜MyDuty.module.scss
- ┃ ┃ ┃ ┣ 📜MyDuty.tsx
- ┃ ┃ ┃ ┣ 📜MyInfo.module.scss
- ┃ ┃ ┃ ┣ 📜MyInfo.tsx
- ┃ ┃ ┃ ┣ 📜MyPage.module.scss
- ┃ ┃ ┃ ┗ 📜Mypage.tsx
- ┃ ┣ 📂types
- ┃ ┃ ┣ 📜AccessTypes.ts
- ┃ ┃ ┣ 📜AdminTypes.ts
- ┃ ┃ ┣ 📜MainTypes.ts
- ┃ ┃ ┗ 📜MypageTypes.ts
- ┃ ┣ 📂utils
- ┃ ┃ ┣ 📂constants
- ┃ ┃ ┃ ┗ 📜regex.ts
- ┃ ┃ ┣ 📜cookie.ts
- ┃ ┃ ┣ 📜handleLogout.ts
- ┃ ┃ ┗ 📜PrivateRoute.tsx
- ┃ ┣ 📜App.module.scss
- ┃ ┣ 📜App.tsx
- ┃ ┣ 📜custom.d.ts
- ┃ ┣ 📜index.scss
- ┃ ┣ 📜index.tsx
- ┃ ┣ 📜vite-env.d.ts
- ┃ ┗ 📜_variables.scss
- ┣ 📜.env
- ┣ 📜.eslintrc.cjs
- ┣ 📜.gitignore
- ┣ 📜.prettierignore
- ┣ 📜.prettierrc
- ┣ 📜index.html
- ┣ 📜package-lock.json
- ┣ 📜package.json
- ┣ 📜README.md
- ┣ 📜tsconfig.json
- ┣ 📜tsconfig.node.json
- ┗ 📜vite.config.ts
+📦 DangYeonHae
+├─ .eslintrc.cjs
+├─ .gitignore
+├─ .prettierignore
+├─ .prettierrc
+├─ index.html
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ favicon.ico
+│  ├─ free-icon-calendar-2738431.png
+│  ├─ free-icon-employee-3043585.png
+│  ├─ logo.png
+│  └─ readme
+│     ├─ admin_annuals.png
+│     ├─ admin_duties.png
+│     ├─ admin_dutymodal.png
+│     ├─ admin_users.png
+│     ├─ login.png
+│     ├─ main_all.png
+│     ├─ main_annualmodal.png
+│     ├─ main_personal.png
+│     ├─ mypage_annual.png
+│     ├─ mypage_duty.png
+│     └─ mypage_info.png
+├─ readme.md
+├─ src
+│  ├─ App.tsx
+│  ├─ _variables.scss
+│  ├─ api
+│  │  ├─ admin
+│  │  │  └─ index.ts
+│  │  ├─ index.ts
+│  │  ├─ main
+│  │  │  └─ index.ts
+│  │  ├─ mypage
+│  │  │  └─ index.ts
+│  │  └─ user
+│  │     └─ index.ts
+│  ├─ components
+│  │  ├─ adminfilter
+│  │  │  ├─ AdminFilter.tsx
+│  │  │  └─ AdminFilters.module.scss
+│  │  ├─ adminwork
+│  │  │  ├─ AdminWork.module.scss
+│  │  │  └─ AdminWork.tsx
+│  │  ├─ common
+│  │  │  ├─ MainHeader.module.scss
+│  │  │  └─ MainHeader.tsx
+│  │  ├─ loginSignupRegex
+│  │  │  ├─ regexValid.module.scss
+│  │  │  └─ regexValid.tsx
+│  │  ├─ main
+│  │  │  ├─ AnnualApplyModal.module.scss
+│  │  │  ├─ AnnualApplyModal.tsx
+│  │  │  ├─ CalendarForm.module.scss
+│  │  │  └─ CalendarForm.tsx
+│  │  ├─ mypage
+│  │  │  ├─ ApprovedAnnual.module.scss
+│  │  │  ├─ ApprovedAnnual.tsx
+│  │  │  ├─ CompletedDutyList.module.scss
+│  │  │  ├─ CompletedDutyList.tsx
+│  │  │  ├─ MenuTab.module.scss
+│  │  │  ├─ MenuTab.tsx
+│  │  │  ├─ MonthRange.module.scss
+│  │  │  ├─ MonthRange.tsx
+│  │  │  ├─ PlannedDutyList.module.scss
+│  │  │  ├─ PlannedDutyList.tsx
+│  │  │  ├─ RemainingAnnual.module.scss
+│  │  │  ├─ RemainingAnnual.tsx
+│  │  │  ├─ RequestedAnnual.module.scss
+│  │  │  └─ RequestedAnnual.tsx
+│  │  ├─ pagination
+│  │  │  ├─ Pagination.module.scss
+│  │  │  └─ Pagination.tsx
+│  │  └─ sidebar
+│  │     ├─ SideBar.module.scss
+│  │     └─ SideBar.tsx
+│  ├─ custom.d.ts
+│  ├─ index.scss
+│  ├─ index.tsx
+│  ├─ layout
+│  │  ├─ AdminLayout.tsx
+│  │  ├─ AdminPrivateRouteWrapper.tsx
+│  │  ├─ MainLayout.module.scss
+│  │  └─ MainLayout.tsx
+│  ├─ pages
+│  │  ├─ admin
+│  │  │  ├─ AdminAnnual.module.scss
+│  │  │  ├─ AdminAnnual.tsx
+│  │  │  ├─ AdminDuty.module.scss
+│  │  │  ├─ AdminDuty.tsx
+│  │  │  ├─ AdminEmployee.module.scss
+│  │  │  └─ AdminEmployee.tsx
+│  │  ├─ login
+│  │  │  ├─ LogIn.module.scss
+│  │  │  ├─ LogIn.tsx
+│  │  │  ├─ SignUp.module.scss
+│  │  │  └─ SignUp.tsx
+│  │  ├─ main
+│  │  │  ├─ Main.module.scss
+│  │  │  └─ Main.tsx
+│  │  └─ mypage
+│  │     ├─ MyAnnual.module.scss
+│  │     ├─ MyAnnual.tsx
+│  │     ├─ MyDuty.module.scss
+│  │     ├─ MyDuty.tsx
+│  │     ├─ MyInfo.module.scss
+│  │     ├─ MyInfo.tsx
+│  │     ├─ MyPage.module.scss
+│  │     └─ Mypage.tsx
+│  ├─ types
+│  │  ├─ AccessTypes.ts
+│  │  ├─ AdminTypes.ts
+│  │  ├─ MainTypes.ts
+│  │  └─ MypageTypes.ts
+│  ├─ utils
+│  │  ├─ SortedData.ts
+│  │  ├─ UserPrivateRoute.tsx
+│  │  ├─ constants
+│  │  │  └─ regex.ts
+│  │  ├─ cookie.ts
+│  │  └─ handleLogout.ts
+│  └─ vite-env.d.ts
+├─ tsconfig.json
+├─ tsconfig.node.json
+└─ vite.config.ts
 ```
 </details>
 
