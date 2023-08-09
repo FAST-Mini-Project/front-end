@@ -62,7 +62,7 @@ const SideBar = () => {
           </div>
           <div className={`${style.navItem}`} onClick={() => handleLogout('/login', navigate)}>
             <RiLogoutBoxFill size="27" style={{ marginLeft: '-5px' }} />
-            <span style={{ marginLeft: '5px' }}>로그아웃 </span>
+            <span style={{ marginLeft: '8px' }}>로그아웃 </span>
           </div>
         </div>
         {/* 푸터*/}
