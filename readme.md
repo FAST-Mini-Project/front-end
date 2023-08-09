@@ -28,6 +28,7 @@
 <img src="https://img.shields.io/badge/Sass-CC6699?style=flat&logo=Sass&logoColor=white" />
 <br />
 <img src="https://img.shields.io/badge/Ant Design-0170FE?style=flat&logo=antdesign&logoColor=white" />
+<img src="https://img.shields.io/badge/FullCalendar-4285F4?style=flat&logo=GoogleCalendar&logoColor=white" />
 </p>
 
 ### Config
@@ -108,23 +109,25 @@ $ npm run dev
 - 연차 조회, 당직 조회, 비밀번호 수정 탭 메뉴 전환
 #### 연차 조회
 - 신청한 연차, 승인된 연차 조회 : 선택한 년도와 월에 따라 필터링  
-→ 연차 신청 날짜가 오늘이 지나면 취소 버튼 비활성화(hover시 설명 출력)
-- 년도에 맞게 잔여 연차 갯수 출력 : 승인된 연차 갯수를 카운트하여 차감  
-→ 년도가 변경될 경우 잔여 연차 갯수도 초기화(승인된 연차가 있을 경우 계산 반영)
+  - 연차 신청 날짜가 오늘이 지나면 취소 버튼 비활성화(hover시 설명 출력)
+- 년도에 맞게 잔여 연차 갯수 출력 : 신청, 승인 연차 갯수를 카운트하여 차감  
+  - 년도가 변경될 경우 잔여 연차 갯수도 초기화(신청, 승인 연차가 있을 경우 계산 반영)
 - 신청한 연차 리스트에서 취소 버튼 클릭 : 즉시 연차 신청 취소
 - 승인된 연차 리스트에서 취소 버튼 클릭 : 관리자에게 연차 취소 신청 전달   
-→ 관리자 승인을 거쳐야만 연차 취소가 완료됨
+  - 관리자 승인을 거쳐야만 연차 취소가 완료됨
 
 #### 당직 조회
 - 예정된, 완료된 당직 조회 : 선택한 년도와 월에 따라 필터링
 - 예정된 당직 일정과 완료한 당직 일정 분류 : 오늘 날짜가 지나면 완료 일정으로 자동 이동  
-→ 완료된 당직 일정은 비활성화(hover시 설명 출력)
+  - 완료된 당직 일정은 비활성화(hover시 설명 출력)
 #### 비밀번호 수정
 - 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 입력 필요
 - 새 비밀번호와 새 비밀번호 확인이 일치해야만 비밀번호 수정 가능
-- 비밀번호는 4자리 이상 입력해야 함
 - 비밀번호 수정 완료 시 로그인 페이지로 이동  
-→  다시 로그인해서 token을 받아야 함
+  - 다시 로그인해서 token을 받아야 함
+- 유효성 검사
+  - 수정 요청을 한 사원의 email 형식
+  - 비밀번호는 8자리 이상 입력해야 함
 ### 3️⃣ 관리자 페이지
 + 관리자 아이디 외 접근불가 
  - 접근시 로그인 페이지로 이동
@@ -283,20 +286,24 @@ $ npm run dev
 ## 📌 구현 화면
 | 로그인 페이지 | 메인 페이지(전체 연차/당직 조회) |
 | ------------------ | -------------------- |
-| [image]()          | [image]()            |
+| ![image](./public/readme/login.png)          | ![image](./public/readme/main_all.png)            |
 
-| 메인 페이지(개인 연차/당직 조회) | 마이 페이지(연차 조회) |
+| 메인 페이지(개인 연차/당직 조회) | 메인 페이지(연차 신청) |
 | ----------------------------- | ------------------------------- |
-| [image]()                     | [image]()                       |
+| ![image](./public/readme/main_personal.png)                     | ![image](./public/readme/main_annualmodal.png)                       |
 
-| 마이 페이지(연차 취소/신청 취소) | 마이 페이지(당직 조회) |
+| 마이 페이지(연차 조회) | 마이 페이지(당직 조회) |
 | ----------------------------- | ------------------------------- |
-| [image]()                     | [image]()                       |
+| ![image](./public/readme/mypage_annual.png)                     | ![image](./public/readme/mypage_duty.png)                       |
 
 | 마이 페이지(비밀번호 수정) | 관리자 페이지(사원 관리) |
 | ------------------- | --------------------- |
-| [image]()           | [image]()             |
+| ![image](./public/readme/mypage_info.png)           | ![image](./public/readme/admin_users.png)             |
 
-| 관리자 페이지(당직 관리) | 관리자 페이지(연차 관리) |
+| 관리자 페이지(당직 관리) | 관리자 페이지(당직 지정) |
 | ------------------- | --------------------- |
-| [image]()           | [image]()             |
+| ![image](./public/readme/admin_duties.png)           | ![image](./public/readme/admin_dutymodal.png)             |
+
+| 관리자 페이지(연차 관리) |
+| ------------------- | 
+| ![image](./public/readme/admin_annuals.png)           |
