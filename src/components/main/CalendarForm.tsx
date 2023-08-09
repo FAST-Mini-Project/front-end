@@ -69,7 +69,7 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'APPROVED')
         .forEach((item) => {
-          const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
+          const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name
           annualEvents.push({
             title: truncatedName + item.employeeNumber,
             date: item.date,
@@ -80,7 +80,7 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'CANCELED')
         .forEach((item) => {
-          const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
+          const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name
           annualEvents.push({
             title: truncatedName + item.employeeNumber,
             date: item.date,
@@ -92,7 +92,7 @@ const CalendarForm = () => {
     // 당직 events push
     if (workData) {
       workData.forEach((item) => {
-        const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name; 
+        const truncatedName = item.name.length > 7 ? item.name.slice(0, 7) : item.name
         workEvents.push({
           title: truncatedName + item.employeeNumber,
           date: item.date,
@@ -116,7 +116,7 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'APPROVED')
         .forEach((item) => {
-          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
+          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name
           annualEvents.push({
             title: truncatedName + user.employeeNumber,
             date: item.date,
@@ -127,7 +127,7 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'CANCELED')
         .forEach((item) => {
-          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
+          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name
           annualEvents.push({
             title: truncatedName + user.employeeNumber,
             date: item.date,
@@ -138,7 +138,7 @@ const CalendarForm = () => {
       annualData
         .filter((item) => item.status === 'UNAPPROVED')
         .forEach((item) => {
-          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
+          const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name
           annualEvents.push({
             title: truncatedName + user.employeeNumber,
             date: item.date,
@@ -150,7 +150,7 @@ const CalendarForm = () => {
     // 당직 events push
     if (workData) {
       workData.forEach((item) => {
-        const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name;
+        const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name
         workEvents.push({
           title: truncatedName + user.employeeNumber,
           date: item.date,
@@ -171,9 +171,20 @@ const CalendarForm = () => {
       return
     }
     //현재 있는 이벤트 중에, 클릭한 날짜에 유저가 신청한 연차가 있는지 확인
-    const isExist = myAnnual.find((item) => item.date === info.dateStr)
-    if (isExist) {
+    const isAnnualExist = myAnnual.find((item) => item.date === info.dateStr)
+    if (isAnnualExist) {
       alert('이미 신청한 연차가 있습니다.')
+      return
+    }
+    const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name
+    const isWorkExist = currentEvents.find(
+      (item) =>
+        item.date === info.dateStr &&
+        item.backgroundColor === '#ff7976' &&
+        item.title === truncatedName + user.employeeNumber
+    )
+    if (isWorkExist) {
+      alert('당일 당직 일정이 있습니다.')
       return
     }
 
@@ -274,7 +285,12 @@ const CalendarForm = () => {
           </div>
         </div>
         {showModal && (
-          <AnnualApplyModal dateInfo={dateClickInfo as DateClickInfo} setShowModal={setShowModal} myAnnual={myAnnual} />
+          <AnnualApplyModal
+            dateInfo={dateClickInfo as DateClickInfo}
+            setShowModal={setShowModal}
+            myAnnual={myAnnual}
+            events={currentEvents}
+          />
         )}
       </div>
     </>

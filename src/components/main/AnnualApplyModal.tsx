@@ -1,5 +1,5 @@
 import style from './AnnualApplyModal.module.scss'
-import { DateClickInfo } from '@/types/MainTypes'
+import { DateClickInfo, Events } from '@/types/MainTypes'
 import { annualUserData } from '@/types/MypageTypes'
 import { useState } from 'react'
 import { IoIosClose } from 'react-icons/io'
@@ -10,20 +10,32 @@ interface Props {
   dateInfo: DateClickInfo
   setShowModal: (showModal: boolean) => void
   myAnnual: annualUserData
+  events: Events[]
 }
 
-const AnnaulApplyModal = ({ dateInfo, setShowModal, myAnnual }: Props) => {
+const AnnaulApplyModal = ({ dateInfo, setShowModal, myAnnual, events }: Props) => {
   const [dateValue, setDateValue] = useState<string>(dateInfo.dateStr)
-
+  const user = JSON.parse(localStorage.getItem('user') as string)
   const dateValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const current = new Date()
     if (e.target.value < current.toISOString().slice(0, 10)) {
       alert('오늘 이전 날짜는 선택할 수 없습니다.')
       return
     }
-    const isExist = myAnnual.find((item) => item.date === e.target.value)
-    if (isExist) {
+    const isAnnualExist = myAnnual.find((item) => item.date === e.target.value)
+    if (isAnnualExist) {
       alert('이미 신청한 연차가 있습니다.')
+      return
+    }
+    const truncatedName = user.name.length > 6 ? user.name.slice(0, 6) : user.name
+    const isWorkExist = events.find(
+      (item) =>
+        item.date === e.target.value &&
+        item.backgroundColor === '#ff7976' &&
+        item.title === truncatedName + user.employeeNumber
+    )
+    if (isWorkExist) {
+      alert('당일 당직 일정이 있습니다.')
       return
     }
     setDateValue(e.target.value)
