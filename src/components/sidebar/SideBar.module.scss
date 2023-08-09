@@ -114,6 +114,10 @@
         &:hover {
           text-decoration: underline;
         }
+        svg {
+          position: relative;
+          top: 4px;
+        }
       }
     }
   }
