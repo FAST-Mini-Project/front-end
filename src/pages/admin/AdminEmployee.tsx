@@ -5,6 +5,7 @@ import Pagination from "@/components/pagination/Pagination";
 import { userInfo } from "@/types/AdminTypes";
 import AdminFilters from "@/components/adminfilter/AdminFilter";
 import { getCookie } from "@/utils/cookie";
+import { SortedData } from "@/utils/SortedData";
 
 const AdminEmployee = () => {
   const [data, setData] = useState<userInfo[]>([]);
@@ -34,13 +35,11 @@ const AdminEmployee = () => {
   );
 
   // 정렬된 데이터 반환
-  const sortedData = filteredData.sort((a, b) => {
-    if (sort === "asc") {
-      return a[selectedColumn] > b[selectedColumn] ? 1 : -1;
-    } else {
-      return a[selectedColumn] < b[selectedColumn] ? 1 : -1;
-    }
-  });  
+  const sortedData = SortedData<userInfo>({
+    data: filteredData,
+    sort,
+    selectedColumn,
+  });
 
   // 페이지네이션 함수
   const getPaginatedItems = (

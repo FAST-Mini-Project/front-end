@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import AdminFilters from '@/components/adminfilter/AdminFilter'
 import { getCookie } from '@/utils/cookie'
 import { annualAdmin } from '@/types/AdminTypes'
+import { SortedData } from '@/utils/SortedData'
 
 const AdminAnnual = () => {
   const [data, setData] = useState<annualAdmin>({ data: [] })
@@ -59,21 +60,17 @@ const AdminAnnual = () => {
     .filter((item) => item.status === "CANCELED")
     .filter((employee) => employee.name.toLowerCase().includes(delayedSearch2.toLowerCase()));
 
-  // asc 일때 오름차순, 아닐때 내림차순 정렬
-  const sortedData1 = filteredData1.sort((a, b) => {
-    if (sort1 === "asc") {
-      return a[selectedColumn1] > b[selectedColumn1] ? 1 : -1;
-    } else {
-      return a[selectedColumn1] < b[selectedColumn1] ? 1 : -1;
-    }
+  // 오름차순 내림차순 정렬
+  const sortedData1 = SortedData({
+    data:filteredData1, 
+    sort:sort1, 
+    selectedColumn: selectedColumn1
   });
 
-  const sortedData2 = filteredData2.sort((a, b) => {
-    if (sort2 === "asc") {
-      return a[selectedColumn2] > b[selectedColumn2] ? 1 : -1;
-    } else {
-      return a[selectedColumn2] < b[selectedColumn2] ? 1 : -1;
-    }
+  const sortedData2 = SortedData({
+    data:filteredData2, 
+    sort:sort2, 
+    selectedColumn: selectedColumn2
   });
 
   return (
